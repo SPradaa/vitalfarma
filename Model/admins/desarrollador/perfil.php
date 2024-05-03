@@ -1,13 +1,56 @@
 <?php
-
-   require_once ("../../../db/connection.php");
-   $db = new Database();
-   $con = $db ->conectar();
-//    session_start();
+    require_once("../../../db/connection.php"); 
+    $conexion = new Database();
+    $con = $conexion->conectar();
+    // session_start();
 ?>
 <?php
 require_once("../../../controller/seguridad.php");
 validarSesion();
+
+
+?>
+<?php
+$sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
+$sql->bindParam(':documento', $_SESSION['documento']);
+$sql->execute();
+$fila = $sql->fetch();
+echo"conectado";
+
+$documento=$_SESSION['documento'];
+$nombre = $_SESSION['nombre'];
+$apellido = $_SESSION['apellido'];
+$direccion = $_SESSION['direccion'];
+$telefono =$_SESSION['telefono'];
+$correo= $_SESSION['correo'];
+$rol = $_SESSION['tipo'];
+$empresa = $_SESSION[ 'nit'];
+
+$nombre_comple = $nombre .''.$apellido; 
+
+// Verificar si se encontró al usuario
+if (!$fila) {
+    echo '<script>alert("Usuario no encontrado.");</script>';
+    echo '<script>window.location.href = "login.php";</script>';
+    exit;
+
+
+}
+
+// Variables para el usuario
+
+
+
+    // $_SESSION['documento'] = $fila['documento'];
+    // $_SESSION['nombre'] = $fila['nombre'];
+    // $_SESSION[ 'apellido'] = $fila['apellido'];
+    // $_SESSION[ 'direccion'] = $fila['direccion'];
+    // $_SESSION['telefono'] = $fila['telefono'];
+    // $_SESSION['correo'] = $fila['correo'];
+    // $_SESSION['password'] = $fila['password'];
+    // $_SESSION['tipo'] = $fila['id_rol'];
+    // $_SESSION['nit'] = $fila['nit'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,9 +141,8 @@ validarSesion();
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href=""
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                    src="../assets/images/users/1.jpg" alt="user" class="" /> <span
-                                    class="hidden-md-down">Mark Sanders &nbsp;</span> </a>
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
+                                    class="hidden-md-down"><?php echo $nombre_comple ;?> &nbsp;</span> </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
                     </ul>
@@ -134,9 +176,7 @@ validarSesion();
                         <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
                                     class="fa fa-globe"></i><span class="hide-menu">Citas</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="datosgenerales.php" aria-expanded="false"><i
-                                    class="fa fa-bookmark-o"></i><span class="hide-menu">Datos generales</span></a>
-                        </li>
+                       
                         
                     </ul>
                   
@@ -161,7 +201,7 @@ validarSesion();
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h3 class="text-themecolor">Profile</h3>
+                        <h3 class="text-themecolor">Perfil</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                             <li class="breadcrumb-item active">Profile</li>
@@ -181,10 +221,19 @@ validarSesion();
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4"> <img src="../assets/images/users/5.jpg" class="img-circle"
-                                        width="150" />
-                                    <h4 class="card-title mt-2">Hanna Gover</h4>
-                                    <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
+                                <center class="mt-4"> <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 48 48"><rect width="37" height="37" x="5.5" y="5.5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" rx="2" ry="2"/><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="m19.896 10.128l-8.24 27.744m10.953-5.768l13.735-7.417l-13.735-7.417"/></svg>
+                                    <h4 class="card-title mt-2"> <?php echo $_SESSION['nombre'];?></h4>
+                                   
+                                    <?php  
+                                    
+                                    $control = $con->prepare("SELECT * fROM roles where id_rol = '$rol'");
+                                    // $control -> bindParam(':rol', $rol);
+                                    $control -> execute();
+                                    $consulta = $control->fetch();
+                                    
+                                    ?>
+
+                                    <h6 class="card-subtitle"><?php echo $consulta['rol'] ;   ?> </h6>
                                     <div class="row text-center justify-content-md-center">
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                                     class="fa fa-user"></i>
@@ -207,52 +256,41 @@ validarSesion();
                             <div class="card-body">
                                 <form class="form-horizontal form-material mx-2">
                                     <div class="form-group">
-                                        <label class="col-md-12">Full Name</label>
+                                        <label class="col-md-12">Nombre Completo</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="Johnathan Doe"
-                                                class="form-control form-control-line">
+                                            <input type="text" placeholder="<?php echo $nombre_comple ;?> "
+                                                class="form-control form-control-line" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="example-email" class="col-md-12">Email</label>
                                         <div class="col-md-12">
-                                            <input type="email" placeholder="johnathan@admin.com"
+                                            <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
                                                 class="form-control form-control-line" name="example-email"
                                                 id="example-email">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12">Password</label>
+                                        <label class="col-md-12">Documento</label>
                                         <div class="col-md-12">
-                                            <input type="password" value="password"
-                                                class="form-control form-control-line">
+                                            <input type="text" value=" <?php echo $_SESSION['documento'];?>"
+                                                class="form-control form-control-line" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12">Phone No</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="123 456 7890"
+                                            <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
                                                 class="form-control form-control-line">
                                         </div>
                                     </div>
+                                  
                                     <div class="form-group">
-                                        <label class="col-md-12">Message</label>
+                                        <label class="col-md-12">Phone No</label>
                                         <div class="col-md-12">
-                                            <textarea rows="5" class="form-control form-control-line"></textarea>
+                                            <input type="text" placeholder="<?php echo $direccion ?>"
+                                                class="form-control form-control-line">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Select Country</label>
-                                        <div class="col-sm-12">
-                                            <select class="form-control form-control-line">
-                                                <option>London</option>
-                                                <option>India</option>
-                                                <option>Usa</option>
-                                                <option>Canada</option>
-                                                <option>Thailand</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             <button class="btn btn-success">Update Profile</button>

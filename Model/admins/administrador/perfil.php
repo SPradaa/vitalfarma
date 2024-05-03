@@ -1,13 +1,56 @@
 <?php
-
-   require_once ("../../../db/connection.php");
-   $db = new Database();
-   $con = $db ->conectar();
-//    session_start();
+    require_once("../../../db/connection.php"); 
+    $conexion = new Database();
+    $con = $conexion->conectar();
+    // session_start();
 ?>
 <?php
 require_once("../../../controller/seguridad.php");
 validarSesion();
+
+
+?>
+<?php
+$sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
+$sql->bindParam(':documento', $_SESSION['documento']);
+$sql->execute();
+$fila = $sql->fetch();
+echo"conectado";
+
+$documento=$_SESSION['documento'];
+$nombre = $_SESSION['nombre'];
+$apellido = $_SESSION['apellido'];
+$direccion = $_SESSION['direccion'];
+$telefono =$_SESSION['telefono'];
+$correo= $_SESSION['correo'];
+$rol = $_SESSION['tipo'];
+$empresa = $_SESSION[ 'nit'];
+
+$nombre_comple = $nombre .''.$apellido; 
+
+// Verificar si se encontró al usuario
+if (!$fila) {
+    echo '<script>alert("Usuario no encontrado.");</script>';
+    echo '<script>window.location.href = "login.php";</script>';
+    exit;
+
+
+}
+
+// Variables para el usuario
+
+
+
+    // $_SESSION['documento'] = $fila['documento'];
+    // $_SESSION['nombre'] = $fila['nombre'];
+    // $_SESSION[ 'apellido'] = $fila['apellido'];
+    // $_SESSION[ 'direccion'] = $fila['direccion'];
+    // $_SESSION['telefono'] = $fila['telefono'];
+    // $_SESSION['correo'] = $fila['correo'];
+    // $_SESSION['password'] = $fila['password'];
+    // $_SESSION['tipo'] = $fila['id_rol'];
+    // $_SESSION['nit'] = $fila['nit'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,9 +141,8 @@ validarSesion();
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href=""
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                    src="../assets/images/users/1.jpg" alt="user" class="" /> <span
-                                    class="hidden-md-down">Mark Sanders &nbsp;</span> </a>
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
+                                    class="hidden-md-down"><?php echo $nombre_comple ;?> &nbsp;</span> </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
                     </ul>
@@ -159,7 +201,7 @@ validarSesion();
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h3 class="text-themecolor">Profile</h3>
+                        <h3 class="text-themecolor">Perfil</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                             <li class="breadcrumb-item active">Profile</li>
@@ -179,10 +221,19 @@ validarSesion();
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4"> <img src="../assets/images/users/5.jpg" class="img-circle"
-                                        width="150" />
-                                    <h4 class="card-title mt-2">Hanna Gover</h4>
-                                    <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
+                                <center class="mt-4"><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 36 36"><path fill="#000000" d="M14.68 14.81a6.76 6.76 0 1 1 6.76-6.75a6.77 6.77 0 0 1-6.76 6.75m0-11.51a4.76 4.76 0 1 0 4.76 4.76a4.76 4.76 0 0 0-4.76-4.76" class="clr-i-outline clr-i-outline-path-1"/><path fill="#000000" d="M16.42 31.68A2.14 2.14 0 0 1 15.8 30H4v-5.78a14.81 14.81 0 0 1 11.09-4.68h.72a2.2 2.2 0 0 1 .62-1.85l.12-.11c-.47 0-1-.06-1.46-.06A16.47 16.47 0 0 0 2.2 23.26a1 1 0 0 0-.2.6V30a2 2 0 0 0 2 2h12.7Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="#000000" d="M26.87 16.29a.37.37 0 0 1 .15 0a.42.42 0 0 0-.15 0" class="clr-i-outline clr-i-outline-path-3"/><path fill="#000000" d="m33.68 23.32l-2-.61a7.21 7.21 0 0 0-.58-1.41l1-1.86A.38.38 0 0 0 32 19l-1.45-1.45a.36.36 0 0 0-.44-.07l-1.84 1a7.15 7.15 0 0 0-1.43-.61l-.61-2a.36.36 0 0 0-.36-.24h-2.05a.36.36 0 0 0-.35.26l-.61 2a7 7 0 0 0-1.44.6l-1.82-1a.35.35 0 0 0-.43.07L17.69 19a.38.38 0 0 0-.06.44l1 1.82a6.77 6.77 0 0 0-.63 1.43l-2 .6a.36.36 0 0 0-.26.35v2.05A.35.35 0 0 0 16 26l2 .61a7 7 0 0 0 .6 1.41l-1 1.91a.36.36 0 0 0 .06.43l1.45 1.45a.38.38 0 0 0 .44.07l1.87-1a7.09 7.09 0 0 0 1.4.57l.6 2a.38.38 0 0 0 .35.26h2.05a.37.37 0 0 0 .35-.26l.61-2.05a6.92 6.92 0 0 0 1.38-.57l1.89 1a.36.36 0 0 0 .43-.07L32 30.4a.35.35 0 0 0 0-.4l-1-1.88a7 7 0 0 0 .58-1.39l2-.61a.36.36 0 0 0 .26-.35v-2.1a.36.36 0 0 0-.16-.35M24.85 28a3.34 3.34 0 1 1 3.33-3.33A3.34 3.34 0 0 1 24.85 28" class="clr-i-outline clr-i-outline-path-4"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                                    <h4 class="card-title mt-2"> <?php echo $_SESSION['nombre'];?></h4>
+
+                                    <?php  
+                                    
+                                    $control = $con->prepare("SELECT * fROM roles where id_rol = '$rol'");
+                                    // $control -> bindParam(':rol', $rol);
+                                    $control -> execute();
+                                    $consulta = $control->fetch();
+                                    
+                                    ?>
+
+                                    <h6 class="card-subtitle"><?php echo $consulta['rol'] ;   ?> </h6>
                                     <div class="row text-center justify-content-md-center">
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                                     class="fa fa-user"></i>
@@ -205,52 +256,41 @@ validarSesion();
                             <div class="card-body">
                                 <form class="form-horizontal form-material mx-2">
                                     <div class="form-group">
-                                        <label class="col-md-12">Full Name</label>
+                                        <label class="col-md-12">Nombre Completo</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="Johnathan Doe"
-                                                class="form-control form-control-line">
+                                            <input type="text" placeholder="<?php echo $nombre_comple ;?> "
+                                                class="form-control form-control-line" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="example-email" class="col-md-12">Email</label>
                                         <div class="col-md-12">
-                                            <input type="email" placeholder="johnathan@admin.com"
+                                            <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
                                                 class="form-control form-control-line" name="example-email"
                                                 id="example-email">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12">Password</label>
+                                        <label class="col-md-12">Documento</label>
                                         <div class="col-md-12">
-                                            <input type="password" value="password"
-                                                class="form-control form-control-line">
+                                            <input type="text" value=" <?php echo $_SESSION['documento'];?>"
+                                                class="form-control form-control-line" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12">Phone No</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="123 456 7890"
+                                            <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
                                                 class="form-control form-control-line">
                                         </div>
                                     </div>
+                                  
                                     <div class="form-group">
-                                        <label class="col-md-12">Message</label>
+                                        <label class="col-md-12">Phone No</label>
                                         <div class="col-md-12">
-                                            <textarea rows="5" class="form-control form-control-line"></textarea>
+                                            <input type="text" placeholder="<?php echo $direccion ?>"
+                                                class="form-control form-control-line">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Select Country</label>
-                                        <div class="col-sm-12">
-                                            <select class="form-control form-control-line">
-                                                <option>London</option>
-                                                <option>India</option>
-                                                <option>Usa</option>
-                                                <option>Canada</option>
-                                                <option>Thailand</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             <button class="btn btn-success">Update Profile</button>
