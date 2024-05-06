@@ -779,6 +779,7 @@ section {
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   z-index: 1;
+  text-align: center;
   
 }
 
@@ -792,11 +793,23 @@ section {
   top: 100%;
   transition: all 0.3s;
   z-index: -1;
+  text-align: center;
   
 }
 
+
+
+
 .container {
   text-align: center;
+}
+
+.icon{
+  padding-left: -20px;
+}
+
+.bi-bi-bag-plus-fill{
+  padding-left: -60px;
 }
 
 .row {
@@ -804,6 +817,7 @@ section {
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 30px;
+  box-shadow: 18px 17px 15px 20px black;
 }
 
 .col-md-6 {
@@ -825,6 +839,7 @@ section {
 .icon i {
   opacity: 0.7; /* Opacidad inicial */
   transition: opacity 0.3s ease; /* Transición suave */
+  text-align: center;
 }
 
 .featured-services .icon-box:hover::before {
