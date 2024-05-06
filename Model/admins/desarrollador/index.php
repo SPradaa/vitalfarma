@@ -213,10 +213,7 @@ if(isset($_POST['btncerrar']))
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
-                    <div class="col-md-7 align-self-center">
-                        <a href=""
-                            class="btn waves-effect waves-light btn btn-info pull-right hidden-sm-down text-white">cerrar session</a>
-                    </div>
+                   
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->

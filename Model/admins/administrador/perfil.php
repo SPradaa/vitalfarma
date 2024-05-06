@@ -235,10 +235,7 @@ if (!$fila) {
 
                                     <h6 class="card-subtitle"><?php echo $consulta['rol'] ;   ?> </h6>
                                     <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i
-                                                    class="fa fa-user"></i>
-                                                <font class="font-medium">254</font>
-                                            </a></div>
+                                        <div class="col-4"></div>
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                                     class="fa fa-camera"></i>
                                                 <font class="font-medium">54</font>
