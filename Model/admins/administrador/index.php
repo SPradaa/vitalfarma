@@ -9,13 +9,40 @@
 <?php
 require_once("../../../controller/seguridad.php");
 validarSesion();
+
+
 ?>
 
+
+
+
+
 <?php
-$file=$con->prepare("SELECT * FROM usuarios");
-    
-    $file->execute();
-    $resultado=$file->fetchAll();   
+$sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
+$sql->bindParam(':documento', $_SESSION['documento']);
+$sql->execute();
+$fila = $sql->fetch();
+echo"conectado";
+
+$documento=$_SESSION['documento'];
+$nombre = $_SESSION['nombre'];
+$apellido = $_SESSION['apellido'];
+$direccion = $_SESSION['direccion'];
+$telefono =$_SESSION['telefono'];
+$correo= $_SESSION['correo'];
+$rol = $_SESSION['tipo'];
+$empresa = $_SESSION[ 'nit'];
+
+$nombre_comple = $nombre .''.$apellido; 
+
+// Verificar si se encontró al usuario
+if (!$fila) {
+    echo '<script>alert("Usuario no encontrado.");</script>';
+    echo '<script>window.location.href = "login.php";</script>';
+    exit;
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,9 +169,8 @@ if(isset($_POST['btncerrar']))
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#"
-                                id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                    src="../assets/images/users/1.jpg" alt="user" class="" /> <span
-                                    class="hidden-md-down">Mark Sanders &nbsp;</span> </a>
+                                id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
+                                    class="hidden-md-down"><?php echo $nombre_comple ;?> &nbsp;</span> </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
                     </ul>
@@ -211,10 +237,10 @@ if(isset($_POST['btncerrar']))
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h3 class="text-themecolor">Dashboard</h3>
+                        <h3 class="text-themecolor">Principal</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Casa</a></li>
+                            <li class="breadcrumb-item active">Principal</li>
                         </ol>
                     </div>
                    
@@ -227,11 +253,87 @@ if(isset($_POST['btncerrar']))
                 <!-- ============================================================== -->
                 
 
-                <h2>Bienvenido sr <?php echo $_SESSION['nombre']; ?></h2>
+                <h2>Bienvenido <?php echo $_SESSION['nombre']; ?></h2>
 
+              
 
-
-
+                <!-- <div class="container mt-3"> -->
+                    <h2>Lista de Usuarios</h2>
+            
+                    <!-- Campo de búsqueda -->
+                    <div class="mb-3">
+                        <input type="text" id="search" class="form-control" placeholder="Buscar por documento...">
+                    </div>
+            
+                    <!-- Div con scroll -->
+                    <div class="scrollable-div">
+                        <table class="table table-bordered">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>EPS</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTable">
+                                <!-- Código PHP para cargar las filas -->
+                                <?php
+                                $empresa = $_SESSION[ 'nit'];
+                                // Asegúrate de tener una conexión de base de datos válida en $con
+                                $consulta = "SELECT *
+                                FROM usuarios
+                                JOIN ciudad ON usuarios.id_ciudad = ciudad.id_ciudad
+                                JOIN eps ON usuarios.id_eps = eps.id_eps
+                                JOIN estados ON usuarios.id_estado = estados.id_estado
+                                WHERE usuarios.nit = '$empresa'";  // Condición para filtrar por empresa
+                   
+                   $resultado = $con->query($consulta);
+                   
+                                while ($fila = $resultado->fetch()) {
+                                    echo '
+                                    <tr>
+                                        <td>' . $fila["documento"] . '</td>
+                                        <td>' . $fila["nombre"] . '</td>
+                                        <td>' . $fila["correo"] . '</td>
+                                        <td>' . $fila["eps"] . '</td>
+                                        <td>' . $fila["estado"] . '</td>
+                                        <td>
+                                            <div class="text-center">
+                                                <a href="update_usu.php?id=' . $fila['documento'] . '" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <!-- </div> -->
+            
+                <!-- Script para el buscador -->
+                <script>
+                    document.getElementById("search").addEventListener("keyup", function() {
+                        var searchTerm = this.value.toLowerCase();
+                        var rows = document.querySelectorAll("#userTable tr");
+            
+                        rows.forEach(function(row) {
+                            var documentColumn = row.querySelector("td:first-child");
+                            if (documentColumn) {
+                                var documentValue = documentColumn.textContent.toLowerCase();
+                                if (documentValue.includes(searchTerm)) {
+                                    row.style.display = "";
+                                } else {
+                                    row.style.display = "none";
+                                }
+                            }
+                        });
+                    });
+                </script>
 
 
 

@@ -4,8 +4,8 @@
     $conexion = new Database();
     $con = $conexion->conectar();
 
-    $sql = $con -> prepare ("SELECT * FROM empresas, licencias
-     WHERE empresas.id_licencia = licencias.id_licencia AND empresas.nit= '".$_GET['id']."'");
+    $sql = $con -> prepare ("SELECT * FROM empresas, estados
+     WHERE empresas.id_estado = estados.id_estado AND empresas.nit= '".$_GET['id']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -56,24 +56,29 @@ if(isset($_POST["update"]))
             <div class="campos">
                 <input type="text" name="nit" pattern="[0-9 ]{10}" title="El nit debe tener solo numeros (10 digitos)" value="<?php echo $usua['nit']?>">
                 <input type="text" name="empresa" pattern="[a-zA-Z ]{4,30}" title="La empresa debe tener solo letras" value="<?php echo $usua['empresa']?>">
+        
+            <input type="text" name="licencia" id="licencia" value="" placeholder="genere una nueva licencia"> <input type="button" onclick="generate()"  value="Generar Licencia"></button>
             </div>
             <div class="campos">
-                <select name="id_licencia">
-                    <option value="<?php echo $usua['id_licencia']?>"><?php echo $usua['licencia']?></option>
-                    <?php
-                        $control = $con->prepare("SELECT * FROM licencias");
-                        $control->execute();
-                        while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value=" . $fila['id_licencia'] . ">" . $fila['licencia'] . "</option>";
-                        }
-                    ?>
-                </select>
-                <input type="text" name="codigo_unico" pattern="[0-9 ]{2,3}" title="El código debe tener solo numeros, 2 0 3 digitos" value="<?php echo $usua['codigo_unico']?>">
+            
+
             </div>
             
             <br><br>
             <input type="submit" name="update" value="Actualizar">
         </form>
     </div>
+    <script>
+    function generate() {
+        var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        var longitud = 10;
+        var nuevaLicencia = Array.from({ length: longitud }, () => caracteres.charAt(Math.floor(Math.random() * caracteres.length))).join('');
+        
+        // Mostrar la variable en el valor del campo de entrada
+        document.getElementById("licencia").value = nuevaLicencia;
+
+    
+    }
+</script>
 </body>
 </html>

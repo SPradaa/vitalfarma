@@ -12,8 +12,11 @@
    {
       $nit= $_POST['nit'];
       $empresa= $_POST['noempresa'];
-      $key= $_POST['id_llave'];
       $code= $_POST['code'];
+      $licencia= $_POST['licencia'];
+      $inicio= $_POST['inicio'];
+      $fin= $_POST['fin'];
+      $estado= $_POST['estados']; 
       
 
       $sql= $con -> prepare ("SELECT * FROM empresas WHERE nit='$nit'");
@@ -34,7 +37,7 @@
       else
       {
         // $pass_cifrado=password_hash($clave,PASSWORD_DEFAULT,array("pass"=>12));
-        $insertSQL = $con->prepare("INSERT INTO empresas(nit, empresa, id_licencia, codigo_unico) VALUES('$nit', '$empresa', '$key', '$code')");
+        $insertSQL = $con->prepare("INSERT INTO empresas(nit, empresa, licencia, inicio, fin, codigo_unico, id_estado) VALUES('$nit', '$empresa', '$licencia', '$inicio', '$fin', '$code', '$estado')");
         $insertSQL -> execute();
         echo '<script> alert("REGISTRO EXITOSO");</script>';
         echo '<script>window.location="index_emp.php"</script>';
@@ -77,24 +80,54 @@
             <input type="text" name="noempresa" id="empresa"   placeholder="Ingrese el nombre de la empresa" title="El documento debe tener solo números de 8 a 10 dígitos">
 <br>
 <br>
+<label for="documento">Licencia</label>
+            <input type="text" name="licencia" id="licencia" value="" readonly>
+<br>
+
+<input type="button" onclick="generate()"  value="Generar Licencia"></button>
+
+<br>
+<br>
+<label for="nombre">Fecha de inicio de la licencia </label>
+            <input type="date" name="inicio" id="nombre" placeholder="Ingrese la fecha de inicio de la licencia" value="<?php echo date('Y-m-d'); ?>">
+
+<br>
+<br>
+<label for="nombre">Fecha de fin de la licencia </label>
+            <?php
+$fechaInicio = date('Y-m-d'); // Obtener la fecha de inicio actual
+$fechaFin = date('Y-m-d', strtotime('+1 year', strtotime($fechaInicio))); // Sumar un año a la fecha de inicio
+
+echo '<input type="date" name="fin" id="nombre" value="' . $fechaFin . '">';
+?>
+
+
+<br>
+<br>
             <label for="nombre">codigo unico </label>
             <input type="number" name="code" id="code" pattern="[0-9 ]{3}" placeholder="Ingrese el codigo único de la empresa" title="El codigo debe tener solo 3 numeros">
 
 <br>
 <br>
-            <select name="id_llave">
-                <option value ="">Seleccione la licencia </option>
+<select name="estados">
+                <option value ="">Seleccione el estado de la empresa </option>
                 
                 <?php
-                    $control = $con -> prepare ("SELECT * from licencias");
+                    $control = $con -> prepare ("SELECT * from estados WHERE id_estado IN (3, 4)");
                     $control -> execute();
+                    $id1 = 3;  
+$id2 = 4; 
                 while ($fila = $control->fetch(PDO::FETCH_ASSOC)) 
                 {
-                    echo "<option value=" . $fila['id_licencia'] . ">"
-                     . $fila['licencia'] . "</option>";
+                    echo "<option value=" . $fila['id_estado'] . ">"
+                     . $fila['estado'] . "</option>";
                 } 
                 ?>
             </select>
+
+            <br>
+            <br>
+          
 
             <input type="submit" name="validar" value="Registrar Empresa">
             <input type="hidden" name="MM_insert" value="formreg">
@@ -103,7 +136,20 @@
              
             </form>
             
+
     </div>
+    <script>
+    function generate() {
+        var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        var longitud = 10;
+        var nuevaLicencia = Array.from({ length: longitud }, () => caracteres.charAt(Math.floor(Math.random() * caracteres.length))).join('');
+        
+        // Mostrar la variable en el valor del campo de entrada
+        document.getElementById("licencia").value = nuevaLicencia;
+
+    
+    }
+</script>
     <script>
         function goBack() {
             window.location.href = 'inadm.php';

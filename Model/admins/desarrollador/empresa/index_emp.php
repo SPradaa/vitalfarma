@@ -78,15 +78,18 @@
                 <th>NIT</th>
                 <th>Nombre de la Empresa</th>
                 <th>Licencia</th>
+                <th>Inicia</th>
+                <th>expira</th>
                 <th>Código Único</th>
+                <th>estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
 
             <?php
-            $consulta = "SELECT * FROM empresas, licencias
-            WHERE empresas.id_licencia = licencias.id_licencia";
+            $consulta = "SELECT * FROM empresas, estados 
+            WHERE empresas.id_estado = estados.id_estado";
             $resultado = $con->query($consulta);
 
             while ($fila = $resultado->fetch()) {
@@ -95,7 +98,11 @@
                     <td>' . $fila["nit"] . '</td>
                     <td>' . $fila["empresa"] . '</td>
                     <td>' . $fila["licencia"] . '</td>
+                    <td>' . $fila["inicio"] . '</td>
+                    <td>' . $fila["fin"] . '</td>
                     <td>' . $fila["codigo_unico"] . '</td>
+                    // <td>' . $fila["estado"] . '</td>
+
                     <td>
                         <div class="text-center">
                             <a href="update_emp.php?id=' . $fila['nit'] . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>

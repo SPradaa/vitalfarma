@@ -6171,3 +6171,7 @@ File: scss
   flex: 0 0 calc(33.33% - 20px); /* Ajusta el ancho de las tarjetas según tu diseño, restando el margen y el espacio entre ellas */
   margin: 0 5px 10px; /* Margen en los lados y abajo, 10px de espacio entre las tarjetas */
 }
+
+.scrollable-div {
+  max-height: 400px; /* Ajusta la altura según sea necesario */
+  overflow-y: auto; /* Habilitar desplazamiento vertical */}
