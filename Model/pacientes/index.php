@@ -1,13 +1,13 @@
 <?php
 
-   require_once ("../../../db/connection.php");
+   require_once ("../../db/connection.php");
    $db = new Database();
    $con = $db ->conectar();
 //    session_start();
 ?>
 
 <?php
-require_once("../../../controller/seguridad.php");
+require_once("../../controller/seguridad.php");
 validarSesion();
 
 
@@ -256,85 +256,6 @@ if(isset($_POST['btncerrar']))
                 <h2>Bienvenido <?php echo $_SESSION['nombre']; ?></h2>
 
               
-
-                <!-- <div class="container mt-3"> -->
-                    <h2>Lista de Usuarios</h2>
-            
-                    <!-- Campo de búsqueda -->
-                    <div class="mb-3">
-                        <input type="text" id="search" class="form-control" placeholder="Buscar por documento...">
-                    </div>
-            
-                    <!-- Div con scroll -->
-                    <div class="scrollable-div">
-                        <table class="table table-bordered">
-                            <thead class="table-primary">
-                                <tr>
-                                    <th>Documento</th>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>EPS</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="userTable">
-                                <!-- Código PHP para cargar las filas -->
-                                <?php
-                                $empresa = $_SESSION[ 'nit'];
-                                // Asegúrate de tener una conexión de base de datos válida en $con
-                                $consulta = "SELECT *
-                                FROM usuarios
-                                JOIN ciudad ON usuarios.id_ciudad = ciudad.id_ciudad
-                                JOIN eps ON usuarios.id_eps = eps.id_eps
-                                JOIN estados ON usuarios.id_estado = estados.id_estado
-                                WHERE usuarios.nit = '$empresa'";  // Condición para filtrar por empresa
-                   
-                   $resultado = $con->query($consulta);
-                   
-                                while ($fila = $resultado->fetch()) {
-                                    echo '
-                                    <tr>
-                                        <td>' . $fila["documento"] . '</td>
-                                        <td>' . $fila["nombre"] . '</td>
-                                        <td>' . $fila["correo"] . '</td>
-                                        <td>' . $fila["eps"] . '</td>
-                                        <td>' . $fila["estado"] . '</td>
-                                        <td>
-                                            <div class="text-center">
-                                                <a href="update_usu.php?id=' . $fila['documento'] . '" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>';
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <!-- </div> -->
-            
-                <!-- Script para el buscador -->
-                <script>
-                    document.getElementById("search").addEventListener("keyup", function() {
-                        var searchTerm = this.value.toLowerCase();
-                        var rows = document.querySelectorAll("#userTable tr");
-            
-                        rows.forEach(function(row) {
-                            var documentColumn = row.querySelector("td:first-child");
-                            if (documentColumn) {
-                                var documentValue = documentColumn.textContent.toLowerCase();
-                                if (documentValue.includes(searchTerm)) {
-                                    row.style.display = "";
-                                } else {
-                                    row.style.display = "none";
-                                }
-                            }
-                        });
-                    });
-                </script>
-
 
 
 

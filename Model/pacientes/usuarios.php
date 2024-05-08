@@ -1,13 +1,18 @@
 <?php
-   require_once ("../../../db/connection.php");
+
+   require_once ("../../db/connection.php");
    $db = new Database();
    $con = $db ->conectar();
 //    session_start();
 ?>
+
 <?php
-require_once("../../../controller/seguridad.php");
+require_once("../../controller/seguridad.php");
 validarSesion();
+
+
 ?>
+
 
 <?php
     

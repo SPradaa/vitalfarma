@@ -1,15 +1,18 @@
 <?php
-    require_once("../../../db/connection.php"); 
-    $conexion = new Database();
-    $con = $conexion->conectar();
-    // session_start();
+
+   require_once ("../../db/connection.php");
+   $db = new Database();
+   $con = $db ->conectar();
+//    session_start();
 ?>
+
 <?php
-require_once("../../../controller/seguridad.php");
+require_once("../../controller/seguridad.php");
 validarSesion();
 
 
 ?>
+
 <?php
 $sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
 $sql->bindParam(':documento', $_SESSION['documento']);
