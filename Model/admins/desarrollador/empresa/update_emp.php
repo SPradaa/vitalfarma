@@ -14,20 +14,20 @@
 
 if(isset($_POST["update"]))
  {
-    $nit= $_POST['nit'];
-    $empresa= $_POST['empresa'];
-    $id_licencia= $_POST['id_licencia'];
-    $codigo_unico= $_POST['codigo_unico'];
+    $licencia= $_POST['licencia'];
+    $inicio= $_POST['inicio'];
+    $fin= $_POST['fin'];
+    // $codigo_unico= $_POST['codigo_unico'];
  
-   if ($nit=="" || $empresa=="" || $id_licencia=="" || $codigo_unico=="")
+   if ($licencia=="" || $inicio=="" || $fin=="")
     {
        echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
        echo '<script>window.location="index_emp.php"</script>';
     }
     else
     {
-      $insertSQL = $con->prepare("UPDATE empresas SET empresa = '$empresa', 
-      id_licencia = '$id_licencia', codigo_unico = '$codigo_unico'
+      $insertSQL = $con->prepare("UPDATE empresas SET licencia = '$licencia', 
+      inicio = '$inicio', fin = '$fin'
       WHERE nit = '".$_GET['id']."'");
       $insertSQL -> execute();
       echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
@@ -54,8 +54,8 @@ if(isset($_POST["update"]))
         <h1>Editar Empresa</h1>
         <form method="POST" name="formreg" autocomplete="off">
             <div class="campos">
-                <input type="text" name="nit" pattern="[0-9 ]{10}" title="El nit debe tener solo numeros (10 digitos)" value="<?php echo $usua['nit']?>">
-                <input type="text" name="empresa" pattern="[a-zA-Z ]{4,30}" title="La empresa debe tener solo letras" value="<?php echo $usua['empresa']?>">
+                <input type="text" name="nit"  title="El nit debe tener solo numeros (10 digitos)" value="<?php echo $usua['nit']?>" disabled>
+                <input type="text" name="empresa" pattern="[a-zA-Z ]{4,30}" title="La empresa debe tener solo letras" value="<?php echo $usua['empresa']?>"  disabled>
         
            
             </div>

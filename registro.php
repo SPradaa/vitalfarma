@@ -14,7 +14,7 @@
       $id_doc= $_POST['id_doc'];
       $nombre= $_POST['nombre'];
       $apellido= $_POST['apellido'];
-      $id_eps= $_POST['id_eps'];
+      $nit= $_POST['nit'];
       $id_rh= $_POST['id_rh'];
       $telefono= $_POST['telefono'];
       $correo= $_POST['correo'];
@@ -34,7 +34,7 @@
       }
       else
    
-     if ($documento=="" || $id_doc=="" || $nombre=="" || $apellido=="" || $id_eps=="" || $id_rh=="" || $telefono=="" || $correo=="" || $id_ciudad=="" || $direccion=="" || $clave=="" || $id_rol=="")
+     if ($documento=="" || $id_doc=="" || $nombre=="" || $apellido=="" || $id_rh=="" || $telefono=="" || $correo=="" || $id_ciudad=="" || $direccion=="" || $clave=="" || $id_rol=="")
       {
          echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
          echo '<script>window.location="registro.php"</script>';
@@ -42,7 +42,7 @@
       else
       {
         $pass_cifrado=password_hash($clave,PASSWORD_DEFAULT,array("pass"=>12));
-        $insertSQL = $con->prepare("INSERT INTO usuarios(documento, id_doc, nombre, apellido, id_eps, id_rh, telefono, correo, id_ciudad, direccion, password, id_rol, id_estado) VALUES('$documento', '$id_doc', '$nombre', '$apellido', '$id_eps', '$id_rh', '$telefono', '$correo', '$id_ciudad', '$direccion', '$pass_cifrado', '$id_rol', '$estado')");
+        $insertSQL = $con->prepare("INSERT INTO usuarios(documento, id_doc, nombre, apellido, id_rh, telefono, correo, id_ciudad, direccion, password, id_rol, id_estado, nit) VALUES('$documento', '$id_doc', '$nombre', '$apellido',  '$id_rh', '$telefono', '$correo', '$id_ciudad', '$direccion', '$pass_cifrado', '$id_rol', '$estado', '$nit')");
         $insertSQL -> execute();
         echo '<script> alert("REGISTRO EXITOSO");</script>';
         echo '<script>window.location="login.html"</script>';
@@ -90,16 +90,16 @@
             <label for="apellido">Apellido</label>
             <input type="text" name="apellido" id="apellido" pattern="[a-zA-ZÑñ ]{4,30}" placeholder="Ingrese su Apellido" title="El apellido debe tener solo letras">
 
-            <select name="id_eps">
+            <select name="nit">
                 <option value ="">Seleccione el Tipo de EPS</option>
                 
                 <?php
-                    $control = $con -> prepare ("SELECT * from eps");
+                    $control = $con -> prepare ("SELECT * from empresas");
                     $control -> execute();
                 while ($fila = $control->fetch(PDO::FETCH_ASSOC)) 
                 {
-                    echo "<option value=" . $fila['id_eps'] . ">"
-                     . $fila['eps'] . "</option>";
+                    echo "<option value=" . $fila['nit'] . ">"
+                     . $fila['empresa'] . "</option>";
                 } 
                 ?>
             </select>
