@@ -21,8 +21,8 @@
       $id_ciudad= $_POST['id_ciudad'];
       $direccion=$_POST['direccion'];
       $clave= $_POST['password'];
-      $id_rol= $_POST['id_rol'];
-      $estado= $_POST['id_estado'];
+      $id_rol= 5;
+      $estado= 4;
 
       $sql= $con -> prepare ("SELECT * FROM usuarios WHERE documento='$documento'");
       $sql -> execute();
@@ -145,33 +145,7 @@
              <input type="password" name="password" id="password" pattern="[0-9A-Za-z]{8,20}" placeholder="Ingrese la Contraseña" title="La contraseña debe tener numeros y letras (8)">
              <br><br>
 
-             <select name="id_rol" readonly>
-    <!-- <option value="">Seleccione  un estado</option> -->
-
-    <?php
-    $control = $con->prepare("SELECT * FROM roles WHERE id_rol IN (5)" );
-    $control->execute();
-
-    while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-        echo "<option value=" . $fila['id_rol'] . ">"
-            . $fila['rol'] . "</option>";
-    }
-    ?>
-</select>
-
-            <select name="id_estado" readonly>
-    <!-- <option value="">Seleccione  un estado</option> -->
-
-    <?php
-    $control = $con->prepare("SELECT * FROM estados WHERE id_estado IN (4)");
-    $control->execute();
-
-    while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-        echo "<option value=" . $fila['id_estado'] . ">"
-            . $fila['estado'] . "</option>";
-    }
-    ?>
-</select>
+            
              <input type="submit" name="validar" value="Registrarme">
             <input type="hidden" name="MM_insert" value="formreg">
             </form>
