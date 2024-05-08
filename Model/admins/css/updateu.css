@@ -60,3 +60,8 @@ body {
 .formulario input[type="submit"]:hover {
     background-color: #5d8cd8;
 }
+
+.generate{
+    height: 100px;
+    background: rgb(6, 241, 233);
+}

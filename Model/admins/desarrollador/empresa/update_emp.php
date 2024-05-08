@@ -57,13 +57,27 @@ if(isset($_POST["update"]))
                 <input type="text" name="nit" pattern="[0-9 ]{10}" title="El nit debe tener solo numeros (10 digitos)" value="<?php echo $usua['nit']?>">
                 <input type="text" name="empresa" pattern="[a-zA-Z ]{4,30}" title="La empresa debe tener solo letras" value="<?php echo $usua['empresa']?>">
         
-            <input type="text" name="licencia" id="licencia" value="" placeholder="genere una nueva licencia"> <input type="button" onclick="generate()"  value="Generar Licencia"></button>
+           
             </div>
             <div class="campos">
             
-
+            <input type="text" name="licencia" id="licencia" value="" placeholder="genere una nueva licencia"> <input type="button"    onclick="generate()"  value="Nueva Licencia" class="generate" ></button>
+         
             </div>
-            
+
+            <div class="campos">
+            <label for="nombre">Fecha de inicio de la licencia </label>
+            <input type="date" name="inicio" id="nombre" placeholder="Ingrese la fecha de inicio de la licencia" value="<?php echo date('Y-m-d'); ?>">  
+            </div>
+            <div class="campos">
+            <label for="nombre">Fecha de expiracion de la licencia </label>
+            <?php
+$fechaInicio = date('Y-m-d'); // Obtener la fecha de inicio actual
+$fechaFin = date('Y-m-d', strtotime('+1 year', strtotime($fechaInicio))); // Sumar un año a la fecha de inicio
+
+echo '<input type="date" name="fin" id="nombre" value="' . $fechaFin . '">';
+?>
+            </div>
             <br><br>
             <input type="submit" name="update" value="Actualizar">
         </form>
