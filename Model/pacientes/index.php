@@ -14,9 +14,6 @@ validarSesion();
 ?>
 
 
-
-
-
 <?php
 $sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
 $sql->bindParam(':documento', $_SESSION['documento']);
