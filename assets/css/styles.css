@@ -800,13 +800,6 @@ section {
 
 
 
-.container {
-  text-align: center;
-}
-
-.icon{
-  padding-left: -20px;
-}
 
 .bi-bi-bag-plus-fill{
   padding-left: -60px;
@@ -817,7 +810,84 @@ section {
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 30px;
-  box-shadow: 18px 17px 15px 20px black;
+}
+
+.iconos{
+  margin-left: -44.5px;
+}
+.medic{
+  margin-left: -42px;
+}
+.auto{
+  margin-left: -45px;
+}
+.venc{
+  margin-left: -45px;
+}
+.procesos{
+  margin-left: -45px;
+}
+
+.container {
+  max-width: 1140px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor en la página */
+  padding: 0 15px; /* Espacio de relleno izquierdo y derecho para el contenedor */
+ 
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px; /* Compensar el espacio negativo del padding del contenedor */
+}
+
+.col-md-6 {
+  flex: 0 0 50%; /* Cada columna ocupa el 50% del ancho en dispositivos medianos */
+  max-width: 50%;
+  padding: 15px; /* Espacio de relleno para las columnas */
+}
+
+.col-lg-3 {
+  flex: 0 0 33.333%; /* Cada columna ocupa el 33.333% del ancho en dispositivos grandes */
+  max-width: 33.333%;
+  padding: 15px; /* Espacio de relleno para las columnas */
+}
+
+/* Media query para dispositivos medianos */
+@media (max-width: 991.98px) {
+  .iconos {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .medic {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .auto {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .venc {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .procesos {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .description{
+    text-align: center;
+  }
+}
+
+
+.title{
+  text-align: center;
 }
 
 .col-md-6 {
@@ -828,6 +898,125 @@ section {
 
 .icon-box {
   text-align: center;
+}
+
+.titulo{
+  margin-left: 102px;
+  margin-top: 8px;
+}
+.medicos{
+  margin-left: 93px;
+  margin-top: 8px;
+}
+.text{
+  margin-left: 20px;
+}
+@media (max-width: 991.98px) {
+  .medicos{
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .titulo{
+    margin-left: -17px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .text{
+    margin-left: -5px;
+    margin-bottom: 20px;
+  }
+}
+.dep{
+  margin-left: 85px;
+  margin-top: 8px;
+}
+.depart{
+  margin-left: 112px;
+  margin-top: 8px;
+}
+@media (max-width: 991.98px) {
+  .dep{
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .depart{
+    margin-left: -17px;
+    margin-top: -6px;
+  }
+}
+.texto{
+  margin-left: 19px;
+}
+@media (max-width: 991.98px) {
+  .texto{
+    margin-left: -14px;
+  }
+}
+.lab{
+  margin-left: 85px;
+  margin-top: 8px;
+}
+.labor{
+  margin-left: 105px;
+  margin-top: 8px;
+}
+.textos{
+  margin-left: 11px;
+}
+@media (max-width: 991.98px) {
+  .lab{
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .labor{
+    margin-left: -17px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .textos{
+    margin-left: -7px;
+    margin-bottom: -20px;
+  }
+}
+.rec{
+    margin-left: 82px;
+    margin-top: 8px;
+}
+.recon{
+  margin-left: 90px;
+  margin-top: 8px;
+}
+.reconoc{
+  margin-left: 11px;
+}
+.titulos{
+  margin-left: 82px;
+}
+@media (max-width: 991.98px) {
+  .rec{
+    margin-left: -14px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .recon{
+    margin-left: -35px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .reconoc{
+    margin-left: -18px;
+    
+  }
 }
 
 .icon-box:hover .icon svg,
