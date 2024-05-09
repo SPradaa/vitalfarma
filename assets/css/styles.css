@@ -1,10 +1,4 @@
-/**
-* Template Name: Medicio
-* Updated: Jan 29 2024 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/medicio-free-bootstrap-theme/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
+
 
 /*--------------------------------------------------------------
 # General
@@ -779,6 +773,7 @@ section {
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   z-index: 1;
+  text-align: center;
   
 }
 
@@ -792,11 +787,16 @@ section {
   top: 100%;
   transition: all 0.3s;
   z-index: -1;
+  text-align: center;
   
 }
 
-.container {
-  text-align: center;
+
+
+
+
+.bi-bi-bag-plus-fill{
+  padding-left: -60px;
 }
 
 .row {
@@ -804,6 +804,84 @@ section {
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 30px;
+}
+
+.iconos{
+  margin-left: -44.5px;
+}
+.medic{
+  margin-left: -42px;
+}
+.auto{
+  margin-left: -45px;
+}
+.venc{
+  margin-left: -45px;
+}
+.procesos{
+  margin-left: -45px;
+}
+
+.container {
+  max-width: 1140px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor en la página */
+  padding: 0 15px; /* Espacio de relleno izquierdo y derecho para el contenedor */
+ 
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px; /* Compensar el espacio negativo del padding del contenedor */
+}
+
+.col-md-6 {
+  flex: 0 0 50%; /* Cada columna ocupa el 50% del ancho en dispositivos medianos */
+  max-width: 50%;
+  padding: 15px; /* Espacio de relleno para las columnas */
+}
+
+.col-lg-3 {
+  flex: 0 0 33.333%; /* Cada columna ocupa el 33.333% del ancho en dispositivos grandes */
+  max-width: 33.333%;
+  padding: 15px; /* Espacio de relleno para las columnas */
+}
+
+/* Media query para dispositivos medianos */
+@media (max-width: 991.98px) {
+  .iconos {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .medic {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .auto {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .venc {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .procesos {
+    margin-left: -25px;
+  }
+}
+@media (max-width: 991.98px) {
+  .description{
+    text-align: center;
+  }
+}
+
+
+.title{
+  text-align: center;
 }
 
 .col-md-6 {
@@ -816,6 +894,125 @@ section {
   text-align: center;
 }
 
+.titulo{
+  margin-left: 102px;
+  margin-top: 8px;
+}
+.medicos{
+  margin-left: 93px;
+  margin-top: 8px;
+}
+.text{
+  margin-left: 20px;
+}
+@media (max-width: 991.98px) {
+  .medicos{
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .titulo{
+    margin-left: -17px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .text{
+    margin-left: -5px;
+    margin-bottom: 20px;
+  }
+}
+.dep{
+  margin-left: 85px;
+  margin-top: 8px;
+}
+.depart{
+  margin-left: 112px;
+  margin-top: 8px;
+}
+@media (max-width: 991.98px) {
+  .dep{
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .depart{
+    margin-left: -17px;
+    margin-top: -6px;
+  }
+}
+.texto{
+  margin-left: 19px;
+}
+@media (max-width: 991.98px) {
+  .texto{
+    margin-left: -14px;
+  }
+}
+.lab{
+  margin-left: 85px;
+  margin-top: 8px;
+}
+.labor{
+  margin-left: 105px;
+  margin-top: 8px;
+}
+.textos{
+  margin-left: 11px;
+}
+@media (max-width: 991.98px) {
+  .lab{
+    margin-left: -6px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .labor{
+    margin-left: -17px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .textos{
+    margin-left: -7px;
+    margin-bottom: -20px;
+  }
+}
+.rec{
+    margin-left: 82px;
+    margin-top: 8px;
+}
+.recon{
+  margin-left: 90px;
+  margin-top: 8px;
+}
+.reconoc{
+  margin-left: 11px;
+}
+.titulos{
+  margin-left: 82px;
+}
+@media (max-width: 991.98px) {
+  .rec{
+    margin-left: -14px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .recon{
+    margin-left: -35px;
+    margin-top: -6px;
+  }
+}
+@media (max-width: 991.98px) {
+  .reconoc{
+    margin-left: -18px;
+    
+  }
+}
+
 .icon-box:hover .icon svg,
 .icon-box:hover .icon i {
   opacity: 1;
@@ -825,6 +1022,7 @@ section {
 .icon i {
   opacity: 0.7; /* Opacidad inicial */
   transition: opacity 0.3s ease; /* Transición suave */
+  text-align: center;
 }
 
 .featured-services .icon-box:hover::before {
@@ -1644,6 +1842,21 @@ section {
   box-shadow: 0 0 20px rgba(214, 215, 216, 0.5);
   padding: 20px 0 30px 0;
 }
+.contact .info-box.mt-4 {
+  color: #444444;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(214, 215, 216, 0.5);
+  width: 120%;
+  margin-right: 70px; /* Agrega espacio a la derecha del primer cuadro */
+  margin-left: -17px;
+}
+
+@media (max-width: 768px) {
+  .contact .info-box.mt-4 {
+    width: 150%;
+    height: auto;
+  }
+}
 
 .contact .info-box i {
   font-size: 32px;
@@ -1670,6 +1883,7 @@ section {
 .contact .php-email-form {
   box-shadow: 0 0 20px rgba(214, 215, 216, 0.5);
   padding: 30px;
+  margin-top: -14px;
 }
 
 .contact .php-email-form .error-message {
@@ -1731,6 +1945,27 @@ section {
 
 .contact .php-email-form textarea {
   padding: 12px 15px;
+}
+
+#name{
+  width: 157%;
+  margin-left: -85px;
+}
+
+#email{
+  width: 161%;
+}
+
+@media (max-width: 768px) {
+  #email{
+    margin-top: -15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #name{
+    margin-left: -70px;
+  }
 }
 
 .contact .php-email-form button[type=submit] {

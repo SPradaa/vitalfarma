@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2024 a las 01:39:41
+-- Tiempo de generación: 08-05-2024 a las 15:09:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -44,7 +44,7 @@ CREATE TABLE `citas` (
   `id_cita` int(11) NOT NULL,
   `documento` int(11) NOT NULL,
   `fecha` date NOT NULL,
-  `hora` time NOT NULL,
+  `id_hor` int(3) NOT NULL,
   `docu_medico` int(11) NOT NULL,
   `id_esp` int(3) NOT NULL,
   `id_estado` int(3) NOT NULL
@@ -54,13 +54,13 @@ CREATE TABLE `citas` (
 -- Volcado de datos para la tabla `citas`
 --
 
-INSERT INTO `citas` (`id_cita`, `documento`, `fecha`, `hora`, `docu_medico`, `id_esp`, `id_estado`) VALUES
-(2, 0, '0000-00-00', '00:00:00', 1104786412, 1, 3),
-(3, 1003239087, '2024-03-30', '08:30:00', 1122736351, 5, 3),
-(4, 1118723902, '2024-03-30', '08:30:00', 1104786412, 5, 3),
-(6, 1106226573, '2024-04-06', '08:30:00', 1122736351, 5, 3),
-(7, 2147483647, '2024-03-26', '13:30:00', 1122736351, 15, 3),
-(10, 2147483647, '2024-03-12', '19:30:00', 1122736351, 15, 3);
+INSERT INTO `citas` (`id_cita`, `documento`, `fecha`, `id_hor`, `docu_medico`, `id_esp`, `id_estado`) VALUES
+(2, 0, '0000-00-00', 0, 1104786412, 1, 3),
+(3, 1003239087, '2024-03-30', 0, 1122736351, 5, 3),
+(4, 1118723902, '2024-03-30', 0, 1104786412, 5, 3),
+(6, 1106226573, '2024-04-06', 0, 1122736351, 5, 3),
+(7, 2147483647, '2024-03-26', 0, 1122736351, 15, 3),
+(10, 2147483647, '2024-03-12', 0, 1122736351, 15, 3);
 
 -- --------------------------------------------------------
 
@@ -113,44 +113,19 @@ CREATE TABLE `det_autorizacion` (
 CREATE TABLE `empresas` (
   `nit` varchar(10) NOT NULL,
   `empresa` varchar(50) NOT NULL,
-  `id_licencia` int(10) DEFAULT NULL,
-  `codigo_unico` int(3) NOT NULL
+  `licencia` varchar(10) DEFAULT NULL,
+  `inicio` date DEFAULT NULL,
+  `fin` date DEFAULT NULL,
+  `codigo_unico` int(3) NOT NULL,
+  `id_estado` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empresas`
 --
 
-INSERT INTO `empresas` (`nit`, `empresa`, `id_licencia`, `codigo_unico`) VALUES
-('1234569877', 'Sanitas', 1, 123),
-('2581473692', 'Nueva EPS', 2, 852);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `eps`
---
-
-CREATE TABLE `eps` (
-  `id_eps` int(4) NOT NULL,
-  `eps` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Volcado de datos para la tabla `eps`
---
-
-INSERT INTO `eps` (`id_eps`, `eps`) VALUES
-(1, 'Salud Total '),
-(2, 'Coomeva'),
-(3, 'Compensar'),
-(4, 'Sanitas'),
-(5, 'Cafesalud'),
-(6, 'Famisanar'),
-(7, 'Nueva EPS'),
-(8, 'Aliansalud '),
-(9, 'Colmédica'),
-(10, 'EPS Sura');
+INSERT INTO `empresas` (`nit`, `empresa`, `licencia`, `inicio`, `fin`, `codigo_unico`, `id_estado`) VALUES
+('12378945', 'Sanitas', '2TY4UVkAyv', '2024-05-07', '2025-05-07', 123, 3);
 
 -- --------------------------------------------------------
 
@@ -207,7 +182,8 @@ INSERT INTO `estados` (`id_estado`, `estado`) VALUES
 (5, 'Activa'),
 (6, 'Cancelada'),
 (7, 'Disponible'),
-(8, 'Agotado');
+(8, 'Agotado'),
+(10, 'Ocupado');
 
 -- --------------------------------------------------------
 
@@ -217,38 +193,39 @@ INSERT INTO `estados` (`id_estado`, `estado`) VALUES
 
 CREATE TABLE `horarios` (
   `id_hor` int(3) NOT NULL,
-  `horario` varchar(20) NOT NULL
+  `horario` varchar(20) NOT NULL,
+  `id_estado` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `horarios`
 --
 
-INSERT INTO `horarios` (`id_hor`, `horario`) VALUES
-(1, '7:00 - 7:30'),
-(2, '7:30 - 8:00'),
-(3, '8:00 - 8:30'),
-(4, '8:30 - 9:00'),
-(5, '9:00 - 9:30'),
-(6, '9:30 - 10:00'),
-(7, '10:00 - 10:30'),
-(8, '10:30 - 11:00'),
-(9, '11:00 - 11:30'),
-(10, '11:30 - 12:00'),
-(11, '12:00 - 12:30'),
-(12, '12:30 - 13:00'),
-(13, '13:00 - 13:30'),
-(14, '13:30 - 14:00'),
-(15, '14:00 - 14:30'),
-(16, '14:30 - 15:00'),
-(17, '15:00 - 15:30'),
-(18, '15:30 - 16:00'),
-(19, '16:00 - 16:30'),
-(20, '16:30 - 17:00'),
-(21, '17:00 - 17:30'),
-(22, '17:30 - 18:00'),
-(23, '18:00 - 18:30'),
-(24, '18:30 - 19:00');
+INSERT INTO `horarios` (`id_hor`, `horario`, `id_estado`) VALUES
+(1, '7:00 - 7:30', 0),
+(2, '7:30 - 8:00', 0),
+(3, '8:00 - 8:30', 0),
+(4, '8:30 - 9:00', 0),
+(5, '9:00 - 9:30', 0),
+(6, '9:30 - 10:00', 0),
+(7, '10:00 - 10:30', 0),
+(8, '10:30 - 11:00', 0),
+(9, '11:00 - 11:30', 0),
+(10, '11:30 - 12:00', 0),
+(11, '12:00 - 12:30', 0),
+(12, '12:30 - 13:00', 0),
+(13, '13:00 - 13:30', 0),
+(14, '13:30 - 14:00', 0),
+(15, '14:00 - 14:30', 0),
+(16, '14:30 - 15:00', 0),
+(17, '15:00 - 15:30', 0),
+(18, '15:30 - 16:00', 0),
+(19, '16:00 - 16:30', 0),
+(20, '16:30 - 17:00', 0),
+(21, '17:00 - 17:30', 0),
+(22, '17:30 - 18:00', 0),
+(23, '18:00 - 18:30', 0),
+(24, '18:30 - 19:00', 0);
 
 -- --------------------------------------------------------
 
@@ -276,28 +253,6 @@ INSERT INTO `laboratorio` (`id_lab`, `laboratorio`) VALUES
 (9, 'Laboratorio Bayer'),
 (10, 'Laboratorio Abbott'),
 (11, 'Laboratorio Duran');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `licencias`
---
-
-CREATE TABLE `licencias` (
-  `id_licencia` int(10) NOT NULL,
-  `licencia` varchar(10) NOT NULL,
-  `f_inicio` date NOT NULL,
-  `f_fin` date NOT NULL,
-  `id_estado` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `licencias`
---
-
-INSERT INTO `licencias` (`id_licencia`, `licencia`, `f_inicio`, `f_fin`, `id_estado`) VALUES
-(1, 'a5dd5w6q3', '2024-02-21', '2025-02-21', 3),
-(2, '4W#mb@J1y&', '2024-02-27', '2025-02-27', 3);
 
 -- --------------------------------------------------------
 
@@ -450,7 +405,13 @@ INSERT INTO `trigg` (`n_password`, `v_password`, `tipo`, `fecha_creacion`) VALUE
 ('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-03-21 17:35:06'),
 ('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-03-21 17:35:13'),
 ('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-03-21 19:24:39'),
-('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-03-21 19:36:36');
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-03-21 19:36:36'),
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-03 11:04:34'),
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-03 11:13:56'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-03 14:25:02'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-03 14:25:48'),
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-08 06:59:49'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-08 07:39:56');
 
 -- --------------------------------------------------------
 
@@ -484,7 +445,6 @@ CREATE TABLE `usuarios` (
   `id_doc` int(2) NOT NULL,
   `nombre` varchar(30) NOT NULL,
   `apellido` varchar(30) NOT NULL,
-  `id_eps` int(4) NOT NULL,
   `id_rh` int(2) NOT NULL,
   `telefono` varchar(12) NOT NULL,
   `correo` varchar(30) NOT NULL,
@@ -501,13 +461,14 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`documento`, `id_doc`, `nombre`, `apellido`, `id_eps`, `id_rh`, `telefono`, `correo`, `id_ciudad`, `direccion`, `password`, `id_rol`, `id_estado`, `nit`, `token`) VALUES
-(1003239087, 3, 'Juan Esteban', 'Ortega', 1, 1, '3046589012', 'juanes@gmail.com', 7, 'Cra 5 23-30', '$2y$10$4Er5XPvRfHpO3dUS7ZhkVe2AEaONDw/8eLQ.3cWw6eh.EcDKUC70W', 5, 4, NULL, ''),
-(1106226573, 3, 'Santiago', 'Prada', 4, 2, '3218906523', 'santiagoprada@gmail.com', 2, 'Barrio el Jardin', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 1, 3, '1234569877', ''),
-(1110172892, 3, 'Valentina', 'Mendoza', 7, 7, '3158571432', 'Valenramirez@gmail.com', 1, 'Barrio Usaquen', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 2, 3, '1234569877', ''),
-(1118723902, 3, 'Aura Cristina', 'Olaya', 5, 8, '3228901209', 'Auraolaya@gmail.com', 4, 'Cra 5 norte 23-40', '$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', 4, 4, '1234569877', ''),
-(1234567891, 3, 'administrador', 'admi', 4, 2, '3144342215', 'administrador@gmail.com', 9, 'Cra4 # 12-90', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 1, 4, '1234569877', ''),
-(2147483647, 3, 'paciente', 'nuevo', 7, 2, '3152487936', 'pacientes@gmail.com', 8, 'cra4-nuevapereira', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 5, 4, NULL, '');
+INSERT INTO `usuarios` (`documento`, `id_doc`, `nombre`, `apellido`, `id_rh`, `telefono`, `correo`, `id_ciudad`, `direccion`, `password`, `id_rol`, `id_estado`, `nit`, `token`) VALUES
+(38010110, 3, 'Beatriz ', 'prada Guzman', 7, '3158794045', 'Beatizprada@gmail.com', 2, 'Vereda potrerillo ', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 2, 4, '12378945', ''),
+(1003239087, 3, 'Juan Esteban', 'Ortega', 1, '3046589012', 'juanes@gmail.com', 7, 'Cra 5 23-30', '$2y$10$4Er5XPvRfHpO3dUS7ZhkVe2AEaONDw/8eLQ.3cWw6eh.EcDKUC70W', 5, 4, NULL, ''),
+(1106226573, 3, 'Santiago', 'Prada', 2, '3218906523', 'santiagoprada@gmail.com', 2, 'Barrio el Jardin', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 1, 3, '1234569877', ''),
+(1110172892, 3, 'Valentina', 'Mendoza', 7, '3158571432', 'Valenramirez@gmail.com', 1, 'Barrio Usaquen', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 2, 3, '1234569877', ''),
+(1118723902, 3, 'Aura Cristina', 'Olaya', 8, '3228901209', 'Auraolaya@gmail.com', 4, 'Cra 5 norte 23-40', '$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', 4, 4, '1234569877', ''),
+(1234567891, 3, 'administrador', 'admi', 2, '3144342215', 'administrador@gmail.com', 9, 'Cra4 # 12-90', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 1, 4, '12378945', ''),
+(2147483647, 3, 'paciente', 'nuevo', 2, '3152487936', 'pacientes@gmail.com', 8, 'cra4-nuevapereira', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 5, 4, NULL, '');
 
 --
 -- Disparadores `usuarios`
@@ -553,12 +514,6 @@ ALTER TABLE `det_autorizacion`
   ADD KEY `id_medicamento` (`id_medicamento`);
 
 --
--- Indices de la tabla `eps`
---
-ALTER TABLE `eps`
-  ADD PRIMARY KEY (`id_eps`);
-
---
 -- Indices de la tabla `especializacion`
 --
 ALTER TABLE `especializacion`
@@ -581,12 +536,6 @@ ALTER TABLE `horarios`
 --
 ALTER TABLE `laboratorio`
   ADD PRIMARY KEY (`id_lab`);
-
---
--- Indices de la tabla `licencias`
---
-ALTER TABLE `licencias`
-  ADD PRIMARY KEY (`id_licencia`);
 
 --
 -- Indices de la tabla `medicamentos`
@@ -637,7 +586,6 @@ ALTER TABLE `t_documento`
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`documento`),
   ADD KEY `id_doc` (`id_doc`),
-  ADD KEY `id_eps` (`id_eps`),
   ADD KEY `id_rh` (`id_rh`),
   ADD KEY `id_rol` (`id_rol`),
   ADD KEY `id_estado` (`id_estado`),
@@ -672,12 +620,6 @@ ALTER TABLE `det_autorizacion`
   MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `eps`
---
-ALTER TABLE `eps`
-  MODIFY `id_eps` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
 -- AUTO_INCREMENT de la tabla `especializacion`
 --
 ALTER TABLE `especializacion`
@@ -687,7 +629,7 @@ ALTER TABLE `especializacion`
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id_estado` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_estado` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios`
@@ -700,12 +642,6 @@ ALTER TABLE `horarios`
 --
 ALTER TABLE `laboratorio`
   MODIFY `id_lab` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de la tabla `licencias`
---
-ALTER TABLE `licencias`
-  MODIFY `id_licencia` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamentos`
