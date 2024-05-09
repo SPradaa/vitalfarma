@@ -66,7 +66,7 @@
     <div class="text-center">
     <div class="row mt-3">
         <div class="col-md-6">
-            <form action="../index.php">
+            <form action="../modulomedico.php">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
         </div>
