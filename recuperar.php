@@ -48,9 +48,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restablecer Contraseña</title>
-  <link rel="stylesheet" href="assets/css/recuperar.css">
+  <link rel="stylesheet" href="assets/css/recuper.css">
 </head>
 <body>
+<div class="regresar">
+    <button onclick="goBack()" class="return">
+        <span class="btxt">Regresar</span><i class="animate"></i>
+    </button>   
+</div>
+
   <div class="container">
     <h2>¿Olvidaste tu contraseña?</h2>
     <form method="post" name="form1" id="form1"  autocomplete="on"> 
@@ -63,5 +69,11 @@
   </div>
 
   <script src="script.js"></script>
+
+  <script>
+        function goBack() {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

@@ -53,9 +53,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulario de Cambio de Contraseña</title>
-<link rel="stylesheet" href="assets/css/contrasena.css">
+<link rel="stylesheet" href="assets/css/contrasenaa.css">
 </head>
 <body>
+<div class="regresar">
+    <button onclick="goBack()" class="return">
+        <span class="btxt">Regresar</span><i class="animate"></i>
+    </button>
+        
+</div>
+
 <div class="container">
   <h2>Cambio de Contraseña</h2>
   <form method="post" name="form1" id="form1"  autocomplete="on"> 
@@ -69,7 +76,7 @@
       <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required>
     </div>
     
-    <input type="submit" name="actualizar" value="actualizar">
+    <input type="submit" name="actualizar" value="Actualizar">
       <input type="hidden" name="MM_insert" value="formreg">
     
     <div id="mensaje_error" class="mensaje-error"></div>
@@ -85,5 +92,11 @@ document.querySelector("form").onsubmit = function() {
   }
 };
 </script>
+
+<script>
+        function goBack() {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>
