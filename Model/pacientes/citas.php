@@ -182,7 +182,7 @@ validarSesion();
                 <div class="card-container">
                     <!-- Carta para el módulo de citas -->
                     <div class="card">
-                        <a href="citas/beforecita.php">
+                        <a href="agendarcitas.php">
                             <div class="card_box">
                                 <h3 >Citas</h3>
                                 <p class="card_box__content">Administra tus citas en este módulo.</p>
