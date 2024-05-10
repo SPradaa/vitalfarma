@@ -193,10 +193,9 @@ if(isset($_POST['btncerrar']))
                                     class="fa fa-user-circle-o"></i><span class="hide-menu">Perfil</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
-                                    class="fa fa-table"></i><span class="hide-menu">Usuarios </span></a>
+                                    class="fa fa-table"></i><span class="hide-menu">Citas</span></a>
                       
-                        <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
-                                    class="fa fa-globe"></i><span class="hide-menu">Citas</span></a>
+            
                         </li>
                       
                         
