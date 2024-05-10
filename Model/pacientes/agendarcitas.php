@@ -3,7 +3,7 @@
     require_once("../../db/connection.php"); 
     $db = new Database();
     $con = $db->conectar();
-	echo"session start" ;
+	
 
 	
 require_once("../../controller/seg.php");
@@ -52,23 +52,32 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendar Cita</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/agendarcita.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Agendar Cita</h2>
+
+    <div class="regresar">
+        <button onclick="goBack()" class="return">
+            <span class="btxt">Regresar</span><i class="animate"></i>
+        </button>
+            
+    </div>
+
+    <div class="login-box">
+        <h2></h2>
+        <h3>Agendar Cita</h3>
         <form action="" method="post">
-            <div class="form-group">
-                <label for="documento">Documento:</label>
+            <div class="row">
+                <label for="documento">Documento:</label><br>
                 <input type="text" class="form-control" id="documento" name="documento" required>
             </div>
-            <div class="form-group">
-                <label for="fecha">Fecha:</label>
+            <div class="row">
+                <label for="fecha">Fecha:</label><br>
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
             </div>
-            <div class="form-group">
-                <label for="id_esp">Hora:</label>
-                <select class="form-control" id="id_hor" name="id_hor" required>
+            <div class="row">
+                <label for="id_esp">Hora:</label><br>
+                <select class="form-control" id="id_hor" name="id_hor" required><br>
             <option value=""></option>
 
             <?php
@@ -76,13 +85,18 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             $control->execute();
             while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
                 echo "<option value=" . $fila['id_hor'] . ">"
-                    . $fila['horario'] . "</option>";
+                    . $fila['horario'] . "</option>"; 
             }
             ?>
+            
+            
 
         </select>
-            <div class="form-group">
-                <label for="id_esp">Especialización:</label>
+        <br>
+        <br>
+
+            <div class="row">
+                <label for="id_esp">Especialización:</label><br>
                 <select class="form-control" id="id_esp" name="id_esp" required>
             <option value=""></option>
 
@@ -96,9 +110,11 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             ?>
 
         </select>
+        <br>
+        <br>
 
-        <div class="form-group">
-                <label for="docu_medico">Seleccione Médico:</label>
+        <div class="row">
+                <label for="docu_medico">Seleccione Médico:</label><br>
                 <select class="form-control" id="docu_medico" name="docu_medico" required>
             <option value=""></option>
 
@@ -117,9 +133,13 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             <input  class="btn btn-primary" type="submit" name="validar" value="Consultar">
             <input type="hidden" name="MM_insert" value="formreg">
 
-            <a href="/" class="btn btn-secondary">Regresar</a>
         </form>
     </div> 
+    <script>
+        function goBack() {
+            window.location.href = 'citas.php';
+        }
+    </script>
 </body>
 </html>
 
