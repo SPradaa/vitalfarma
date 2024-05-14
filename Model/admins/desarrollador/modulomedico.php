@@ -284,7 +284,7 @@ validarSesion();
 
                                     <div class="card">
 
-                                        <a href="laboratorio/index_lab.php">
+                                        <a href="autorizaciones/index_automedicam.php">
                                             <div class="card_box">
                                         <h3 class="car_box__title">Autorización de medicamentos
                                         </h3>
