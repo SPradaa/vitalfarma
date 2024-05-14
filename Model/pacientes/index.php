@@ -54,7 +54,7 @@ if (!$fila) {
     <meta name="description"
         content="AdminWrap Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Administrador</title>
+    <title>Paciente</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/adminwrap-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
@@ -192,14 +192,10 @@ if(isset($_POST['btncerrar']))
                         <li> <a class="waves-effect waves-dark" href="perfil.php" aria-expanded="false"><i
                                     class="fa fa-user-circle-o"></i><span class="hide-menu">Perfil</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="usuarios.php" aria-expanded="false"><i
-                                    class="fa fa-table"></i><span class="hide-menu">Usuarios </span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="modulomedico.php" aria-expanded="false"><i
-                                    class="fa fa-smile-o"></i><span class="hide-menu">modulo medico</span></a>
-                        </li>
                         <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
-                                    class="fa fa-globe"></i><span class="hide-menu">Citas</span></a>
+                                    class="fa fa-table"></i><span class="hide-menu">Citas</span></a>
+                      
+            
                         </li>
                       
                         

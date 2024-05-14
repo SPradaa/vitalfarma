@@ -14,7 +14,7 @@ class Database
     {
         try{
             
-        echo 'conectado';
+        
         $conexion = "mysql:host=". $this->hostname . "; dbname=" .$this->database .";charset=" .$this->chasrset ;
         
         $option = [
