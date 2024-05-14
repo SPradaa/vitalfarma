@@ -4,9 +4,9 @@
     $conexion = new Database();
     $con = $conexion->conectar();
 
-    $sql = $con -> prepare ("SELECT * FROM usuarios, roles, t_documento, ciudad, eps, rh, estados
+    $sql = $con -> prepare ("SELECT * FROM usuarios, roles, t_documento, ciudad, empresas, rh, estados
     WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad AND
-    usuarios.id_eps = eps.id_eps AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.documento = '".$_GET['id']."'");
+    usuarios.nit = empresas.nit AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.documento = '".$_GET['id']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -19,7 +19,7 @@ if(isset($_POST["update"]))
     $id_doc= $_POST['id_doc'];
     $nombre= $_POST['nombre'];
     $apellido= $_POST['apellido'];
-    $id_eps= $_POST['id_eps'];
+    $nit= $_POST['nit'];
     $id_rh= $_POST['id_rh'];
     $telefono= $_POST['telefono'];
     $correo= $_POST['correo'];
@@ -28,7 +28,7 @@ if(isset($_POST["update"]))
     $id_rol= $_POST['id_rol'];
     $id_estado= $_POST['id_estado'];
  
-   if ($documento=="" || $id_doc=="" || $nombre=="" || $apellido=="" || $id_eps=="" || $id_rh=="" || $telefono=="" || $correo=="" || $id_ciudad=="" || $direccion=="" || $id_estado=="" || $id_estado=="")
+   if ($documento=="" || $id_doc=="" || $nombre=="" || $apellido=="" || $nit=="" || $id_rh=="" || $telefono=="" || $correo=="" || $id_ciudad=="" || $direccion=="" || $id_estado=="" || $id_estado=="")
     {
        echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
        echo '<script>window.location="index_usu.php"</script>';
@@ -36,7 +36,7 @@ if(isset($_POST["update"]))
     else
     {
       $insertSQL = $con->prepare("UPDATE usuarios SET documento = '$documento', id_doc = '$id_doc', 
-      nombre = '$nombre', apellido = '$apellido', id_eps = '$id_eps', id_rh = '$id_rh', telefono = '$telefono',
+      nombre = '$nombre', apellido = '$apellido', nit = '$nit', id_rh = '$id_rh', telefono = '$telefono',
       correo = '$correo', id_ciudad = '$id_ciudad', direccion = '$direccion', 
       id_rol = '$id_rol', id_estado = '$id_estado' WHERE documento = '".$_GET['id']."'");
       $insertSQL -> execute();
@@ -98,13 +98,13 @@ if(isset($_POST["update"]))
                 <input type="text" name="direccion" pattern="[a-zA-Z0-9,.-# ]{5,30}" title="La dirección debe tener mínimo 5 caracteres" value="<?php echo $usua['direccion']?>">
             </div>
             <div class="campos">
-                <select name="id_eps">
-                    <option value="<?php echo $usua['id_eps']?>"><?php echo $usua['eps']?></option>
+                <select name="nit">
+                    <option value="<?php echo $usua['nit']?>"><?php echo $usua['empresa']?></option>
                     <?php
-                        $control = $con->prepare("SELECT * FROM eps");
+                        $control = $con->prepare("SELECT * FROM empresas");
                         $control->execute();
                         while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value=" . $fila['id_eps'] . ">" . $fila['eps'] . "</option>";
+                            echo "<option value=" . $fila['nit'] . ">" . $fila['empresa'] . "</option>";
                         }
                     ?>
                 </select>

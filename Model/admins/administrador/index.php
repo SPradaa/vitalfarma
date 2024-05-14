@@ -28,7 +28,7 @@ $direccion = $_SESSION['direccion'];
 $telefono =$_SESSION['telefono'];
 $correo= $_SESSION['correo'];
 $rol = $_SESSION['tipo'];
-$empresa = $_SESSION[ 'nit'];
+$nit = $_SESSION[ 'nit'];
 
 $nombre_comple = $nombre .''.$apellido; 
 
@@ -41,6 +41,44 @@ if (!$fila) {
 
 }
 ?>
+
+<?php
+// Conexión a la base de datos
+
+
+if (isset($_POST['update'])) { // Comprueba si se ha enviado el formulario
+    $documento = $_POST['documento']; // Campo oculto para identificar al usuario
+    $id_rol = $_POST['id_rol']; // Rol a actualizar
+    $id_estado = $_POST['id_estado']; // Estado a actualizar
+
+    // Verificación de datos requeridos
+    if (empty($documento) || empty($id_rol) || empty($id_estado)) {
+        echo '<script>alert("EXISTEN DATOS VACÍOS");</script>';
+        echo '<script>window.location="index.php"</script>';
+    } else {
+        // Consulta para actualizar el rol y el estado
+        $updateQuery = $con->prepare("UPDATE usuarios 
+                                      SET id_rol = :id_rol, id_estado = :id_estado 
+                                      WHERE documento = :documento");
+
+        // Asignar valores a los parámetros
+        $updateQuery->bindParam(':documento', $documento, PDO::PARAM_INT);
+        $updateQuery->bindParam(':id_rol', $id_rol, PDO::PARAM_INT);
+        $updateQuery->bindParam(':id_estado', $id_estado, PDO::PARAM_INT);
+
+        // Ejecutar la actualización
+        if ($updateQuery->execute()) {
+            echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
+            echo '<script>window.location="index.php"</script>';
+        } else {
+            echo '<script> alert("ERROR AL ACTUALIZAR");</script>';
+            echo '<script>window.location="index.php"</script>';
+        }
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -271,7 +309,9 @@ if(isset($_POST['btncerrar']))
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>EPS</th>
+                                    <th>tipo de usuario</th>
                                     <th>Estado</th>
+                                    
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -283,28 +323,60 @@ if(isset($_POST['btncerrar']))
                                 $consulta = "SELECT *
                                 FROM usuarios
                                 JOIN ciudad ON usuarios.id_ciudad = ciudad.id_ciudad
-                                JOIN eps ON usuarios.id_eps = eps.id_eps
+                                JOIN empresas ON usuarios.nit = empresas.nit
                                 JOIN estados ON usuarios.id_estado = estados.id_estado
-                                WHERE usuarios.nit = '$empresa'";  // Condición para filtrar por empresa
+                                JOIN roles ON usuarios.id_rol = roles.id_rol
+
+                                WHERE usuarios.nit = '$nit'";  // Condición para filtrar por empresa
                    
                    $resultado = $con->query($consulta);
                    
                                 while ($fila = $resultado->fetch()) {
-                                    echo '
-                                    <tr>
-                                        <td>' . $fila["documento"] . '</td>
-                                        <td>' . $fila["nombre"] . '</td>
-                                        <td>' . $fila["correo"] . '</td>
-                                        <td>' . $fila["eps"] . '</td>
-                                        <td>' . $fila["estado"] . '</td>
-                                        <td>
-                                            <div class="text-center">
-                                                <a href="update_usu.php?id=' . $fila['documento'] . '" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>';
+                                    echo "<tr>";
+                                    echo "<td>" . $fila["documento"] . "</td>";
+                                    echo "<td>" . $fila["nombre"] . "</td>";
+                                    echo "<td>" . $fila["correo"] . "</td>";
+                                    echo "<td>" . $fila["empresa"] . "</td>";
+                                    // campo para la seleccion del rol 
+                                    echo "<td>";
+                                    echo "<select name='rol'>";
+                                    echo "<option value='" . $fila['id_rol'] . "'>" . $fila['rol'] . "</option>";
+                                
+                                    $control = $con->prepare("SELECT * FROM roles WHERE id_rol IN (4, 5)");
+                                    $control->execute();
+                                
+                                    while ($ciudad = $control->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<option value='" . $ciudad['id_rol'] . "'>" . $ciudad['rol'] . "</option>";
+                                    }
+                                
+                                    echo "</select>";
+                                    echo "</td>";
+                                    
+                                  
+                                
+                                    // Campo de selección para la ciudad
+                                    echo "<td>";
+                                    echo "<select name='id_ciudad'>";
+                                    echo "<option value='" . $fila['id_estado'] . "'>" . $fila['estado'] . "</option>";
+                                
+                                    $control = $con->prepare("SELECT * FROM estados WHERE id_estado in (3,4)");
+                                    $control->execute();
+                                
+                                    while ($ciudad = $control->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<option value='" . $ciudad['id_estado'] . "'>" . $ciudad['estado'] . "</option>";
+                                    }
+                                
+                                    echo "</select>";
+                                    echo "</td>";
+                                
+                                    // Botón para editar/actualizar
+                                    echo "<td class='text-center'>";
+                                    echo "<a href='?id=" . $fila['documento'] . "' class='btn btn-primary btn-sm'>";
+                                    echo "actualizar";
+                                    echo "</a>";
+                                    echo "</td>";
+                                
+                                    echo "</tr>";
                                 }
                                 ?>
                             </tbody>

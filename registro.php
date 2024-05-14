@@ -122,7 +122,7 @@
             <input type="text" name="telefono" id="telefono" pattern="[0-9]{10}" placeholder="Ingrese su Telefono" title="El telefono debe tener solo numeros (10 digitos)">
 
             <label for="correo">Correo</label>
-            <input type="text" name="correo" id="correo" pattern="[0-9a-zA-Z.@]{7,30}" placeholder="Ingrese su Correo" title="El correo debe tener minimo 10 letras y numeros">
+            <input type="text" name="correo" id="correo" pattern="[0-9a-zA-Z.@]{7,80}" placeholder="Ingrese su Correo" title="El correo debe tener minimo 10 letras y numeros">
 
             <select name="id_ciudad">
                 <option value ="">Seleccione la Ciudad de Residencia</option>
