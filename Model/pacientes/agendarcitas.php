@@ -103,7 +103,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
             </div>
             <div class="row">
-                <label for="id_esp">Hora:</label><br>
+                <label for="id_esp">Seleccione Hora:</label><br>
                 <select class="form-control" id="id_hor" name="id_hor" required><br>
             <option value=""></option>
 
