@@ -30,17 +30,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verificación de código</title>
-<link rel="stylesheet" href="assets/css/codigo.css">
+<link rel="stylesheet" href="assets/css/code.css">
 </head>
 <body>
+<div class="regresar">
+    <button onclick="goBack()" class="return">
+        <span class="btxt">Regresar</span><i class="animate"></i>
+    </button>
+        
+</div>
+
 <div class="container">
   <h2>Verificación de código</h2>
   <form method="post" name="form1" id="form1"  autocomplete="off"> 
     <label for="codigo">Por favor, ingrese el código que se envió a su correo:</label>
     <input type="text" id="codigo" name="codigo" required>
-    <input type="submit" name="verificar" value="verificar">
+    <input type="submit" name="verificar" value="Verificar">
     <input type="hidden" name="MM_insert" value="formreg">
   </form>
 </div>
+
+<script>
+        function goBack() {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

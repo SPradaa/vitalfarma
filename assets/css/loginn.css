@@ -8,7 +8,7 @@
 }
 
 body {
-	background: linear-gradient(90deg, #ffffff, rgb(149, 238, 243));		
+	background: linear-gradient(90deg, #ffffff, rgb(149, 238, 243));	
 }
 
 .regresar{
@@ -18,10 +18,12 @@ body {
 }
 
 .container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    max-height: calc(100vh - 40px); /* Resta 40px para dejar espacio para el botón de regreso */
+    overflow: hidden; /* Esto ocultará cualquier contenido que se desborde */
 }
 
 h2{
@@ -35,14 +37,14 @@ h2{
     
 }
 
-.screen {		
-	background: linear-gradient(90deg, #f0f0f0, #3cb1b7);		
-	position: relative;	
-	height: 530px;
-	width: 400px;	
-	box-shadow: 0px 0px 24px #5C5696;
-	margin-top: -7px;
-	border-radius: 10px;
+.screen {        
+    background: linear-gradient(90deg, #f0f0f0, #3cb1b7);        
+    position: relative;    
+    width: 400px;    
+    box-shadow: 0px 0px 24px #5C5696;
+    margin-top: -7px;
+    border-radius: 20px;
+    overflow: hidden; /* Esto ocultará cualquier contenido que se desborde */
 }
 
 .screen__content {
@@ -104,9 +106,10 @@ h2{
 }
 
 .login {
-	width: 320px;
-	padding: 30px;
-	padding-top: 30px;
+    width: 320px;
+    padding: 30px;
+    padding-top: 30px;
+    margin-bottom: 20px; /* Agrega margen inferior para separar del botón de regreso */
 }
 
 .login__field {

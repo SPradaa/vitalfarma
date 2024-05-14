@@ -48,7 +48,7 @@ session_start();
             <h2>TIPOS DE DOCUMENTOS DE IDENTIDAD</h2>
             <div class="row mt-3">
         <div class="col-md-6">
-            <form action="../index.php">
+            <form action="index_emp.php">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
         </div>
