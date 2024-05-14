@@ -53,6 +53,33 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendar Cita</title>
     <link rel="stylesheet" href="css/agendarcita.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#id_esp').change(function(){
+                var especialidad_id = $(this).val();
+                $.ajax({
+                    url: 'getmedicos.php',
+                    method: 'POST',
+                    data: {id_esp: especialidad_id},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#docu_medico').empty();
+                        $('#docu_medico').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        $.each(data, function(key, value) {
+                            $('#docu_medico').append($('<option>', {
+                                value: value.docu_medico,
+                                text: value.nombre_comple
+                            }));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 
