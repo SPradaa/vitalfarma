@@ -10,6 +10,42 @@
 require_once("../../../controller/seguridad.php");
 validarSesion();
 ?>
+<?php
+// Conexión a la base de datos
+
+
+if (isset($_POST['update'])) { // Comprueba si se ha enviado el formulario
+    $documento = $_POST['documento']; // Campo oculto para identificar al usuario
+    $id_rol = $_POST['id_rol']; // Rol a actualizar
+    $id_estado = $_POST['id_estado']; // Estado a actualizar
+
+    // Verificación de datos requeridos
+    if (empty($documento) || empty($id_rol) || empty($id_estado)) {
+        echo '<script>alert("EXISTEN DATOS VACÍOS");</script>';
+        echo '<script>window.location="index.php"</script>';
+    } else {
+        // Consulta para actualizar el rol y el estado
+        $updateQuery = $con->prepare("UPDATE usuarios 
+                                      SET id_rol = :id_rol, id_estado = :id_estado 
+                                      WHERE documento = :documento");
+
+        // Asignar valores a los parámetros
+        $updateQuery->bindParam(':documento', $documento, PDO::PARAM_INT);
+        $updateQuery->bindParam(':id_rol', $id_rol, PDO::PARAM_INT);
+        $updateQuery->bindParam(':id_estado', $id_estado, PDO::PARAM_INT);
+
+        // Ejecutar la actualización
+        if ($updateQuery->execute()) {
+            echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
+            echo '<script>window.location="index.php"</script>';
+        } else {
+            echo '<script> alert("ERROR AL ACTUALIZAR");</script>';
+            echo '<script>window.location="index.php"</script>';
+        }
+    }
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -253,13 +289,115 @@ if(isset($_POST['btncerrar']))
     </div>
 </div>
 
+<h2>Lista de Usuarios</h2>
+
+<!-- Campo de búsqueda -->
+<div class="mb-3">
+    <input type="text" id="search" class="form-control" placeholder="Buscar por documento...">
+</div>
+
+<!-- Div con scroll -->
+<div class="scrollable-div">
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>EPS</th>
+                <th>tipo de usuario</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="userTable">
+            <!-- Código PHP para cargar las filas -->
+            <?php
+            $empresa = $_SESSION['nit'];
+            // Asegúrate de tener una conexión de base de datos válida en $con
+            $consulta = "SELECT *
+                         FROM usuarios
+                         JOIN ciudad ON usuarios.id_ciudad = ciudad.id_ciudad
+                         JOIN empresas ON usuarios.nit = empresas.nit
+                         JOIN estados ON usuarios.id_estado = estados.id_estado
+                         JOIN roles ON usuarios.id_rol = roles.id_rol
+                        ";  // Condición para filtrar por empresa
+            $resultado = $con->query($consulta);
+
+            while ($fila = $resultado->fetch()) {
+                echo "<tr>";
+                echo "<td>" . $fila["documento"] . "</td>";
+                echo "<td>" . $fila["nombre"] . "</td>";
+                echo "<td>" . $fila["correo"] . "</td>";
+                echo "<td>" . $fila["empresa"] . "</td>";
+                // Campo para la selección del rol
+                echo "<td>";
+                echo "<form method='POST' >";
+                echo "<input type='hidden' name='documento' value='" . $fila['documento'] . "'>";
+                echo "<select name='id_rol'>";
+                echo "<option value='" . $fila['id_rol'] . "'>" . $fila['rol'] . "</option>";
+
+                $control = $con->prepare("SELECT * FROM roles WHERE id_rol IN (4, 5)");
+                $control->execute();
+
+                while ($rol = $control->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='" . $rol['id_rol'] . "'>" . $rol['rol'] . "</option>";
+                }
+
+                echo "</select>";
+                echo "</td>";
+
+                // Campo de selección para el estado
+                echo "<td>";
+                echo "<select name='id_estado'>";
+                echo "<option value='" . $fila['id_estado'] . "'>" . $fila['estado'] . "</option>";
+
+                $control = $con->prepare("SELECT * FROM estados WHERE id_estado in (3,4)");
+                $control->execute();
+
+                while ($estado = $control->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='" . $estado['id_estado'] . "'>" . $estado['estado'] . "</option>";
+                }
+
+                echo "</select>";
+                echo "</td>";
+
+                // Botón para enviar el formulario de actualización
+                echo "<td class='text-center'>";
+                echo "<button type='submit' name='update' class='btn btn-primary btn-sm'>Actualizar</button>";
+                echo "</form>";
+                echo "</td>";
+
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
 
 
 
-
-
-
-
+                <!-- </div> -->
+            
+                <!-- Script para el buscador -->
+                <script>
+                    document.getElementById("search").addEventListener("keyup", function() {
+                        var searchTerm = this.value.toLowerCase();
+                        var rows = document.querySelectorAll("#userTable tr");
+            
+                        rows.forEach(function(row) {
+                            var documentColumn = row.querySelector("td:first-child");
+                            if (documentColumn) {
+                                var documentValue = documentColumn.textContent.toLowerCase();
+                                if (documentValue.includes(searchTerm)) {
+                                    row.style.display = "";
+                                } else {
+                                    row.style.display = "none";
+                                }
+                            }
+                        });
+                    });
+                </script>
 
 
             <!-- footer -->
