@@ -325,7 +325,8 @@ if(isset($_POST['btncerrar']))
                          JOIN empresas ON usuarios.nit = empresas.nit
                          JOIN estados ON usuarios.id_estado = estados.id_estado
                          JOIN roles ON usuarios.id_rol = roles.id_rol
-                         WHERE usuarios.nit = '$nit'";  // Condición para filtrar por empresa
+                         WHERE usuarios.nit = '$nit'
+                         ORDER BY CASE WHEN usuarios.id_estado = 4 THEN 0 ELSE 1 END";  // Condición para filtrar por empresa
             $resultado = $con->query($consulta);
 
             while ($fila = $resultado->fetch()) {

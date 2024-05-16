@@ -36,21 +36,29 @@ if (!$fila) {
 
 
 }
+?>
 
-// Variables para el usuario
-
-
-
-    // $_SESSION['documento'] = $fila['documento'];
-    // $_SESSION['nombre'] = $fila['nombre'];
-    // $_SESSION[ 'apellido'] = $fila['apellido'];
-    // $_SESSION[ 'direccion'] = $fila['direccion'];
-    // $_SESSION['telefono'] = $fila['telefono'];
-    // $_SESSION['correo'] = $fila['correo'];
-    // $_SESSION['password'] = $fila['password'];
-    // $_SESSION['tipo'] = $fila['id_rol'];
-    // $_SESSION['nit'] = $fila['nit'];
-
+<?php
+// Verificar si el formulario ha sido enviado y el botón de actualización ha sido presionado
+if (isset($_POST['update'])) {
+    // Recuperar los datos del formulario
+    
+    $email= $_POST['newgmail']; 
+    $telefono = $_POST['telefono'];
+    $direccion = $_POST['direccion'];
+    
+    // Consulta SQL para actualizar los datos del usuario
+    $consulta = "UPDATE usuarios 
+                 SET telefono = '$telefono', direccion = '$direccion', correo = '$email'
+                 WHERE documento = $documento";
+    
+    // Ejecutar la consulta
+    if ($con->query($consulta) === TRUE) {
+        echo "Los datos se actualizaron correctamente.";
+    } else {
+        echo "Error al actualizar los datos: " ;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -251,7 +259,7 @@ if (!$fila) {
                         <div class="card">
                             <!-- Tab panes -->
                             <div class="card-body">
-                                <form class="form-horizontal form-material mx-2">
+                                <form class="form-horizontal form-material mx-2" method="POST">
                                     <div class="form-group">
                                         <label class="col-md-12">Nombre Completo</label>
                                         <div class="col-md-12">
@@ -264,7 +272,7 @@ if (!$fila) {
                                         <div class="col-md-12">
                                             <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
                                                 class="form-control form-control-line" name="example-email"
-                                                id="example-email">
+                                                id="example-email" name ="newgmail" >
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -275,22 +283,22 @@ if (!$fila) {
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
+                                        <label class="col-md-12">Telefono</label>
                                         <div class="col-md-12">
                                             <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
-                                                class="form-control form-control-line">
+                                                class="form-control form-control-line" name="telefono" >
                                         </div>
                                     </div>
                                   
                                     <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
+                                        <label class="col-md-12">Direccion</label>
                                         <div class="col-md-12">
                                             <input type="text" placeholder="<?php echo $direccion ?>"
-                                                class="form-control form-control-line">
+                                                class="form-control form-control-line" name="direccion">
                                         </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-success">Update Profile</button>
+                                            <input type="submit" name="update" class="btn btn-success" value="Actualizar Datos"">
                                         </div>
                                     </div>
                                 </form>

@@ -337,7 +337,7 @@ if(isset($_POST['btncerrar']))
                 echo "<select name='id_rol'>";
                 echo "<option value='" . $fila['id_rol'] . "'>" . $fila['rol'] . "</option>";
 
-                $control = $con->prepare("SELECT * FROM roles WHERE id_rol IN (4, 5)");
+                $control = $con->prepare("SELECT * FROM roles");
                 $control->execute();
 
                 while ($rol = $control->fetch(PDO::FETCH_ASSOC)) {

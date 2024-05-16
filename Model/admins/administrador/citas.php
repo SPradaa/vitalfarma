@@ -9,6 +9,25 @@
 require_once("../../../controller/seguridad.php");
 validarSesion();
 ?>
+
+<?php
+$sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
+$sql->bindParam(':documento', $_SESSION['documento']);
+$sql->execute();
+$fila = $sql->fetch();
+echo"conectado";
+
+$documento=$_SESSION['documento'];
+$nombre = $_SESSION['nombre'];
+$apellido = $_SESSION['apellido'];
+$direccion = $_SESSION['direccion'];
+$telefono =$_SESSION['telefono'];
+$correo= $_SESSION['correo'];
+$rol = $_SESSION['tipo'];
+$empresa = $_SESSION[ 'nit'];
+
+$nombre_comple = $nombre .''.$apellido; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -101,9 +120,8 @@ validarSesion();
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href=""
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                    src="../assets/images/users/1.jpg" alt="user" class="" /> <span
-                                    class="hidden-md-down">Mark Sanders &nbsp;</span> </a>
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
+                                    class="hidden-md-down"><?php echo $nombre_comple ?> &nbsp;</span> </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
                     </ul>

@@ -95,7 +95,7 @@
             <?php
             $consulta = "SELECT * FROM usuarios, roles, t_documento, ciudad, empresas, rh, estados
             WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad AND
-            usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.nit = empresas.nit  WHERE usuarios.nit = '$nit'";
+            usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.nit = empresas.nit";
             $resultado = $con->query($consulta);
 
             while ($fila = $resultado->fetch()) {
