@@ -100,6 +100,25 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     });
 </script>
 
+<script>
+    function verificarMedico() {
+        var medicoSeleccionado = document.getElementById("docu_medico").value;
+        // Realizar solicitud AJAX para verificar el médico
+        $.ajax({
+            url: 'verificar_medico.php',
+            method: 'POST',
+            data: {medico: medicoSeleccionado},
+            success: function(response) {
+                if (response == 'ocupado') {
+                    alert("Este médico ya está ocupado. Por favor, elija otro.");
+                    // Puedes deshabilitar el botón de submit o tomar otra acción según tu diseño
+                }
+            }
+        });
+    }
+</script>
+
+
 </head>
 <body>
 
@@ -124,7 +143,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             </div>
             <div class="row">
                 <label for="id_esp">Seleccione Hora:</label><br>
-                <select class="form-control" id="id_hor" name="id_hor" required><br>
+                <select class="form-control" id="id_hor" name="id_hor" required onchange="verificarHorario()"><br>
             <option value=""></option>
 
             <?php
@@ -162,7 +181,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
 
         <div class="row">
                 <label for="docu_medico">Seleccione Médico:</label><br>
-                <select class="form-control" id="docu_medico" name="docu_medico" required>
+                <select class="form-control" id="docu_medico" name="docu_medico" required onchange="verificarMedico()">
             <option value=""></option>
 
             <?php
