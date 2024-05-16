@@ -19,7 +19,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
-    margin-top: -16px;
+    margin-top: -26px;
     margin-bottom: -10px;
 }
 
@@ -69,6 +69,7 @@ input[type="submit"] {
     margin-left: 140px;
     margin-top: -30px;
     margin-bottom: 25px;
+    font-weight: 600;
 }
 
 input[type="submit"]:hover {
@@ -87,7 +88,11 @@ input[type="submit"]:hover {
     transition: 0.5s;
     position: relative;
     font-size: 17px;
-    background:  rgb(41, 204, 210);
+    background:  rgb(34, 246, 254);
+    font-weight: 600;
+    height: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 45px  rgb(79, 240, 245);
     border: none;
     color: #070708;
     border: 1px solid black;
@@ -165,6 +170,13 @@ input[type="submit"]:hover {
   @media (max-width: 768px) {
     .login-box{
         width: 460px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .regresar{
+        margin-top: 8px;
+        margin-bottom: 38px;
     }
   }
 

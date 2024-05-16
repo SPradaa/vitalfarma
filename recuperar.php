@@ -48,7 +48,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restablecer Contraseña</title>
-  <link rel="stylesheet" href="assets/css/recuper.css">
+  <link rel="stylesheet" href="assets/css/recuperar.css">
 </head>
 <body>
 <div class="regresar">
@@ -62,7 +62,7 @@
     <form method="post" name="form1" id="form1"  autocomplete="on"> 
       <div class="input-group">
         <label for="email">Correo electrónico:</label>
-        <input type="email" id="correo" name="correo" required>
+        <input type="email" id="correo" name="correo" pattern="[0-9A-Za-z@._]{5,60}" title="El correo debe ser alfanúmerico y tener caracteres especiales" required>
       </div>
       <button type="submit" name="recuperar" class="btn btn-primary">Restablecer</button>
 </form>

@@ -53,7 +53,7 @@ if(isset($_POST["inicio"])) {
                 header("Location: ../medico/indexmed.php");
                 exit();
             } elseif($tipo == 4) {
-                header("Location: ../farmaceuta/indexfarma.php");
+                header("Location: ../model/admins/farmaceuta/index.php");
                 exit();
             }
         } else {

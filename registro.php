@@ -58,7 +58,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro usuario</title>
-    <link rel="stylesheet" href="assets/css/registros.css">
+    <link rel="stylesheet" href="assets/css/registro.css">
 </head>
 <body>
 
@@ -130,8 +130,13 @@
             <div class="row">
             <input type="text" name="telefono" id="telefono" pattern="[0-9]{10}" placeholder="Ingrese su Telefono" title="El telefono debe tener solo numeros (10 digitos)">
 
+<<<<<<< HEAD
+            <input type="text" name="correo" id="correo" pattern="[0-9a-zA-Z.@_]{7,60}" placeholder="Ingrese su Correo" title="El correo debe ser alfanúmerico y tener caracteres especiales">
+            </div>
+=======
             <label for="correo">Correo</label>
             <input type="text" name="correo" id="correo" pattern="[0-9a-zA-Z.@]{7,30}" placeholder="Ingrese su Correo" title="El correo debe tener minimo 10 letras y numeros">
+>>>>>>> 24b2dea681b29d413a6998030e64967476527fdd
 
             <div class="row">
             <select name="id_ciudad">
@@ -148,11 +153,11 @@
                 ?>
             </select>
 
-            <input type="text" name="direccion" id="direccion" pattern="[a-zA-Z0-9#.-]{5,30}" placeholder="Ingrese la dirección">
+            <input type="text" name="direccion" id="direccion" pattern="[a-zA-Z0-9#.-_ ]{5,40}" placeholder="Ingrese la dirección" title="La dirección debe tener minimo 7 caracteres">
             </div>
 
             <div class="row">
-             <input type="password" name="password" id="password" pattern="[0-9A-Za-z]{8,20}" placeholder="Ingrese la Contraseña" title="La contraseña puede tener numeros o letras minimo 4 caracteres">
+             <input type="password" name="password" id="password" pattern="[0-9A-Za-z]{4,15}" placeholder="Ingrese la Contraseña" title="La contraseña puede tener numeros o letras minimo 4 caracteres">
             </div>
              <br><br>
 
