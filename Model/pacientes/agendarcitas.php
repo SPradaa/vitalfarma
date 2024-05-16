@@ -80,6 +80,26 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             });
         });
     </script>
+    <!-- Agrega este script en el head -->
+<script>
+    $(document).ready(function(){
+        $('#id_hor').change(function(){
+            var horarioSeleccionado = $(this).val();
+            $.ajax({
+                url: 'verificar_horario.php',
+                method: 'POST',
+                data: {horario: horarioSeleccionado},
+                success: function(response) {
+                    if (response == 'ocupado') {
+                        alert("Este horario ya está ocupado. Por favor, elija otro.");
+                        // Puedes deshabilitar el botón de submit o tomar otra acción según tu diseño
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 </head>
 <body>
 
