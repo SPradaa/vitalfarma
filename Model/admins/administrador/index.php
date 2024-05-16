@@ -57,17 +57,17 @@ if (isset($_POST['update'])) { // Comprueba si se ha enviado el formulario
         echo '<script>window.location="index.php"</script>';
     } else {
         // Consulta para actualizar el rol y el estado
-        $updateQuery = $con->prepare("UPDATE usuarios 
+        $estupdate = $con->prepare("UPDATE usuarios 
                                       SET id_rol = :id_rol, id_estado = :id_estado 
                                       WHERE documento = :documento");
 
         // Asignar valores a los parámetros
-        $updateQuery->bindParam(':documento', $documento, PDO::PARAM_INT);
-        $updateQuery->bindParam(':id_rol', $id_rol, PDO::PARAM_INT);
-        $updateQuery->bindParam(':id_estado', $id_estado, PDO::PARAM_INT);
+        $estupdate->bindParam(':documento', $documento, PDO::PARAM_INT);
+        $estupdate->bindParam(':id_rol', $id_rol, PDO::PARAM_INT);
+        $estupdate->bindParam(':id_estado', $id_estado, PDO::PARAM_INT);
 
         // Ejecutar la actualización
-        if ($updateQuery->execute()) {
+        if ($estupdate->execute()) {
             echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
             echo '<script>window.location="index.php"</script>';
         } else {

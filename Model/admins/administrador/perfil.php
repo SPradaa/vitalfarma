@@ -22,7 +22,7 @@ $nombre = $_SESSION['nombre'];
 $apellido = $_SESSION['apellido'];
 $direccion = $_SESSION['direccion'];
 $telefono =$_SESSION['telefono'];
-$correo= $_SESSION['correo'];
+$correo = $_SESSION['correo'];
 $rol = $_SESSION['tipo'];
 $empresa = $_SESSION[ 'nit'];
 
@@ -38,18 +38,17 @@ if (!$fila) {
 }
 ?>
 
-<?php
+ <?php 
 // Verificar si el formulario ha sido enviado y el botón de actualización ha sido presionado
 if (isset($_POST['update'])) {
     // Recuperar los datos del formulario
-    
-    $email= $_POST['newgmail']; 
+     $correo= $_POST['correo']; 
     $telefono = $_POST['telefono'];
     $direccion = $_POST['direccion'];
     
     // Consulta SQL para actualizar los datos del usuario
     $consulta = "UPDATE usuarios 
-                 SET telefono = '$telefono', direccion = '$direccion', correo = '$email'
+                 SET telefono = '$telefono', direccion = '$direccion', correo = '$correo'
                  WHERE documento = $documento";
     
     // Ejecutar la consulta
@@ -59,7 +58,7 @@ if (isset($_POST['update'])) {
         echo "Error al actualizar los datos: " ;
     }
 }
-?>
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -263,18 +262,18 @@ if (isset($_POST['update'])) {
                                     <div class="form-group">
                                         <label class="col-md-12">Nombre Completo</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $nombre_comple ;?> "
-                                                class="form-control form-control-line" disabled>
+                                            <input type="text" placeholder=" "
+                                                class="form-control form-control-line" value="<?php echo $nombre_comple ;?>"  disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="example-email" class="col-md-12">Email</label>
+                                        <label class="col-md-12">Correo</label>
                                         <div class="col-md-12">
-                                            <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
-                                                class="form-control form-control-line" name="example-email"
-                                                id="example-email" name ="newgmail" >
+                                            <input type="text" value ="<?php echo $correo;?>"
+                                                class="form-control form-control-line" name="correo" >
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group">
                                         <label class="col-md-12">Documento</label>
                                         <div class="col-md-12">
@@ -285,7 +284,7 @@ if (isset($_POST['update'])) {
                                     <div class="form-group">
                                         <label class="col-md-12">Telefono</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
+                                            <input type="text" value="<?php echo $telefono ; ?>"
                                                 class="form-control form-control-line" name="telefono" >
                                         </div>
                                     </div>
@@ -293,7 +292,7 @@ if (isset($_POST['update'])) {
                                     <div class="form-group">
                                         <label class="col-md-12">Direccion</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $direccion ?>"
+                                            <input type="text" value="<?php echo $direccion ?>"
                                                 class="form-control form-control-line" name="direccion">
                                         </div>
                                     <div class="form-group">
