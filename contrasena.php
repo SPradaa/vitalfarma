@@ -53,7 +53,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulario de Cambio de Contraseña</title>
-<link rel="stylesheet" href="assets/css/contrasenaa.css">
+<link rel="stylesheet" href="assets/css/contrasena.css">
 </head>
 <body>
 <div class="regresar">
@@ -68,7 +68,7 @@
   <form method="post" name="form1" id="form1"  autocomplete="on"> 
     <div class="form-group">
       <label for="contrasena">Nueva Contraseña:</label>
-      <input type="password" id="contrasena" name="contrasena" required>
+      <input type="password" id="contrasena" name="contrasena" pattern="[0-9A-Za-z]{4,15}" title="La contraseña debe tener de 4 a 15 caracteres(números o letras).No se permiten caracteres especiales." required>
     </div>
 
     <div class="form-group">

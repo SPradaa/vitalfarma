@@ -959,8 +959,9 @@ sidebar navigation
 }
 
 .sidebar-nav {
-  background: #fff;
+  background: #ffffff;
   padding: 15px 0 0 0px;
+  margin-top: 50px;
 }
 .sidebar-nav ul {
   margin: 0px;
@@ -970,11 +971,11 @@ sidebar navigation
   list-style: none;
 }
 .sidebar-nav ul li a {
-  color: #8d97ad;
+  color: black;
   padding: 10px 35px 10px 15px;
   display: block;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
 }
 .sidebar-nav ul li a.active, .sidebar-nav ul li a:hover {
   color: #20aee3;
@@ -6152,9 +6153,11 @@ File: scss
   flex-wrap: wrap;
 }
 
-.logg{
-  font-size: 25px;
-  color: #000;
+.logg img{
+  width: 45%;
+  height: auto;
+  margin-left: 63px;
+  margin-top: 20px;
 }
 
 .sombra{

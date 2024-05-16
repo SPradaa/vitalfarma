@@ -16,13 +16,13 @@ body {
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.55);
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.55);
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.55);
-    margin-top: 137px;
+    margin-top: 147px;
     margin-bottom: 5px;
   }
 
   @media (max-width: 768px) {
     .container{
-        margin-top: 135px;
+        margin-top: 145px;
         margin-bottom: 5px;
     }
   }
@@ -39,11 +39,11 @@ body {
     font-weight: 600;
   }
   
-  input[type="text"] {
+  input[type="password"] {
     width: 90%;
     padding: 10px;
     margin-left: -10px;
-    margin-bottom: 20px;
+    margin-bottom: 33px;
     border: 2px solid #ccc;
     border-radius: 4px;
     margin-left: 5px;
@@ -79,10 +79,14 @@ body {
     transition: 0.5s;
     position: relative;
     font-size: 17px;
-    background:  rgb(215, 248, 250);
+    background:  rgb(34, 246, 254);
     border: none;
     color: #070708;
     border: 1px solid black;
+    font-weight: 600;
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0 0 45px  rgb(79, 240, 245);
   }
   
   .return:hover {
