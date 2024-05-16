@@ -10,6 +10,42 @@
 require_once("../../../controller/seguridad.php");
 validarSesion();
 ?>
+<?php
+// Conexión a la base de datos
+
+
+if (isset($_POST['update'])) { // Comprueba si se ha enviado el formulario
+    $documento = $_POST['documento']; // Campo oculto para identificar al usuario
+    $id_rol = $_POST['id_rol']; // Rol a actualizar
+    $id_estado = $_POST['id_estado']; // Estado a actualizar
+
+    // Verificación de datos requeridos
+    if (empty($documento) || empty($id_rol) || empty($id_estado)) {
+        echo '<script>alert("EXISTEN DATOS VACÍOS");</script>';
+        echo '<script>window.location="index.php"</script>';
+    } else {
+        // Consulta para actualizar el rol y el estado
+        $updateQuery = $con->prepare("UPDATE usuarios 
+                                      SET id_rol = :id_rol, id_estado = :id_estado 
+                                      WHERE documento = :documento");
+
+        // Asignar valores a los parámetros
+        $updateQuery->bindParam(':documento', $documento, PDO::PARAM_INT);
+        $updateQuery->bindParam(':id_rol', $id_rol, PDO::PARAM_INT);
+        $updateQuery->bindParam(':id_estado', $id_estado, PDO::PARAM_INT);
+
+        // Ejecutar la actualización
+        if ($updateQuery->execute()) {
+            echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
+            echo '<script>window.location="index.php"</script>';
+        } else {
+            echo '<script> alert("ERROR AL ACTUALIZAR");</script>';
+            echo '<script>window.location="index.php"</script>';
+        }
+    }
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -246,33 +282,122 @@ if(isset($_POST['btncerrar']))
                         </a>
                     </div>
                     <!-- Carta para Estados -->
-                    <div class="card">
-                        <a href="licencia/index_li.php">
-                            <div class="card_box">
-                                <h3 >licencias </h3>
-                                <p class="card_box__content">Arear Licencias</p>
-                                <div class="card__date">Haz clic para acceder y definir licencias.</div>
-                                <div class="card_box__arrow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="15" width="15">
-                                        <path fill="#fff" d="M13.4697 17.9697C13.1768 18.2626 13.1768 18.7374 13.4697 19.0303C13.7626 19.3232 14.2374 19.3232 14.5303 19.0303L20.3232 13.2374C21.0066 12.554 21.0066 11.446 20.3232 10.7626L14.5303 4.96967C14.2374 4.67678 13.7626 4.67678 13.4697 4.96967C13.1768 5.26256 13.1768 5.73744 13.4697 6.03033L18.6893 11.25H4C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H18.6893L13.4697 17.9697Z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                  
+                
             </div>
         </div>
     </div>
 </div>
 
+<h2>Lista de Usuarios</h2>
+
+<!-- Campo de búsqueda -->
+<div class="mb-3">
+    <input type="text" id="search" class="form-control" placeholder="Buscar por documento...">
+</div>
+
+<!-- Div con scroll -->
+<div class="scrollable-div">
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>EPS</th>
+                <th>tipo de usuario</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="userTable">
+            <!-- Código PHP para cargar las filas -->
+            <?php
+            $empresa = $_SESSION['nit'];
+            // Asegúrate de tener una conexión de base de datos válida en $con
+            $consulta = "SELECT *
+                         FROM usuarios
+                         JOIN ciudad ON usuarios.id_ciudad = ciudad.id_ciudad
+                         JOIN empresas ON usuarios.nit = empresas.nit
+                         JOIN estados ON usuarios.id_estado = estados.id_estado
+                         JOIN roles ON usuarios.id_rol = roles.id_rol
+                        ";  // Condición para filtrar por empresa
+            $resultado = $con->query($consulta);
+
+            while ($fila = $resultado->fetch()) {
+                echo "<tr>";
+                echo "<td>" . $fila["documento"] . "</td>";
+                echo "<td>" . $fila["nombre"] . "</td>";
+                echo "<td>" . $fila["correo"] . "</td>";
+                echo "<td>" . $fila["empresa"] . "</td>";
+                // Campo para la selección del rol
+                echo "<td>";
+                echo "<form method='POST' >";
+                echo "<input type='hidden' name='documento' value='" . $fila['documento'] . "'>";
+                echo "<select name='id_rol'>";
+                echo "<option value='" . $fila['id_rol'] . "'>" . $fila['rol'] . "</option>";
+
+                $control = $con->prepare("SELECT * FROM roles WHERE id_rol IN (4, 5)");
+                $control->execute();
+
+                while ($rol = $control->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='" . $rol['id_rol'] . "'>" . $rol['rol'] . "</option>";
+                }
+
+                echo "</select>";
+                echo "</td>";
+
+                // Campo de selección para el estado
+                echo "<td>";
+                echo "<select name='id_estado'>";
+                echo "<option value='" . $fila['id_estado'] . "'>" . $fila['estado'] . "</option>";
+
+                $control = $con->prepare("SELECT * FROM estados WHERE id_estado in (3,4)");
+                $control->execute();
+
+                while ($estado = $control->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='" . $estado['id_estado'] . "'>" . $estado['estado'] . "</option>";
+                }
+
+                echo "</select>";
+                echo "</td>";
+
+                // Botón para enviar el formulario de actualización
+                echo "<td class='text-center'>";
+                echo "<button type='submit' name='update' class='btn btn-primary btn-sm'>Actualizar</button>";
+                echo "</form>";
+                echo "</td>";
+
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
 
 
 
-
-
-
-
+                <!-- </div> -->
+            
+                <!-- Script para el buscador -->
+                <script>
+                    document.getElementById("search").addEventListener("keyup", function() {
+                        var searchTerm = this.value.toLowerCase();
+                        var rows = document.querySelectorAll("#userTable tr");
+            
+                        rows.forEach(function(row) {
+                            var documentColumn = row.querySelector("td:first-child");
+                            if (documentColumn) {
+                                var documentValue = documentColumn.textContent.toLowerCase();
+                                if (documentValue.includes(searchTerm)) {
+                                    row.style.display = "";
+                                } else {
+                                    row.style.display = "none";
+                                }
+                            }
+                        });
+                    });
+                </script>
 
 
             <!-- footer -->

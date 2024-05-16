@@ -132,14 +132,9 @@ validarSesion();
                         <li> <a class="waves-effect waves-dark" href="perfil.php" aria-expanded="false"><i
                                     class="fa fa-user-circle-o"></i><span class="hide-menu">Perfil</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="usuarios.php" aria-expanded="false"><i
-                                    class="fa fa-table"></i><span class="hide-menu">Usuarios </span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="modulomedico.php" aria-expanded="false"><i
-                                    class="fa fa-smile-o"></i><span class="hide-menu">modulo medico</span></a>
-                        </li>
                         <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
-                                    class="fa fa-globe"></i><span class="hide-menu">Citas</span></a>
+                                    class="fa fa-table"></i><span class="hide-menu">Citas</span></a>
+
                         </li>
                       
                         
@@ -187,7 +182,7 @@ validarSesion();
                 <div class="card-container">
                     <!-- Carta para el módulo de citas -->
                     <div class="card">
-                        <a href="citas/beforecita.php">
+                        <a href="agendarcitas.php">
                             <div class="card_box">
                                 <h3 >Citas</h3>
                                 <p class="card_box__content">Administra tus citas en este módulo.</p>

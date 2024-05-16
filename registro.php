@@ -130,8 +130,13 @@
             <div class="row">
             <input type="text" name="telefono" id="telefono" pattern="[0-9]{10}" placeholder="Ingrese su Telefono" title="El telefono debe tener solo numeros (10 digitos)">
 
+<<<<<<< HEAD
             <input type="text" name="correo" id="correo" pattern="[0-9a-zA-Z.@_]{7,60}" placeholder="Ingrese su Correo" title="El correo debe ser alfanúmerico y tener caracteres especiales">
             </div>
+=======
+            <label for="correo">Correo</label>
+            <input type="text" name="correo" id="correo" pattern="[0-9a-zA-Z.@]{7,30}" placeholder="Ingrese su Correo" title="El correo debe tener minimo 10 letras y numeros">
+>>>>>>> 24b2dea681b29d413a6998030e64967476527fdd
 
             <div class="row">
             <select name="id_ciudad">

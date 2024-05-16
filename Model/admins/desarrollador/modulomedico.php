@@ -135,10 +135,7 @@ validarSesion();
                         <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
                                     class="fa fa-globe"></i><span class="hide-menu">Citas</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="datosgenerales.php" aria-expanded="false"><i
-                                    class="fa fa-bookmark-o"></i><span class="hide-menu">Datos generales</span></a>
-                        </li>
-
+                       
                     </ul>
 
                 </nav>
