@@ -57,6 +57,17 @@ input[type="date" i] {
 
 }
 
+input[type="time" i] {
+  width: calc(94% - 10px);
+  padding: 10px;
+  border: 2px solid #02e8f8;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-left: 2px;
+  margin-bottom: -12px;
+
+}
+
 input[type="password"]
  {
     width: calc(93% - 10px);

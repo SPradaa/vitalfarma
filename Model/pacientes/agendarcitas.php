@@ -18,15 +18,6 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
    $id_esp= $_POST['id_esp'];
    $docu_medico= $_POST['docu_medico'];
 
-   $sql= $con -> prepare ("SELECT * FROM citas WHERE documento='$documento'");
-   $sql -> execute();
-   $fila = $sql -> fetchAll(PDO::FETCH_ASSOC);
-
-   if ($fila){
-      echo '<script>alert ("EL DOCUMENTO YA EXISTE //CAMBIELO//");</script>';
-      echo '<script>window.location="citas.php"</script>';
-   }
-   else
 
   if ($documento=="" || $fecha=="" || $id_hor=="" || $id_esp=="" || $docu_medico=="")
    {
@@ -81,24 +72,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
         });
     </script>
     <!-- Agrega este script en el head -->
-<script>
-    $(document).ready(function(){
-        $('#id_hor').change(function(){
-            var horarioSeleccionado = $(this).val();
-            $.ajax({
-                url: 'verificar_horario.php',
-                method: 'POST',
-                data: {horario: horarioSeleccionado},
-                success: function(response) {
-                    if (response == 'ocupado') {
-                        alert("Este horario ya está ocupado. Por favor, elija otro.");
-                        // Puedes deshabilitar el botón de submit o tomar otra acción según tu diseño
-                    }
-                }
-            });
-        });
-    });
-</script>
+
 
 <script>
     function verificarMedico() {
@@ -111,7 +85,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             success: function(response) {
                 if (response == 'ocupado') {
                     alert("Este médico ya está ocupado. Por favor, elija otro.");
-                    // Puedes deshabilitar el botón de submit o tomar otra acción según tu diseño
+                 
                 }
             }
         });
@@ -142,23 +116,13 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
             </div>
             <div class="row">
-                <label for="id_esp">Seleccione Hora:</label><br>
-                <select class="form-control" id="id_hor" name="id_hor" required onchange="verificarHorario()"><br>
-            <option value=""></option>
+                <label for="hora">Hora:</label><br>
+                <input type="time" class="form-control" id="hora" name="hora" required step="60">
+            </div>
 
-            <?php
-            $control = $con->prepare("SELECT * from horarios");
-            $control->execute();
-            while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-                echo "<option value=" . $fila['id_hor'] . ">"
-                    . $fila['horario'] . "</option>"; 
-            }
-            ?>
             
-            
-
         </select>
-        <br>
+        
         <br>
 
             <div class="row">
