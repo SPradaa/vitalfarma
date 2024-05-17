@@ -14,22 +14,30 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
 {
    $documento= $_POST['documento'];
    $fecha= $_POST['fecha'];
-   $id_hor= $_POST['id_hor'];
+   $hora= $_POST['hora'];
    $id_esp= $_POST['id_esp'];
    $docu_medico= $_POST['docu_medico'];
 
+   $citaExistente = $con->prepare("SELECT * FROM citas WHERE fecha='$fecha' AND hora='$hora'");
+   $citaExistente->execute();
+   $citaExistenteResultado = $citaExistente->fetchAll(PDO::FETCH_ASSOC);
 
-  if ($documento=="" || $fecha=="" || $id_hor=="" || $id_esp=="" || $docu_medico=="")
+
+  if ($documento=="" || $fecha=="" || $hora=="" || $id_esp=="" || $docu_medico=="")
    {
       echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
-      echo '<script>window.location="registro.php"</script>';
-   }
-   else
-   {
-     $insertSQL = $con->prepare("INSERT INTO citas(documento, fecha, id_hor, id_esp, docu_medico) VALUES('$documento', '$fecha', '$id_hor', '$id_esp',  '$docu_medico')");
+      echo '<script>window.location="agendarcitas.php"</script>';
+
+   } elseif ($citaExistenteResultado) {
+    echo '<script>alert("Ya hay una cita programada para la misma fecha y hora.");</script>';
+    echo '<script>window.location="agendarcitas.php"</script>';
+   
+    } else {
+
+     $insertSQL = $con->prepare("INSERT INTO citas(documento, fecha, hora, id_esp, docu_medico) VALUES('$documento', '$fecha', '$hora', '$id_esp',  '$docu_medico')");
      $insertSQL -> execute();
      echo '<script> alert("REGISTRO EXITOSO");</script>';
-     echo '<script>window.location="citas.php"</script>';
+     echo '<script>window.location="agendarcitas.php"</script>';
      
  } 
 }
@@ -117,7 +125,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             </div>
             <div class="row">
                 <label for="hora">Hora:</label><br>
-                <input type="time" class="form-control" id="hora" name="hora" required step="60">
+                <input type="time" class="form-control" id="hora" name="hora" required>
             </div>
 
             
