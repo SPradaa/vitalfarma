@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-05-2024 a las 15:09:19
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Tiempo de generación: 17-05-2024 a las 15:16:12
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `autorizaciones` (
   `id_auto` int(11) NOT NULL,
   `id_cita` int(11) NOT NULL,
   `id_detalle` int(11) NOT NULL,
-  `id_medico` int(3) NOT NULL
+  `docu_medico` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -44,7 +44,7 @@ CREATE TABLE `citas` (
   `id_cita` int(11) NOT NULL,
   `documento` int(11) NOT NULL,
   `fecha` date NOT NULL,
-  `id_hor` int(3) NOT NULL,
+  `hora` time NOT NULL,
   `docu_medico` int(11) NOT NULL,
   `id_esp` int(3) NOT NULL,
   `id_estado` int(3) NOT NULL
@@ -54,13 +54,13 @@ CREATE TABLE `citas` (
 -- Volcado de datos para la tabla `citas`
 --
 
-INSERT INTO `citas` (`id_cita`, `documento`, `fecha`, `id_hor`, `docu_medico`, `id_esp`, `id_estado`) VALUES
-(2, 0, '0000-00-00', 0, 1104786412, 1, 3),
-(3, 1003239087, '2024-03-30', 0, 1122736351, 5, 3),
-(4, 1118723902, '2024-03-30', 0, 1104786412, 5, 3),
-(6, 1106226573, '2024-04-06', 0, 1122736351, 5, 3),
-(7, 2147483647, '2024-03-26', 0, 1122736351, 15, 3),
-(10, 2147483647, '2024-03-12', 0, 1122736351, 15, 3);
+INSERT INTO `citas` (`id_cita`, `documento`, `fecha`, `hora`, `docu_medico`, `id_esp`, `id_estado`) VALUES
+(2, 0, '0000-00-00', '00:00:00', 1104786412, 1, 3),
+(3, 1003239087, '2024-03-30', '00:00:00', 1122736351, 5, 3),
+(4, 1118723902, '2024-03-30', '00:00:00', 1104786412, 5, 3),
+(6, 1106226573, '2024-04-06', '00:00:00', 1122736351, 5, 3),
+(7, 2147483647, '2024-03-26', '00:00:00', 1122736351, 15, 3),
+(10, 2147483647, '2024-03-12', '00:00:00', 1122736351, 15, 3);
 
 -- --------------------------------------------------------
 
@@ -100,8 +100,7 @@ CREATE TABLE `det_autorizacion` (
   `id_auto` int(11) NOT NULL,
   `id_medicamento` int(11) NOT NULL,
   `cantidad` varchar(20) NOT NULL,
-  `medida_cant` varchar(20) NOT NULL,
-  `concentracion` varchar(20) NOT NULL
+  `medida_cant` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -125,7 +124,18 @@ CREATE TABLE `empresas` (
 --
 
 INSERT INTO `empresas` (`nit`, `empresa`, `licencia`, `inicio`, `fin`, `codigo_unico`, `id_estado`) VALUES
-('12378945', 'Sanitas', '2TY4UVkAyv', '2024-05-07', '2025-05-07', 123, 3);
+('12378945', 'Sanitas', 'UW7fYLp!qy', '2024-05-08', '2025-05-08', 123, 3),
+('123852789', 'Caprecom', 'EvbgiISNp)', '2024-05-10', '2025-05-10', 852, 3),
+('45685297', 'Nueva Eps', 'uQDbCnWCUn', '2024-05-10', '2025-05-10', 789, 3),
+('4317284950', 'SURA', '0hryf(jn3h', '2024-05-10', '2025-05-10', 147, 3),
+('2836147590', 'Compensar', 'RnMK#pg^KQ', '2024-05-10', '2025-05-10', 258, 3),
+('9572841630', 'Salud Total', '3UJ6M#fXFd', '2024-05-10', '2025-05-10', 951, 3),
+('8241763950', 'Coomeva', '4PwToKRs8K', '2024-05-10', '2025-05-10', 753, 3),
+('6918472053', 'Medimás', 'r59gznHk78', '2024-05-10', '2025-05-10', 659, 3),
+('7461593280', 'Famisanar', 'bxah@drLE(', '2024-05-10', '2025-05-10', 379, 3),
+('6491275380', 'Comfenalco', 'v^ALy&62LO', '2024-05-10', '2025-05-10', 493, 3),
+('5194837206', 'Mutual Ser', '!wWDGL@z#g', '2024-05-10', '2025-05-10', 813, 3),
+('7985626269', 'Cruz Roja', 'L#gR1cIi@z', '2024-05-16', '2025-05-16', 512, 3);
 
 -- --------------------------------------------------------
 
@@ -188,48 +198,6 @@ INSERT INTO `estados` (`id_estado`, `estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `horarios`
---
-
-CREATE TABLE `horarios` (
-  `id_hor` int(3) NOT NULL,
-  `horario` varchar(20) NOT NULL,
-  `id_estado` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `horarios`
---
-
-INSERT INTO `horarios` (`id_hor`, `horario`, `id_estado`) VALUES
-(1, '7:00 - 7:30', 0),
-(2, '7:30 - 8:00', 0),
-(3, '8:00 - 8:30', 0),
-(4, '8:30 - 9:00', 0),
-(5, '9:00 - 9:30', 0),
-(6, '9:30 - 10:00', 0),
-(7, '10:00 - 10:30', 0),
-(8, '10:30 - 11:00', 0),
-(9, '11:00 - 11:30', 0),
-(10, '11:30 - 12:00', 0),
-(11, '12:00 - 12:30', 0),
-(12, '12:30 - 13:00', 0),
-(13, '13:00 - 13:30', 0),
-(14, '13:30 - 14:00', 0),
-(15, '14:00 - 14:30', 0),
-(16, '14:30 - 15:00', 0),
-(17, '15:00 - 15:30', 0),
-(18, '15:30 - 16:00', 0),
-(19, '16:00 - 16:30', 0),
-(20, '16:30 - 17:00', 0),
-(21, '17:00 - 17:30', 0),
-(22, '17:30 - 18:00', 0),
-(23, '18:00 - 18:30', 0),
-(24, '18:30 - 19:00', 0);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `laboratorio`
 --
 
@@ -268,7 +236,7 @@ CREATE TABLE `medicamentos` (
   `medida_cant` varchar(20) NOT NULL,
   `id_lab` int(5) NOT NULL,
   `f_vencimiento` date NOT NULL,
-  `lote` varchar(30) NOT NULL,
+  `codigo_barras` varchar(200) NOT NULL,
   `id_estado` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -276,7 +244,7 @@ CREATE TABLE `medicamentos` (
 -- Volcado de datos para la tabla `medicamentos`
 --
 
-INSERT INTO `medicamentos` (`id_medicamento`, `nombre`, `id_cla`, `cantidad`, `medida_cant`, `id_lab`, `f_vencimiento`, `lote`, `id_estado`) VALUES
+INSERT INTO `medicamentos` (`id_medicamento`, `nombre`, `id_cla`, `cantidad`, `medida_cant`, `id_lab`, `f_vencimiento`, `codigo_barras`, `id_estado`) VALUES
 (2, 'Amoxicilina', 1, '75UND', 'pastillas500ml', 9, '2025-05-07', '0883572', 7);
 
 -- --------------------------------------------------------
@@ -302,8 +270,9 @@ CREATE TABLE `medicos` (
 --
 
 INSERT INTO `medicos` (`docu_medico`, `id_doc`, `nombre_comple`, `correo`, `telefono`, `password`, `id_rol`, `id_estado`, `id_esp`) VALUES
+(1102378951, 3, 'Laura Camila Ramirez', 'Lauramirez@gmail.com', '3152134312', '38211887', 3, 3, 14),
 (1104786412, 3, 'yareth ohany garcia rangel', 'yogarcia@gmail.com', '3123122213', 'undefined ', 3, 3, 4),
-(1108982783, 3, 'Isabella Rios ', 'isa10256@gmail.com', '3125468787', 'undefined.', 3, 3, 4),
+(1108982783, 3, 'Isabella Rios ', 'isa10256@gmail.com', '3125468787', 'undefined.', 3, 3, 5),
 (1122736351, 3, 'Jeferson Cardenal', 'jefer23@gmail.com', '3002349008', 'jefer123', 3, 3, 15);
 
 -- --------------------------------------------------------
@@ -411,7 +380,132 @@ INSERT INTO `trigg` (`n_password`, `v_password`, `tipo`, `fecha_creacion`) VALUE
 ('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-03 14:25:02'),
 ('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-03 14:25:48'),
 ('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-08 06:59:49'),
-('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-08 07:39:56');
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-08 07:39:56'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 16:37:30'),
+('$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', '$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', 'update', '2024-05-09 16:39:00'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 16:39:10'),
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-09 16:39:53'),
+('$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 'update', '2024-05-09 16:40:28'),
+('$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 'update', '2024-05-09 16:43:10'),
+('$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', '$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', 'update', '2024-05-09 16:43:23'),
+('$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', '$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', 'update', '2024-05-09 16:45:27'),
+('$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', '$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', 'update', '2024-05-09 16:46:07'),
+('$2y$10$LjYX4iryaOVjTKMNJ9dp8exa2qlUuZcbfYZ8lWm/NP9ng9eKRdJEG', '$2y$10$LjYX4iryaOVjTKMNJ9dp8exa2qlUuZcbfYZ8lWm/NP9ng9eKRdJEG', 'update', '2024-05-09 16:49:43'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 16:50:46'),
+('$2y$10$LjYX4iryaOVjTKMNJ9dp8exa2qlUuZcbfYZ8lWm/NP9ng9eKRdJEG', '$2y$10$LjYX4iryaOVjTKMNJ9dp8exa2qlUuZcbfYZ8lWm/NP9ng9eKRdJEG', 'update', '2024-05-09 16:50:53'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 16:50:57'),
+('$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', '$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', 'update', '2024-05-09 16:51:03'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 16:51:56'),
+('$2y$10$LjYX4iryaOVjTKMNJ9dp8exa2qlUuZcbfYZ8lWm/NP9ng9eKRdJEG', '$2y$10$LjYX4iryaOVjTKMNJ9dp8exa2qlUuZcbfYZ8lWm/NP9ng9eKRdJEG', 'update', '2024-05-09 16:52:13'),
+('$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', '$2y$10$M1Ce1H3hlrmjpj5y1ozh0O3v5a2GH0jnxVG2oDDTn8scg8jfzzYe.', 'update', '2024-05-09 16:52:26'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:08:31'),
+('$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', '$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', 'update', '2024-05-09 18:08:34'),
+('$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 'update', '2024-05-09 18:08:37'),
+('$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 'update', '2024-05-09 18:08:41'),
+('$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', '$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', 'update', '2024-05-09 18:08:43'),
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-09 18:16:25'),
+('$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', '$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', 'update', '2024-05-09 18:16:57'),
+('$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 'update', '2024-05-09 18:17:06'),
+('$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 'update', '2024-05-09 18:17:19'),
+('$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', '$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', 'update', '2024-05-09 18:17:25'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:17:36'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 18:17:53'),
+('$2y$10$4Er5XPvRfHpO3dUS7ZhkVe2AEaONDw/8eLQ.3cWw6eh.EcDKUC70W', '$2y$10$4Er5XPvRfHpO3dUS7ZhkVe2AEaONDw/8eLQ.3cWw6eh.EcDKUC70W', 'update', '2024-05-09 18:17:58'),
+('$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 'update', '2024-05-09 18:18:24'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:19:00'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:19:14'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:19:20'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:21:11'),
+('$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 'update', '2024-05-09 18:21:19'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:23:15'),
+('$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', '$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', 'update', '2024-05-09 18:26:29'),
+('$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 'update', '2024-05-09 18:48:36'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:50:37'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 18:51:16'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:51:30'),
+('$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', '$2y$10$YP92x3h.8.UkNTZ.npNxj.VnKT5Aspz9ABIAlZTiS5.OePZTECV5a', 'update', '2024-05-09 18:59:42'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 19:10:08'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 19:10:15'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 19:10:45'),
+('$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 'update', '2024-05-09 19:10:48'),
+('$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', '$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', 'update', '2024-05-09 19:13:30'),
+('$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', '$2y$10$hbf3wAqhk/xE9cuVxVMVYeFMDbfHvYXfZzAyAiGcjA575W7EQj.bm', 'update', '2024-05-09 19:14:18'),
+('$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', '$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', 'update', '2024-05-14 09:26:01'),
+('$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', '$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', 'update', '2024-05-14 09:31:40'),
+('$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', '$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', 'update', '2024-05-14 09:32:16'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-14 09:36:04'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-14 10:41:16'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-14 10:41:22'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-14 11:25:04'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-14 11:28:56'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-14 11:29:01'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 10:30:08'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 10:30:12'),
+('$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', '$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', 'update', '2024-05-15 10:30:17'),
+('$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', '$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', 'update', '2024-05-15 10:36:16'),
+('$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', '$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', 'update', '2024-05-15 10:56:40'),
+('$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', '$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', 'update', '2024-05-15 10:56:53'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 10:57:20'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 10:57:23'),
+('$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', '$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', 'update', '2024-05-15 10:57:44'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:33:44'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:35:50'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:36:51'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:36:54'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:38:34'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:38:43'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:42:46'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:43:15'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:43:29'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:45:03'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:47:32'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:47:39'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-15 12:47:44'),
+('$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', '$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', 'update', '2024-05-16 06:19:21'),
+('$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', '$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', 'update', '2024-05-16 07:25:02'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:25:14'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:26:18'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:26:27'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:26:32'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:28:47'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:38:46'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 07:38:57'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:41:57'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:42:36'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:42:44'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:43:43'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:44:24'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:44:39'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:44:57'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:45:18'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:49:20'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:49:41'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:49:53'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:52:48'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:53:58'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:54:11'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:54:14'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:55:19'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:55:25'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:58:57'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 10:59:01'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:00:21'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:00:24'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:00:33'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:01:11'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:14:33'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:15:13'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:17:29'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:17:41'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:19:53'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:20:16'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:21:41'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:01'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:07'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:14'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:47'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:53'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:23:14');
 
 -- --------------------------------------------------------
 
@@ -447,9 +541,9 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(30) NOT NULL,
   `id_rh` int(2) NOT NULL,
   `telefono` varchar(12) NOT NULL,
-  `correo` varchar(30) NOT NULL,
+  `correo` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `id_ciudad` int(3) NOT NULL,
-  `direccion` varchar(30) NOT NULL,
+  `direccion` varchar(100) NOT NULL,
   `password` varchar(500) NOT NULL,
   `id_rol` int(3) NOT NULL,
   `id_estado` int(3) NOT NULL,
@@ -462,13 +556,20 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`documento`, `id_doc`, `nombre`, `apellido`, `id_rh`, `telefono`, `correo`, `id_ciudad`, `direccion`, `password`, `id_rol`, `id_estado`, `nit`, `token`) VALUES
-(38010110, 3, 'Beatriz ', 'prada Guzman', 7, '3158794045', 'Beatizprada@gmail.com', 2, 'Vereda potrerillo ', '$2y$10$sczcuDFcLc1Q9lBJ1yqp3OZRyAvVvjW5oPzit2gzXv3XzpAcju/zK', 2, 4, '12378945', ''),
-(1003239087, 3, 'Juan Esteban', 'Ortega', 1, '3046589012', 'juanes@gmail.com', 7, 'Cra 5 23-30', '$2y$10$4Er5XPvRfHpO3dUS7ZhkVe2AEaONDw/8eLQ.3cWw6eh.EcDKUC70W', 5, 4, NULL, ''),
-(1106226573, 3, 'Santiago', 'Prada', 2, '3218906523', 'santiagoprada@gmail.com', 2, 'Barrio el Jardin', '$2y$10$tgxzhYlCkVFTwGk310aYh.Kth5w2hvQp.a3mN3Ny9g1H4aNXYi8M.', 1, 3, '1234569877', ''),
-(1110172892, 3, 'Valentina', 'Mendoza', 7, '3158571432', 'Valenramirez@gmail.com', 1, 'Barrio Usaquen', '$2y$10$TYJFKZbibuno5.SpYna0duc.a6up7kuCw2bfbbrCnFxCs/ihXunHe', 2, 3, '1234569877', ''),
-(1118723902, 3, 'Aura Cristina', 'Olaya', 8, '3228901209', 'Auraolaya@gmail.com', 4, 'Cra 5 norte 23-40', '$2y$10$GVXLX/6r5YA4amnDbAMRBODFxiLBQqOmzfpE/Y6Fmo0Vgu88Tdh0m', 4, 4, '1234569877', ''),
-(1234567891, 3, 'administrador', 'admi', 2, '3144342215', 'administrador@gmail.com', 9, 'Cra4 # 12-90', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 1, 4, '12378945', ''),
-(2147483647, 3, 'paciente', 'nuevo', 2, '3152487936', 'pacientes@gmail.com', 8, 'cra4-nuevapereira', '$2y$10$Csua5/iUyLYxue.JSNC5f.UOGGFHthsqHexKWb2ILzbHMat5hyXUO', 5, 4, NULL, '');
+(38211887, 3, 'Briceida', 'Prada Guzman', 1, '3124237144', 'brisapradaguzman34@gmail.com', 2, 'Cra 2 #75-b31 conjunto villa cristales', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 2, 3, '9572841630', ''),
+(1005717713, 3, 'Aura', 'Olaya', 7, '3173532543', 'olayacristina01@gmail.com', 2, 'calle 60 n 6-16 Prados', '$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', 1, 3, '12378945', ''),
+(1006123134, 3, 'yesica', 'gomez', 1, '3136651555', 'yesica@gmail.com', 2, 'arboleda', '$2y$10$VlIZBg/m7H0IfFO23/1rFeKWEUXlPNHZ99LkVjubfcUx.VhbW3RNq', 5, 4, '7461593280', ''),
+(1023870638, 3, 'juan david', 'aroca', 7, '3154221202', 'jdaroca83gmail.com', 2, 'mz b casa 8', '$2y$10$AwCcAd8yWYJ1uisFewaU4es7KAQLewZ.8It/h6T9cfLrAkQPiCj1O', 5, 4, '45685297', ''),
+(1031540636, 3, 'jeferson', 'cardenal', 7, '3213879832', 'yiyecardenal@gmail.com', 2, 'calle 39 bis', '$2y$10$jDjtO9kgW3jNviS9GzVSOe1/gQvjc/jN0eFk.rPtK1kz4OeX7xeg6', 5, 4, '45685297', ''),
+(1104254269, 3, 'daniel', 'montoya', 1, '3193914473', 'danielcamilom96@gmail.com', 2, 'calle 21 con 5', '$2y$10$gp9XECGkkFrLZElrjSRV6eyiMTon4rUStoas0dCU3GpuGj/XthsvK', 5, 4, '45685297', ''),
+(1104544454, 4, 'brayan fernando', 'sanchez izquierdo', 1, '3202174961', 'bfsanchez45gmail.com', 2, 'manza c casa 14 barrio la gait', '$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', 5, 4, '12378945', ''),
+(1106226573, 3, 'Santiago ', 'pinilla prada', 2, '3144342215', 'Santiagomagnos63@gmail.com', 2, 'Cra2 #75-b31 ', '$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', 1, 3, '9572841630', ''),
+(1107975322, 3, 'cristian julian', 'figueroa armero', 7, '3124758405', 'cristianfigueroa040@gmail.com', 2, 'cra 6 # 6-36', '$2y$10$/xRvSSibu75J9odWRuTlg.ie0cOSWmkp25RWb5rfuOp1dCwFikTFC', 5, 4, '45685297', ''),
+(1110172890, 3, 'Valentina', 'Mendoza', 7, '3158571494', 'valen.mza.28@gmail.com', 2, 'Barrio Ricaute', '$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', 1, 4, '45685297', ''),
+(1110567986, 3, 'julian', 'cladeo', 8, '3154688169', 'mlksklsk@gamil.com', 2, 'lslsklkslklsklkslksl', '$2y$10$ax4eNUxaiVO/lSDrYm40r.uc47OzHvnVb2rkY5gynKd2sN5GKrjsa', 5, 4, '8241763950', ''),
+(1111333014, 3, 'Yurica', 'Ducuara', 7, '3212441999', 'yuriducu04@gmail.com', 2, 'mz a casa 13 rosales de tailan', '$2y$10$VIjtTBWyH6PhnD7Hybi5HOc9RX7zODhzcYhh76HJWpMv6MwlhtKYK', 5, 4, '45685297', ''),
+(1127208301, 3, 'Ohany', 'Garcia', 8, '3102552339', 'yarethohany.6704@gmail.com', 2, 'Caracoli Bloq 15 - 304', '$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', 4, 3, '9572841630', ''),
+(2147483647, 3, 'jennifer tatiana', 'ortiz goyeneche', 7, '3114409273', 'ortiztatiana1416@gmail.com', 2, 'barrio americas', '$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', 5, 4, '123852789', '');
 
 --
 -- Disparadores `usuarios`
@@ -489,7 +590,7 @@ ALTER TABLE `autorizaciones`
   ADD PRIMARY KEY (`id_auto`),
   ADD KEY `id_cita` (`id_cita`),
   ADD KEY `id_detalle` (`id_detalle`),
-  ADD KEY `id_medico` (`id_medico`);
+  ADD KEY `id_medico` (`docu_medico`);
 
 --
 -- Indices de la tabla `citas`
@@ -524,12 +625,6 @@ ALTER TABLE `especializacion`
 --
 ALTER TABLE `estados`
   ADD PRIMARY KEY (`id_estado`);
-
---
--- Indices de la tabla `horarios`
---
-ALTER TABLE `horarios`
-  ADD PRIMARY KEY (`id_hor`);
 
 --
 -- Indices de la tabla `laboratorio`
@@ -632,12 +727,6 @@ ALTER TABLE `estados`
   MODIFY `id_estado` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `horarios`
---
-ALTER TABLE `horarios`
-  MODIFY `id_hor` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
 -- AUTO_INCREMENT de la tabla `laboratorio`
 --
 ALTER TABLE `laboratorio`
@@ -676,21 +765,6 @@ ALTER TABLE `t_documento`
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `autorizaciones`
---
-ALTER TABLE `autorizaciones`
-  ADD CONSTRAINT `autorizaciones_ibfk_1` FOREIGN KEY (`id_cita`) REFERENCES `citas` (`id_cita`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `autorizaciones_ibfk_2` FOREIGN KEY (`id_detalle`) REFERENCES `det_autorizacion` (`id_detalle`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `autorizaciones_ibfk_3` FOREIGN KEY (`id_medico`) REFERENCES `medicos` (`docu_medico`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `det_autorizacion`
---
-ALTER TABLE `det_autorizacion`
-  ADD CONSTRAINT `det_autorizacion_ibfk_1` FOREIGN KEY (`id_auto`) REFERENCES `autorizaciones` (`id_auto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `det_autorizacion_ibfk_2` FOREIGN KEY (`id_medicamento`) REFERENCES `laboratorio` (`id_lab`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `medicamentos`

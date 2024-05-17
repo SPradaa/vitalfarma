@@ -4,7 +4,7 @@
     $conexion = new Database();
     $con = $conexion->conectar();
 
-    $sql = $con -> prepare ("SELECT * FROM tipo_medicamento WHERE tipo_medicamento.id_cla = '".$_GET['id']."'");
+    $sql = $con -> prepare ("SELECT * FROM tipo_medicamento WHERE tipo_medicamento.id_cla = '".$_GET['id_cla']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -22,7 +22,7 @@ if(isset($_POST["update"]))
     }
     else{
 
-    $insertSQL = $con -> prepare("UPDATE tipo_medicamento SET clasificacion = '$clasificacion' WHERE id_cla = '".$_GET['id']."'");      
+    $insertSQL = $con -> prepare("UPDATE tipo_medicamento SET clasificacion = '$clasificacion' WHERE id_cla = '".$_GET['id_cla']."'");      
     $insertSQL->execute();
     echo '<script>alert ("Actualización exitosa");</script>';
     echo '<script>window.location="index_medicam.php"</script>';

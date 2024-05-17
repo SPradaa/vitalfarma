@@ -5,7 +5,7 @@
     $con = $conexion->conectar();
 
     $sql = $con -> prepare ("SELECT * FROM medicamentos, tipo_medicamento, estados, laboratorio
-    WHERE medicamentos.id_cla = tipo_medicamento.id_cla AND medicamentos.id_estado = estados.id_estado AND medicamentos.id_lab = laboratorio.id_lab AND medicamentos.id_medicamento= '".$_GET['id']."'");
+    WHERE medicamentos.id_cla = tipo_medicamento.id_cla AND medicamentos.id_estado = estados.id_estado AND medicamentos.id_lab = laboratorio.id_lab AND medicamentos.id_medicamento= '".$_GET['id_medicamento']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -33,7 +33,7 @@ if(isset($_POST["update"]))
     {
       $insertSQL = $con->prepare("UPDATE medicamentos SET nombre = '$nombre', id_cla = '$id_cla', 
       cantidad = '$cantidad', medida_cant = '$medida_cant', id_lab = '$id_lab', f_vencimiento = '$f_vencimiento', lote= '$lote',
-      id_estado = '$id_estado' WHERE id_medicamento = '".$_GET['id']."'");
+      id_estado = '$id_estado' WHERE id_medicamento = '".$_GET['id_medicamento']."'");
       $insertSQL -> execute();
       echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
       echo '<script>window.location="index_medicame.php"</script>';

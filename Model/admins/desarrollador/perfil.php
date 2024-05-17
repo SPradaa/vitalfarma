@@ -22,7 +22,7 @@ $nombre = $_SESSION['nombre'];
 $apellido = $_SESSION['apellido'];
 $direccion = $_SESSION['direccion'];
 $telefono =$_SESSION['telefono'];
-$correo= $_SESSION['correo'];
+$correo = $_SESSION['correo'];
 $rol = $_SESSION['tipo'];
 $empresa = $_SESSION[ 'nit'];
 
@@ -36,22 +36,29 @@ if (!$fila) {
 
 
 }
-
-// Variables para el usuario
-
-
-
-    // $_SESSION['documento'] = $fila['documento'];
-    // $_SESSION['nombre'] = $fila['nombre'];
-    // $_SESSION[ 'apellido'] = $fila['apellido'];
-    // $_SESSION[ 'direccion'] = $fila['direccion'];
-    // $_SESSION['telefono'] = $fila['telefono'];
-    // $_SESSION['correo'] = $fila['correo'];
-    // $_SESSION['password'] = $fila['password'];
-    // $_SESSION['tipo'] = $fila['id_rol'];
-    // $_SESSION['nit'] = $fila['nit'];
-
 ?>
+
+ <?php 
+// Verificar si el formulario ha sido enviado y el botón de actualización ha sido presionado
+if (isset($_POST['update'])) {
+    // Recuperar los datos del formulario
+     $correo= $_POST['correo']; 
+    $telefono = $_POST['telefono'];
+    $direccion = $_POST['direccion'];
+    
+    // Consulta SQL para actualizar los datos del usuario
+    $consulta = "UPDATE usuarios 
+                 SET telefono = '$telefono', direccion = '$direccion', correo = '$correo'
+                 WHERE documento = $documento";
+    
+    // Ejecutar la consulta
+    if ($con->query($consulta) === TRUE) {
+        echo "Los datos se actualizaron correctamente.";
+    } else {
+        echo "Error al actualizar los datos: " ;
+    }
+}
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -221,9 +228,9 @@ if (!$fila) {
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4"> <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 48 48"><rect width="37" height="37" x="5.5" y="5.5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" rx="2" ry="2"/><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="m19.896 10.128l-8.24 27.744m10.953-5.768l13.735-7.417l-13.735-7.417"/></svg>
+                                <center class="mt-4"><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 36 36"><path fill="#000000" d="M14.68 14.81a6.76 6.76 0 1 1 6.76-6.75a6.77 6.77 0 0 1-6.76 6.75m0-11.51a4.76 4.76 0 1 0 4.76 4.76a4.76 4.76 0 0 0-4.76-4.76" class="clr-i-outline clr-i-outline-path-1"/><path fill="#000000" d="M16.42 31.68A2.14 2.14 0 0 1 15.8 30H4v-5.78a14.81 14.81 0 0 1 11.09-4.68h.72a2.2 2.2 0 0 1 .62-1.85l.12-.11c-.47 0-1-.06-1.46-.06A16.47 16.47 0 0 0 2.2 23.26a1 1 0 0 0-.2.6V30a2 2 0 0 0 2 2h12.7Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="#000000" d="M26.87 16.29a.37.37 0 0 1 .15 0a.42.42 0 0 0-.15 0" class="clr-i-outline clr-i-outline-path-3"/><path fill="#000000" d="m33.68 23.32l-2-.61a7.21 7.21 0 0 0-.58-1.41l1-1.86A.38.38 0 0 0 32 19l-1.45-1.45a.36.36 0 0 0-.44-.07l-1.84 1a7.15 7.15 0 0 0-1.43-.61l-.61-2a.36.36 0 0 0-.36-.24h-2.05a.36.36 0 0 0-.35.26l-.61 2a7 7 0 0 0-1.44.6l-1.82-1a.35.35 0 0 0-.43.07L17.69 19a.38.38 0 0 0-.06.44l1 1.82a6.77 6.77 0 0 0-.63 1.43l-2 .6a.36.36 0 0 0-.26.35v2.05A.35.35 0 0 0 16 26l2 .61a7 7 0 0 0 .6 1.41l-1 1.91a.36.36 0 0 0 .06.43l1.45 1.45a.38.38 0 0 0 .44.07l1.87-1a7.09 7.09 0 0 0 1.4.57l.6 2a.38.38 0 0 0 .35.26h2.05a.37.37 0 0 0 .35-.26l.61-2.05a6.92 6.92 0 0 0 1.38-.57l1.89 1a.36.36 0 0 0 .43-.07L32 30.4a.35.35 0 0 0 0-.4l-1-1.88a7 7 0 0 0 .58-1.39l2-.61a.36.36 0 0 0 .26-.35v-2.1a.36.36 0 0 0-.16-.35M24.85 28a3.34 3.34 0 1 1 3.33-3.33A3.34 3.34 0 0 1 24.85 28" class="clr-i-outline clr-i-outline-path-4"/><path fill="none" d="M0 0h36v36H0z"/></svg>
                                     <h4 class="card-title mt-2"> <?php echo $_SESSION['nombre'];?></h4>
-                                   
+
                                     <?php  
                                     
                                     $control = $con->prepare("SELECT * fROM roles where id_rol = '$rol'");
@@ -235,10 +242,7 @@ if (!$fila) {
 
                                     <h6 class="card-subtitle"><?php echo $consulta['rol'] ;   ?> </h6>
                                     <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i
-                                                    class="fa fa-user"></i>
-                                                <font class="font-medium">254</font>
-                                            </a></div>
+                                        <div class="col-4"></div>
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                                     class="fa fa-camera"></i>
                                                 <font class="font-medium">54</font>
@@ -254,22 +258,22 @@ if (!$fila) {
                         <div class="card">
                             <!-- Tab panes -->
                             <div class="card-body">
-                                <form class="form-horizontal form-material mx-2">
+                                <form class="form-horizontal form-material mx-2" method="POST">
                                     <div class="form-group">
                                         <label class="col-md-12">Nombre Completo</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $nombre_comple ;?> "
-                                                class="form-control form-control-line" disabled>
+                                            <input type="text" placeholder=" "
+                                                class="form-control form-control-line" value="<?php echo $nombre_comple ;?>"  disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="example-email" class="col-md-12">Email</label>
+                                        <label class="col-md-12">Correo</label>
                                         <div class="col-md-12">
-                                            <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
-                                                class="form-control form-control-line" name="example-email"
-                                                id="example-email">
+                                            <input type="text" value ="<?php echo $correo;?>"
+                                                class="form-control form-control-line" name="correo" >
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group">
                                         <label class="col-md-12">Documento</label>
                                         <div class="col-md-12">
@@ -278,22 +282,22 @@ if (!$fila) {
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
+                                        <label class="col-md-12">Telefono</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
-                                                class="form-control form-control-line">
+                                            <input type="text" value="<?php echo $telefono ; ?>"
+                                                class="form-control form-control-line" name="telefono" >
                                         </div>
                                     </div>
                                   
                                     <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
+                                        <label class="col-md-12">Direccion</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $direccion ?>"
-                                                class="form-control form-control-line">
+                                            <input type="text" value="<?php echo $direccion ?>"
+                                                class="form-control form-control-line" name="direccion">
                                         </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-success">Update Profile</button>
+                                            <input type="submit" name="update" class="btn btn-success" value="Actualizar Datos"">
                                         </div>
                                     </div>
                                 </form>
