@@ -1,0 +1,16 @@
+{
+    "name": "pc/vitalfarma",
+    "autoload": {
+        "psr-4": {
+            "Pc\\Vitalfarma\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "valentina mendoza"
+        }
+    ],
+    "require": {
+        "picqer/php-barcode-generator": "^2.4"
+    }
+}

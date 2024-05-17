@@ -29,7 +29,7 @@ validarSesion();
     <!-- Bootstrap Core CSS -->
     <link href="assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
     <!-- page css -->
     <link href="css/pages/icon-page.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
@@ -120,20 +120,24 @@ validarSesion();
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="index.php" aria-expanded="false"><i
-                                    class="fa fa-tachometer"></i><span class="hide-menu">Principal</span></a>
+                    <li> <a class="waves-effect waves-dark" href="index.php" aria-expanded="false">
+                        <i class="fa fa-user-circle-o"></i><span class="hide-menu">Principal</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="perfil.php" aria-expanded="false"><i
-                                    class="fa fa-user-circle-o"></i><span class="hide-menu">Perfil</span></a>
+                        <li> <a class="waves-effect waves-dark" href="medicamentos.php" aria-expanded="false"><i
+                                    class="fa fa-table"></i><span class="hide-menu">Medicamentos </span></a>
+                        </li>
+                        <li> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i
+                                    class="fa fa-smile-o"></i><span class="hide-menu">Inventario</span></a>
+                        </li>
+                        <li> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i
+                                    class="fa fa-globe"></i><span class="hide-menu">Autorizaciones
+                                        
+                                    </span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="usuarios.php" aria-expanded="false"><i
-                                    class="fa fa-table"></i><span class="hide-menu">Usuarios </span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="modulomedico.php" aria-expanded="false"><i
-                                    class="fa fa-smile-o"></i><span class="hide-menu">modulo medico</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
-                                    class="fa fa-globe"></i><span class="hide-menu">Citas</span></a>
+                                    class="fa fa-globe"></i><span class="hide-menu">Usuarios
+                                        
+                                    </span></a>
                         </li>
                        
                     </ul>
@@ -177,60 +181,12 @@ validarSesion();
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Modulos de control y edicion del espacio medico</h4>
-                                <h6 class="card-subtitle">interfaz encargada del area medica
+                                <h4 class="card-title">Modulos de Medicamentos</h4>
+                                <h6 class="card-subtitle">interfaz encargada del area Farmaceuta
                                 </h6>
                                 <div class="space">
 
-                                    <!-- Creacion de medicos  -->
-                                    <div class="card">
-
-                                        <a href="medicos/index_medico.php">
-                                            <div class="card_box">
-                                                <h3 class="car_box__title">Medicos
-                                                </h3>
-                                                <p class="card_box__content">Gestiona la información personal y
-                                                    profesional de médicos. </p>
-                                                <div class="card__date">
-                                                    Haz clic para crear o editar datos del médico personal
-                                                </div>
-                                                <div class="card_box__arrow">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" height="15" width="15">
-                                                        <path fill="#fff"
-                                                            d="M13.4697 17.9697C13.1768 18.2626 13.1768 18.7374 13.4697 19.0303C13.7626 19.3232 14.2374 19.3232 14.5303 19.0303L20.3232 13.2374C21.0066 12.554 21.0066 11.446 20.3232 10.7626L14.5303 4.96967C14.2374 4.67678 13.7626 4.67678 13.4697 4.96967C13.1768 5.26256 13.1768 5.73744 13.4697 6.03033L18.6893 11.25H4C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H18.6893L13.4697 17.9697Z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <!-- fin creacion de medicos -->
-                                    <!-- Modulo especializaciones  -->
-                                    <div class="card">
-
-                                        <a href="especializacion/index_esp.php">
-                                            <div class="card_box">
-                                                <h3 class="car_box__title">especializacion
-                                                </h3>
-                                                <p class="card_box__content">Explora las especializaciones de los
-                                                    médicos. </p>
-                                                <div class="card__date">
-                                                    Haz clic y gestiona sus especializaciónes.
-                                                </div>
-                                                <div class="card_box__arrow">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" height="15" width="15">
-                                                        <path fill="#fff"
-                                                            d="M13.4697 17.9697C13.1768 18.2626 13.1768 18.7374 13.4697 19.0303C13.7626 19.3232 14.2374 19.3232 14.5303 19.0303L20.3232 13.2374C21.0066 12.554 21.0066 11.446 20.3232 10.7626L14.5303 4.96967C14.2374 4.67678 13.7626 4.67678 13.4697 4.96967C13.1768 5.26256 13.1768 5.73744 13.4697 6.03033L18.6893 11.25H4C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H18.6893L13.4697 17.9697Z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <!-- fin modulo especializaciones -->
+                                    
                                     <!-- modulo medicamentos  -->
                                     <div class="card">
 
@@ -285,69 +241,6 @@ validarSesion();
 
 
 
-
-
-
-
-
-
-                                    <!-- <div class="space"> -->
-                                    <!-- modulo de eps -->
-
-                                    <div class="card">
-
-                                        <a href="eps/index_eps.php">
-                                            <div class="card_box">
-                                                <h3 class="car_box__title">EPS
-                                                </h3>
-                                                <p class="card_box__content">Actualiza y crea información sobre
-                                                    Entidades Promotoras de Saluds</p>
-                                                <div class="card__date">
-                                                    Haz clic para acceder y gestionar datos relacionados con las EPS.
-                                                </div>
-                                                <div class="card_box__arrow">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" height="15" width="15">
-                                                        <path fill="#fff"
-                                                            d="M13.4697 17.9697C13.1768 18.2626 13.1768 18.7374 13.4697 19.0303C13.7626 19.3232 14.2374 19.3232 14.5303 19.0303L20.3232 13.2374C21.0066 12.554 21.0066 11.446 20.3232 10.7626L14.5303 4.96967C14.2374 4.67678 13.7626 4.67678 13.4697 4.96967C13.1768 5.26256 13.1768 5.73744 13.4697 6.03033L18.6893 11.25H4C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H18.6893L13.4697 17.9697Z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <!-- fin modulo de eps -->
-
-
-                                    <!-- modulo de tipos de sangre -->
-
-                                    <div class="card">
-
-                                        <a href="rh/index_rh.php">
-                                            <div class="card_box">
-                                                <h3 class="car_box__title">Tipo de Sangre
-                                                </h3>
-                                                <p class="card_box__content">Explora y visualiza información sobre
-                                                    diferentes tipos de sangre.</p>
-                                                <div class="card__date">
-                                                    Haz clic para acceder y obtener detalles sobre las clasificaciones
-                                                    sanguíneas.
-                                                </div>
-                                                <div class="card_box__arrow">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" height="15" width="15">
-                                                        <path fill="#fff"
-                                                            d="M13.4697 17.9697C13.1768 18.2626 13.1768 18.7374 13.4697 19.0303C13.7626 19.3232 14.2374 19.3232 14.5303 19.0303L20.3232 13.2374C21.0066 12.554 21.0066 11.446 20.3232 10.7626L14.5303 4.96967C14.2374 4.67678 13.7626 4.67678 13.4697 4.96967C13.1768 5.26256 13.1768 5.73744 13.4697 6.03033L18.6893 11.25H4C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H18.6893L13.4697 17.9697Z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <!-- fin modulo de tipos de sangre -->
-
                                     <!-- modulo laboratorios -->
 
 
@@ -355,13 +248,13 @@ validarSesion();
 
                                         <a href="laboratorio/index_lab.php">
                                             <div class="card_box">
-                                                <h3 class="car_box__title">Laboratorio Medico
+                                                <h3 class="car_box__title">Laboratorio 
                                                 </h3>
                                                 <p class="card_box__content">Accede a la gestión de datos relacionados
-                                                    con laboratorios médicos. </p>
+                                                    con laboratorios. </p>
                                                 <div class="card__date">
                                                     Haz clic para administrar el funcionamiento eficiente de los
-                                                    laboratorios médicos.
+                                                    laboratorios.
                                                 </div>
                                                 <div class="card_box__arrow">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"

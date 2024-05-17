@@ -161,14 +161,19 @@ if (!$fila) {
                         <li> <a class="waves-effect waves-dark" href="index.php" aria-expanded="false">
                         <i class="fa fa-user-circle-o"></i><span class="hide-menu">Principal</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="usuarios.php" aria-expanded="false"><i
+                        <li> <a class="waves-effect waves-dark" href="medicamentos.php" aria-expanded="false"><i
                                     class="fa fa-table"></i><span class="hide-menu">Medicamentos </span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="modulomedico.php" aria-expanded="false"><i
+                        <li> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i
                                     class="fa fa-smile-o"></i><span class="hide-menu">Inventario</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
+                        <li> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i
                                     class="fa fa-globe"></i><span class="hide-menu">Autorizaciones
+                                        
+                                    </span></a>
+                        </li>
+                        <li> <a class="waves-effect waves-dark" href="usuarios.php" aria-expanded="false"><i
+                                    class="fa fa-globe"></i><span class="hide-menu">Usuarios
                                         
                                     </span></a>
                         </li>
