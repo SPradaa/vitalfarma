@@ -67,6 +67,13 @@ body {
   font-size: 14px;
 }
 
+.logg img{
+  width: 45%;
+  height: auto;
+  margin-left: 63px;
+  margin-top: 20px;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -964,6 +971,7 @@ sidebar navigation
 }
 .sidebar-nav ul {
   margin: 0px;
+  margin-top: 100px;
   padding: 0px;
 }
 .sidebar-nav ul li {
