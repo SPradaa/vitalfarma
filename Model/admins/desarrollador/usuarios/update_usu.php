@@ -6,7 +6,7 @@
 
     $sql = $con -> prepare ("SELECT * FROM usuarios, roles, t_documento, ciudad, empresas, rh, estados
     WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad AND
-    usuarios.nit = empresas.nit AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.documento = '".$_GET['id']."'");
+    usuarios.nit = empresas.nit AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.documento = '".$_GET['documento']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -38,7 +38,7 @@ if(isset($_POST["update"]))
       $insertSQL = $con->prepare("UPDATE usuarios SET documento = '$documento', id_doc = '$id_doc', 
       nombre = '$nombre', apellido = '$apellido', nit = '$nit', id_rh = '$id_rh', telefono = '$telefono',
       correo = '$correo', id_ciudad = '$id_ciudad', direccion = '$direccion', 
-      id_rol = '$id_rol', id_estado = '$id_estado' WHERE documento = '".$_GET['id']."'");
+      id_rol = '$id_rol', id_estado = '$id_estado' WHERE documento = '".$_GET['documento']."'");
       $insertSQL -> execute();
       echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
       echo '<script>window.location="index_usu.php"</script>';

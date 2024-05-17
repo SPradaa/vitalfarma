@@ -1,122 +1,131 @@
 <?php
+session_start();
     require_once("../../../../db/connection.php"); 
     $conexion = new Database();
     $con = $conexion->conectar();
-    session_start();
+    
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Medicos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        .table-container {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-left: -12px;
-            margin-right: -70px;
-            margin-top: 40px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-        thead {
-            background-color: #007bff;
-            color: white;
-        }
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tbody tr:hover {
-            background-color: #e2e2e2;
-        }
-        .btn-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .btn-container .btn {
-            width: 48%;
-        }
-        .text{
-            margin-top: -23px;
-            text-align: center;
-        }
-
-        .btn-btn-success{
-            margin-left:70px;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container mt-5">
-    <h1 class="text">Medicos Registrados</h1>
-    <br>
-    <div class="text-center">
-    <div class="row mt-3">
+<?php 
+    
+    $sentencia_select=$con->prepare("SELECT * FROM medicos ORDER BY nombre_comple ASC");
+    
+    $sentencia_select->execute();
+    $resultado=$sentencia_select->fetchAll();
+    
+    
+    if(isset($_GET['btn_buscar'])) {
+        $buscar = $_GET['buscar'];
+    
+        // Preparar la consulta SQL
+        $consulta = $con->prepare("SELECT * FROM medicos WHERE nombre_comple LIKE :buscar ORDER BY nombre_comple ASC");
+    
+        // Asignar valor al parámetro
+        $buscar = "%$buscar%";
+        
+        // Vincular el parámetro
+        $consulta->bindParam(':buscar', $buscar, PDO::PARAM_STR);
+    
+        // Ejecutar la consulta
+        $consulta->execute();
+    
+        // Obtener los resultados
+        $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+        
+    }
+    ?>
+    
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Medicos</title>
+        <link rel="stylesheet" href="../../css/estilo.css">
+    </head>
+    <body>
+        <div class="contenedor">
+            <h2>MEDICOS REGISTRADOS</h2>
+            <div class="row mt-3">
         <div class="col-md-6">
-            <form action="../index.php">
+        <?php if(isset($_GET['btn_buscar'])): ?>
+            <form action="index_medico.php" method="get">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
+        <?php else: ?>
+            <form action="../modulomedico.php">
+                <input type="submit" value="Regresar" class="btn btn-secondary"/>
+            </form>
+        <?php endif; ?>
         </div>
-        <div class="col-md-6">
-            <a href="create_medico.php" class="btn btn-success"><i class="fas fa-user-plus"></i>Crear Medico</a>
+            <div class="barra_buscador">
+                <form action="" class="formulario" method="GET">
+                    <input type="text" name="buscar" placeholder="Buscar Medico" class="input_text">
+                    <input type="submit" class="btn" name="btn_buscar" value="Buscar">
+                    <a href="create_medico.php" class="btn btn_nuevo">Crear Medico</a>
+                </form>
+            </div>
+            <table>
+                <tr class="head">
+                    <td>Tipo de Documento</td>
+                    <td>Documento</td>
+                    <td>Nombre Completo</td>
+                    <td>Correo</td>
+                    <td>Telefono</td>
+                    <td>Tipo de Usuario</td>
+                    <td>Estado</td>
+                    <td>Especialización</td>
+                    <td colspan="2">Acción</td>
+                </tr>
+                <?php 
+                if(isset($_GET['btn_buscar'])) {
+                    $buscar = $_GET['buscar'];
+                    $consulta = $con->prepare("SELECT * FROM medicos, t_documento, roles, estados, especializacion
+                    WHERE medicos.id_doc = t_documento.id_doc AND medicos.id_estado = estados.id_estado AND
+                    medicos.id_rol = roles.id_rol AND medicos.id_esp = especializacion.id_esp AND nombre_comple LIKE ? ORDER BY nombre_comple ASC");
+                    $consulta->execute(array("%$buscar%"));
+                    while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                ?>
+                    <tr>
+                        <td><?php echo $fila['tipo']; ?></td>
+                        <td><?php echo $fila['docu_medico']; ?></td>
+                        <td><?php echo $fila['nombre_comple']; ?></td>
+                        <td><?php echo $fila['correo']; ?></td>
+                        <td><?php echo $fila['telefono']; ?></td>
+                        <td><?php echo $fila['rol']; ?></td>
+                        <td><?php echo $fila['estado']; ?></td>
+                        <td><?php echo $fila['especializacion']; ?></td>
+                        <td><a href="update_medico.php?docu_medico=<?php echo $fila['docu_medico']; ?>" class="btn__update">Editar</a></td>
+                        <td><a href="delete_medico.php?docu_medico=<?php echo $fila['docu_medico']; ?>" class="btn__delete">Eliminar</a></td>
+                    </tr>
+                <?php 
+                    }
+                } else {
+                    // Mostrar todos los registros si no se ha realizado una búsqueda
+                    $consulta = $con->prepare("SELECT * FROM medicos, t_documento, roles, estados, especializacion
+                    WHERE medicos.id_doc = t_documento.id_doc AND medicos.id_estado = estados.id_estado AND
+                    medicos.id_rol = roles.id_rol AND medicos.id_esp = especializacion.id_esp ORDER BY nombre_comple ASC");
+                    $consulta->execute();
+                    while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                ?>
+                    <tr>
+                        <td><?php echo $fila['tipo']; ?></td>
+                        <td><?php echo $fila['docu_medico']; ?></td>
+                        <td><?php echo $fila['nombre_comple']; ?></td>
+                        <td><?php echo $fila['correo']; ?></td>
+                        <td><?php echo $fila['telefono']; ?></td>
+                        <td><?php echo $fila['rol']; ?></td>
+                        <td><?php echo $fila['estado']; ?></td>
+                        <td><?php echo $fila['especializacion']; ?></td>
+                        <td><a href="update_medico.php?docu_medico=<?php echo $fila['docu_medico']; ?>" class="btn__update">Editar</a></td>
+                        <td><a href="delete_medico.php?docu_medico=<?php echo $fila['docu_medico']; ?>" class="btn__delete">Eliminar</a></td>
+                    </tr>
+                <?php 
+                    }
+                }
+                ?>
+            </table>
         </div>
-    </div>
-    <table class="table table-bordered">
-        <thead class="table-primary">
-            <tr>
-                <th>Tipo de Documento</th>
-                <th>Documento</th>
-                <th>Nombre Completo</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Tipo de Usuario</th>
-                <th>Estado</th>
-                <th>Especialización</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+    </body>
+    </html>
 
-            <?php
-            $consulta = "SELECT * FROM medicos, roles, estados, especializacion, t_documento
-            WHERE medicos.id_rol = roles.id_rol AND medicos.id_estado = estados.id_estado AND medicos.id_esp = especializacion.id_esp AND medicos.id_doc = t_documento.id_doc";
-            $resultado = $con->query($consulta);
-
-            while ($fila = $resultado->fetch()) {
-                echo '
-                <tr>
-                    <td>' . $fila["tipo"] . '</td>
-                    <td>' . $fila["docu_medico"] . '</td>
-                    <td>' . $fila["nombre_comple"] . '</td>
-                    <td>' . $fila["correo"] . '</td>
-                    <td>' . $fila["telefono"] . '</td>
-                    <td>' . $fila["rol"] . '</td>
-                    <td>' . $fila["estado"] . '</td>
-                    <td>' . $fila["especializacion"] . '</td>
-                    <td>
-                        <div class="text-center">
-                            <a href="update_medico.php?id=' . $fila['docu_medico'] . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                            <a href="delete_medico.php?id=' . $fila['docu_medico'] . '" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                    </td>
-                </tr>';
-            }
-            ?>
-        </tbody>
-    </table>
-</div>
-</body>
-</html>

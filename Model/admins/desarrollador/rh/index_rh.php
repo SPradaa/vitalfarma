@@ -8,7 +8,7 @@ session_start();
 
 <?php 
     
-    $sentencia_select=$con->prepare("SELECT * FROM rh ORDER BY id_rh ASC");
+    $sentencia_select=$con->prepare("SELECT * FROM rh ORDER BY rh ASC");
     
     $sentencia_select->execute();
     $resultado=$sentencia_select->fetchAll();
@@ -18,7 +18,7 @@ session_start();
         $buscar = $_GET['buscar'];
     
         // Preparar la consulta SQL
-        $consulta = $con->prepare("SELECT * FROM rh WHERE id_rh LIKE :buscar");
+        $consulta = $con->prepare("SELECT * FROM rh WHERE rh LIKE :buscar ORDER BY rh ASC");
     
         // Asignar valor al parámetro
         $buscar = "%$buscar%";
@@ -41,16 +41,22 @@ session_start();
     <head>
         <meta charset="UTF-8">
         <title>RH</title>
-        <link rel="stylesheet" href="../../css/estilos.css">
+        <link rel="stylesheet" href="../../css/estilo.css">
     </head>
     <body>
         <div class="contenedor">
             <h2>RH</h2>
             <div class="row mt-3">
         <div class="col-md-6">
-            <form action="../index.php">
+        <?php if(isset($_GET['btn_buscar'])): ?>
+            <form action="index_rh.php" method="get">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
+        <?php else: ?>
+            <form action="../modulomedico.php">
+                <input type="submit" value="Regresar" class="btn btn-secondary"/>
+            </form>
+        <?php endif; ?>
         </div>
             <div class="barra_buscador">
                 <form action="" class="formulario" method="GET">
@@ -61,19 +67,17 @@ session_start();
             </div>
             <table>
                 <tr class="head">
-                    <td>Id_rh</td>
                     <td>Rh</td>
                     <td colspan="2">Acción</td>
                 </tr>
                 <?php 
                 if(isset($_GET['btn_buscar'])) {
                     $buscar = $_GET['buscar'];
-                    $consulta = $con->prepare("SELECT * FROM rh WHERE id_rh LIKE ?");
+                    $consulta = $con->prepare("SELECT * FROM rh WHERE rh LIKE ? ORDER BY rh ASC");
                     $consulta->execute(array("%$buscar%"));
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_rh']; ?></td>
                         <td><?php echo $fila['rh']; ?></td>
                         <td><a href="update_rh.php?id_rh=<?php echo $fila['id_rh']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_rh.php?id_rh=<?php echo $fila['id_rh']; ?>" class="btn__delete">Eliminar</a></td>
@@ -82,12 +86,11 @@ session_start();
                     }
                 } else {
                     // Mostrar todos los registros si no se ha realizado una búsqueda
-                    $consulta = $con->prepare("SELECT * FROM rh");
+                    $consulta = $con->prepare("SELECT * FROM rh ORDER BY rh ASC");
                     $consulta->execute();
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_rh']; ?></td>
                         <td><?php echo $fila['rh']; ?></td>
                         <td><a href="update_rh.php?id_rh=<?php echo $fila['id_rh']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_rh.php?id_rh=<?php echo $fila['id_rh']; ?>" class="btn__delete">Eliminar</a></td>

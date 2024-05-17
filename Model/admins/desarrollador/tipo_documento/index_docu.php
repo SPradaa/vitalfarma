@@ -8,7 +8,7 @@ session_start();
 
 <?php 
     
-    $sentencia_select=$con->prepare("SELECT * FROM t_documento ORDER BY id_doc ASC");
+    $sentencia_select=$con->prepare("SELECT * FROM t_documento ORDER BY tipo ASC");
     
     $sentencia_select->execute();
     $resultado=$sentencia_select->fetchAll();
@@ -18,7 +18,7 @@ session_start();
         $buscar = $_GET['buscar'];
     
         // Preparar la consulta SQL
-        $consulta = $con->prepare("SELECT * FROM t_documento WHERE id_doc LIKE :buscar");
+        $consulta = $con->prepare("SELECT * FROM t_documento WHERE tipo LIKE :buscar ORDER BY tipo ASC");
     
         // Asignar valor al parámetro
         $buscar = "%$buscar%";
@@ -41,16 +41,22 @@ session_start();
     <head>
         <meta charset="UTF-8">
         <title>Documento</title>
-        <link rel="stylesheet" href="../../css/estilos.css">
+        <link rel="stylesheet" href="../../css/estilo.css">
     </head>
     <body>
         <div class="contenedor">
             <h2>TIPOS DE DOCUMENTOS DE IDENTIDAD</h2>
             <div class="row mt-3">
         <div class="col-md-6">
-            <form action="index_emp.php">
+        <?php if(isset($_GET['btn_buscar'])): ?>
+            <form action="index_docu.php" method="get">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
+        <?php else: ?>
+            <form action="../usuarios.php">
+                <input type="submit" value="Regresar" class="btn btn-secondary"/>
+            </form>
+        <?php endif; ?>
         </div>
             <div class="barra_buscador">
                 <form action="" class="formulario" method="GET">
@@ -61,19 +67,17 @@ session_start();
             </div>
             <table>
                 <tr class="head">
-                    <td>Id_documento</td>
                     <td>Tipo de Documento</td>
                     <td colspan="2">Acción</td>
                 </tr>
                 <?php 
                 if(isset($_GET['btn_buscar'])) {
                     $buscar = $_GET['buscar'];
-                    $consulta = $con->prepare("SELECT * FROM t_documento WHERE id_doc LIKE ?");
+                    $consulta = $con->prepare("SELECT * FROM t_documento WHERE tipo LIKE ? ORDER BY tipo ASC");
                     $consulta->execute(array("%$buscar%"));
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_doc']; ?></td>
                         <td><?php echo $fila['tipo']; ?></td>
                         <td><a href="update_docu.php?id_doc=<?php echo $fila['id_doc']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_docu.php?id_doc=<?php echo $fila['id_doc']; ?>" class="btn__delete">Eliminar</a></td>
@@ -82,12 +86,11 @@ session_start();
                     }
                 } else {
                     // Mostrar todos los registros si no se ha realizado una búsqueda
-                    $consulta = $con->prepare("SELECT * FROM t_documento");
+                    $consulta = $con->prepare("SELECT * FROM t_documento ORDER BY tipo ASC");
                     $consulta->execute();
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_doc']; ?></td>
                         <td><?php echo $fila['tipo']; ?></td>
                         <td><a href="update_docu.php?id_doc=<?php echo $fila['id_doc']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_docu.php?id_doc=<?php echo $fila['id_doc']; ?>" class="btn__delete">Eliminar</a></td>

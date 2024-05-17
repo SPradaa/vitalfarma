@@ -1,57 +1,47 @@
 <?php
 session_start();
-    require_once("../../../../db/connection.php"); 
-    $conexion = new Database();
-    $con = $conexion->conectar();
-    
+require_once("../../../../db/connection.php"); 
+$conexion = new Database();
+$con = $conexion->conectar();
 ?>
 
 <?php 
-    
-    $sentencia_select=$con->prepare("SELECT * FROM ciudad ORDER BY id_ciudad ASC");
-    
-    $sentencia_select->execute();
-    $resultado=$sentencia_select->fetchAll();
-    
-    
-    if(isset($_GET['btn_buscar'])) {
-        $buscar = $_GET['buscar'];
-    
-        // Preparar la consulta SQL
-        $consulta = $con->prepare("SELECT * FROM ciudad WHERE id_ciudad LIKE :buscar");
-    
-        // Asignar valor al parámetro
-        $buscar = "%$buscar%";
-        
-        // Vincular el parámetro
-        $consulta->bindParam(':buscar', $buscar, PDO::PARAM_STR);
-    
-        // Ejecutar la consulta
-        $consulta->execute();
-    
-        // Obtener los resultados
-        $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
-    
-        
-    }
-    ?>
-    
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Ciudades</title>
-        <link rel="stylesheet" href="../../css/estilos.css">
-    </head>
-    <body>
-        <div class="contenedor">
-            <h2>CIUDADES</h2>
-            <div class="row mt-3">
-        <div class="col-md-6">
-            <form action="../index.php">
+$sentencia_select = $con->prepare("SELECT * FROM ciudad ORDER BY ciudad ASC");
+$sentencia_select->execute();
+$resultado = $sentencia_select->fetchAll();
+
+if (isset($_GET['btn_buscar'])) {
+    $buscar = $_GET['buscar'];
+    $consulta = $con->prepare("SELECT * FROM ciudad WHERE ciudad LIKE :buscar ORDER BY ciudad ASC");
+    $buscar = "%$buscar%";
+    $consulta->bindParam(':buscar', $buscar, PDO::PARAM_STR);
+    $consulta->execute();
+    $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ciudades</title>
+    <link rel="stylesheet" href="../../css/estilo.css">
+</head>
+<body>
+    <div class="contenedor">
+        <h2>CIUDADES</h2>
+        <div class="row mt-3">
+            <div class="col-md-6">
+            <?php if(isset($_GET['btn_buscar'])): ?>
+            <form action="index_ciu.php" method="get">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
-        </div>
+        <?php else: ?>
+            <form action="../datosgenerales.php">
+                <input type="submit" value="Regresar" class="btn btn-secondary"/>
+            </form>
+        <?php endif; ?>
+            </div>
             <div class="barra_buscador">
                 <form action="" class="formulario" method="GET">
                     <input type="text" name="buscar" placeholder="Buscar Ciudad" class="input_text">
@@ -61,19 +51,17 @@ session_start();
             </div>
             <table>
                 <tr class="head">
-                    <td>Id_ciudad</td>
                     <td>Ciudad</td>
                     <td colspan="2">Acción</td>
                 </tr>
                 <?php 
-                if(isset($_GET['btn_buscar'])) {
+                if (isset($_GET['btn_buscar'])) {
                     $buscar = $_GET['buscar'];
-                    $consulta = $con->prepare("SELECT * FROM ciudad WHERE id_ciudad LIKE ?");
+                    $consulta = $con->prepare("SELECT * FROM ciudad WHERE ciudad LIKE ? ORDER BY ciudad ASC");
                     $consulta->execute(array("%$buscar%"));
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_ciudad']; ?></td>
                         <td><?php echo $fila['ciudad']; ?></td>
                         <td><a href="update_ciu.php?id_ciudad=<?php echo $fila['id_ciudad']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_ciu.php?id_ciudad=<?php echo $fila['id_ciudad']; ?>" class="btn__delete">Eliminar</a></td>
@@ -81,13 +69,11 @@ session_start();
                 <?php 
                     }
                 } else {
-                    // Mostrar todos los registros si no se ha realizado una búsqueda
-                    $consulta = $con->prepare("SELECT * FROM ciudad");
+                    $consulta = $con->prepare("SELECT * FROM ciudad ORDER BY ciudad ASC");
                     $consulta->execute();
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_ciudad']; ?></td>
                         <td><?php echo $fila['ciudad']; ?></td>
                         <td><a href="update_ciu.php?id_ciudad=<?php echo $fila['id_ciudad']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_ciu.php?id_ciudad=<?php echo $fila['id_ciudad']; ?>" class="btn__delete">Eliminar</a></td>
@@ -98,6 +84,6 @@ session_start();
                 ?>
             </table>
         </div>
-    </body>
-    </html>
-
+    </div>
+</body>
+</html>

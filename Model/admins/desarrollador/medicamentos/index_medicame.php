@@ -1,124 +1,131 @@
 <?php
+session_start();
     require_once("../../../../db/connection.php"); 
     $conexion = new Database();
     $con = $conexion->conectar();
-    session_start();
+    
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Medicamentos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        .table-container {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-left: -50px;
-            margin-right: -70px;
-            margin-top: 40px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-        thead {
-            background-color: #007bff;
-            color: white;
-        }
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tbody tr:hover {
-            background-color: #e2e2e2;
-        }
-        .btn-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .btn-container .btn {
-            width: 48%;
-        }
-        .text{
-            margin-top: -13px;
-            text-align: center;
-        }
-
-        .btn-btn-success{
-            margin-left:70px;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container mt-5">
-    <h1 class="text">Medicamentos</h1>
-    <br>
-    <div class="text-center">
-    <div class="row mt-3">
+<?php 
+    
+    $sentencia_select=$con->prepare("SELECT * FROM medicamentos ORDER BY nombre ASC");
+    
+    $sentencia_select->execute();
+    $resultado=$sentencia_select->fetchAll();
+    
+    
+    if(isset($_GET['btn_buscar'])) {
+        $buscar = $_GET['buscar'];
+    
+        // Preparar la consulta SQL
+        $consulta = $con->prepare("SELECT * FROM medicamentos WHERE nombre LIKE :buscar ORDER BY nombre ASC");
+    
+        // Asignar valor al parámetro
+        $buscar = "%$buscar%";
+        
+        // Vincular el parámetro
+        $consulta->bindParam(':buscar', $buscar, PDO::PARAM_STR);
+    
+        // Ejecutar la consulta
+        $consulta->execute();
+    
+        // Obtener los resultados
+        $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    
+        
+    }
+    ?>
+    
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Medicamentos</title>
+        <link rel="stylesheet" href="../../css/estilo.css">
+    </head>
+    <body>
+        <div class="contenedor">
+            <h2>MEDICAMENTOS REGISTRADOS</h2>
+            <div class="row mt-3">
         <div class="col-md-6">
+        <?php if(isset($_GET['btn_buscar'])): ?>
+            <form action="index_medicame.php" method="get">
+                <input type="submit" value="Regresar" class="btn btn-secondary"/>
+            </form>
+        <?php else: ?>
             <form action="../modulomedico.php">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
+        <?php endif; ?>
         </div>
-        <div class="col-md-6">
-            <a href="create_medicame.php" class="btn btn-success"><i class="fas fa-user-plus"></i>Crear Medicamentos</a>
+            <div class="barra_buscador">
+                <form action="" class="formulario" method="GET">
+                    <input type="text" name="buscar" placeholder="Buscar Medicamento" class="input_text">
+                    <input type="submit" class="btn" name="btn_buscar" value="Buscar">
+                    <a href="create_medicame.php" class="btn btn_nuevo">Crear Medicamento</a>
+                </form>
+            </div>
+            <table>
+                <tr class="head">
+                    <td>Nombre</td>
+                    <td>Tipo de Medicamento</td>
+                    <td>Cantidad</td>
+                    <td>Medida Cantidad</td>
+                    <td>Laboratorio</td>
+                    <td>Fecha_vencimiento</td>
+                    <td>Lote</td>
+                    <td>Estado</td>
+                    <td colspan="2">Acción</td>
+                </tr>
+                <?php 
+                if(isset($_GET['btn_buscar'])) {
+                    $buscar = $_GET['buscar'];
+                    $consulta = $con->prepare("SELECT * FROM medicamentos, tipo_medicamento, laboratorio, estados
+                    WHERE medicamentos.id_cla = tipo_medicamento.id_cla AND medicamentos.id_lab = laboratorio.id_lab
+                    AND medicamentos.id_estado = estados.id_estado AND nombre LIKE ? ORDER BY nombre ASC");
+                    $consulta->execute(array("%$buscar%"));
+                    while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                ?>
+                    <tr>
+                        <td><?php echo $fila['nombre']; ?></td>
+                        <td><?php echo $fila['clasificacion']; ?></td>
+                        <td><?php echo $fila['cantidad']; ?></td>
+                        <td><?php echo $fila['medida_cant']; ?></td>
+                        <td><?php echo $fila['laboratorio']; ?></td>
+                        <td><?php echo $fila['f_vencimiento']; ?></td>
+                        <td><?php echo $fila['lote']; ?></td>
+                        <td><?php echo $fila['estado']; ?></td>
+                        <td><a href="update_medicame.php?id_medicamento=<?php echo $fila['id_medicamento']; ?>" class="btn__update">Editar</a></td>
+                        <td><a href="delete_medicame.php?id_medicamento=<?php echo $fila['id_medicamento']; ?>" class="btn__delete">Eliminar</a></td>
+                    </tr>
+                <?php 
+                    }
+                } else {
+                    // Mostrar todos los registros si no se ha realizado una búsqueda
+                    $consulta = $con->prepare("SELECT * FROM medicamentos, tipo_medicamento, laboratorio, estados
+                    WHERE medicamentos.id_cla = tipo_medicamento.id_cla AND medicamentos.id_lab = laboratorio.id_lab
+                    AND medicamentos.id_estado = estados.id_estado ORDER BY nombre ASC");
+                    $consulta->execute();
+                    while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                ?>
+                    <tr>
+                        <td><?php echo $fila['nombre']; ?></td>
+                        <td><?php echo $fila['clasificacion']; ?></td>
+                        <td><?php echo $fila['cantidad']; ?></td>
+                        <td><?php echo $fila['medida_cant']; ?></td>
+                        <td><?php echo $fila['laboratorio']; ?></td>
+                        <td><?php echo $fila['f_vencimiento']; ?></td>
+                        <td><?php echo $fila['lote']; ?></td>
+                        <td><?php echo $fila['estado']; ?></td>
+                        <td><a href="update_medicame.php?id_medicamento=<?php echo $fila['id_medicamento']; ?>" class="btn__update">Editar</a></td>
+                        <td><a href="delete_medicame.php?id_medicamento=<?php echo $fila['id_medicamento']; ?>" class="btn__delete">Eliminar</a></td>
+                    </tr>
+                <?php 
+                    }
+                }
+                ?>
+            </table>
         </div>
-    </div>
-    <table class="table table-bordered">
-        <thead class="table-primary">
-            <tr>
-                <th>Id_medicamento</th>
-                <th>Nombre</th>
-                <th>Tipo de Medicamento</th>
-                <th>Cantidad</th>
-                <th>Medida_cantidad</th>
-                <th>Laboratorio</th>
-                <th>Fecha_vencimiento</th>
-                <th>Lote</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+    </body>
+    </html>
 
-            <?php
-            $consulta = "SELECT * FROM medicamentos, tipo_medicamento, estados, laboratorio
-            WHERE medicamentos.id_cla = tipo_medicamento.id_cla AND medicamentos.id_estado = estados.id_estado AND medicamentos.id_lab = laboratorio.id_lab";
-            $resultado = $con->query($consulta);
-
-            while ($fila = $resultado->fetch()) {
-                echo '
-                <tr>
-                    <td>' . $fila["id_medicamento"] . '</td>
-                    <td>' . $fila["nombre"] . '</td>
-                    <td>' . $fila["clasificacion"] . '</td>
-                    <td>' . $fila["cantidad"] . '</td>
-                    <td>' . $fila["medida_cant"] . '</td>
-                    <td>' . $fila["laboratorio"] . '</td>
-                    <td>' . $fila["f_vencimiento"] . '</td>
-                    <td>' . $fila["lote"] . '</td>
-                    <td>' . $fila["estado"] . '</td>
-                    <td>
-                        <div class="text-center">
-                            <a href="update_medicame.php?id=' . $fila['id_medicamento'] . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                            <a href="delete_medicame.php?id=' . $fila['id_medicamento'] . '" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                    </td>
-                </tr>';
-            }
-            ?>
-        </tbody>
-    </table>
-</div>
-</body>
-</html>

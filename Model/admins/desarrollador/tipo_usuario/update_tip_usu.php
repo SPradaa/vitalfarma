@@ -4,7 +4,7 @@
     $conexion = new Database();
     $con = $conexion->conectar();
 
-    $sql = $con -> prepare ("SELECT * FROM roles WHERE roles.id_rol = '".$_GET['id']."'");
+    $sql = $con -> prepare ("SELECT * FROM roles WHERE roles.id_rol = '".$_GET['id_rol']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -22,7 +22,7 @@ if(isset($_POST["update"]))
     }
     else{
 
-    $insertSQL = $con -> prepare("UPDATE roles SET rol = '$rol' WHERE id_rol = '".$_GET['id']."'");      
+    $insertSQL = $con -> prepare("UPDATE roles SET rol = '$rol' WHERE id_rol = '".$_GET['id_rol']."'");      
     $insertSQL->execute();
     echo '<script>alert ("Actualización exitosa");</script>';
     echo '<script>window.location="index_tip_usu.php"</script>';

@@ -8,7 +8,7 @@ session_start();
 
 <?php 
     
-    $sentencia_select=$con->prepare("SELECT * FROM especializacion ORDER BY id_esp ASC");
+    $sentencia_select=$con->prepare("SELECT * FROM especializacion ORDER BY especializacion ASC");
     
     $sentencia_select->execute();
     $resultado=$sentencia_select->fetchAll();
@@ -18,7 +18,7 @@ session_start();
         $buscar = $_GET['buscar'];
     
         // Preparar la consulta SQL
-        $consulta = $con->prepare("SELECT * FROM especializacion WHERE id_esp LIKE :buscar");
+        $consulta = $con->prepare("SELECT * FROM especializacion WHERE especializacion LIKE :buscar ORDER BY especializacion ASC");
     
         // Asignar valor al parámetro
         $buscar = "%$buscar%";
@@ -41,16 +41,22 @@ session_start();
     <head>
         <meta charset="UTF-8">
         <title>Especializacion</title>
-        <link rel="stylesheet" href="../../css/estilos.css">
+        <link rel="stylesheet" href="../../css/estilo.css">
     </head>
     <body>
         <div class="contenedor">
             <h2>ESPECIALIZACIONES</h2>
             <div class="row mt-3">
         <div class="col-md-6">
-            <form action="../index.php">
+        <?php if(isset($_GET['btn_buscar'])): ?>
+            <form action="index_esp.php" method="get">
                 <input type="submit" value="Regresar" class="btn btn-secondary"/>
             </form>
+        <?php else: ?>
+            <form action="../modulomedico.php">
+                <input type="submit" value="Regresar" class="btn btn-secondary"/>
+            </form>
+        <?php endif; ?>
         </div>
         <div>
             <div class="barra_buscador">
@@ -62,19 +68,17 @@ session_start();
             </div>
             <table>
                 <tr class="head">
-                    <td>Id_esp</td>
                     <td>Especializacion</td>
                     <td colspan="2">Acción</td>
                 </tr>
                 <?php 
                 if(isset($_GET['btn_buscar'])) {
                     $buscar = $_GET['buscar'];
-                    $consulta = $con->prepare("SELECT * FROM especializacion WHERE id_esp LIKE ?");
+                    $consulta = $con->prepare("SELECT * FROM especializacion WHERE especializacion LIKE ? ORDER BY especializacion ASC");
                     $consulta->execute(array("%$buscar%"));
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_esp']; ?></td>
                         <td><?php echo $fila['especializacion']; ?></td>
                         <td><a href="update_esp.php?id_esp=<?php echo $fila['id_esp']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_esp.php?id_esp=<?php echo $fila['id_esp']; ?>" class="btn__delete">Eliminar</a></td>
@@ -83,12 +87,11 @@ session_start();
                     }
                 } else {
                     // Mostrar todos los registros si no se ha realizado una búsqueda
-                    $consulta = $con->prepare("SELECT * FROM especializacion");
+                    $consulta = $con->prepare("SELECT * FROM especializacion ORDER BY especializacion ASC");
                     $consulta->execute();
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <tr>
-                        <td><?php echo $fila['id_esp']; ?></td>
                         <td><?php echo $fila['especializacion']; ?></td>
                         <td><a href="update_esp.php?id_esp=<?php echo $fila['id_esp']; ?>" class="btn__update">Editar</a></td>
                         <td><a href="delete_esp.php?id_esp=<?php echo $fila['id_esp']; ?>" class="btn__delete">Eliminar</a></td>

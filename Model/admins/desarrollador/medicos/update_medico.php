@@ -7,7 +7,7 @@
     $sql = $con -> prepare ("SELECT * FROM medicos, roles, estados, especializacion, t_documento
     WHERE medicos.id_rol = roles.id_rol AND medicos.id_estado = estados.id_estado 
     AND medicos.id_esp = especializacion.id_esp AND medicos.id_doc = t_documento.id_doc 
-    AND medicos.docu_medico = '".$_GET['id']."'");
+    AND medicos.docu_medico = '".$_GET['docu_medico']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
 ?>
@@ -34,7 +34,7 @@ if(isset($_POST["update"]))
     {
       $insertSQL = $con->prepare("UPDATE medicos SET id_doc = '$id_doc', docu_medico = '$docu_medico', 
       nombre_comple = '$nombre_comple', telefono = '$telefono',correo = '$correo', 
-      id_rol = '$id_rol', id_estado = '$id_estado', id_esp = '$id_esp' WHERE docu_medico = '".$_GET['id']."'");
+      id_rol = '$id_rol', id_estado = '$id_estado', id_esp = '$id_esp' WHERE docu_medico = '".$_GET['docu_medico']."'");
       $insertSQL -> execute();
       echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
       echo '<script>window.location="index_medico.php"</script>';
