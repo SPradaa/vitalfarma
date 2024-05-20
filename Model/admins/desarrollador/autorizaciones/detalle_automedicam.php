@@ -8,7 +8,7 @@ session_start();
 
 <?php 
     
-    $sentencia_select=$con->prepare("SELECT * FROM det_autorizacion ORDER BY id_auto ASC");
+    $sentencia_select=$con->prepare("SELECT * FROM det_autorizacion ORDER BY id_detalle ASC");
     
     $sentencia_select->execute();
     $resultado=$sentencia_select->fetchAll();
@@ -18,7 +18,7 @@ session_start();
         $buscar = $_GET['buscar'];
     
         // Preparar la consulta SQL
-        $consulta = $con->prepare("SELECT * FROM det_autorizacion WHERE id_auto LIKE :buscar");
+        $consulta = $con->prepare("SELECT * FROM det_autorizacion WHERE id_detalle LIKE :buscar");
     
         // Asignar valor al parámetro
         $buscar = "%$buscar%";
@@ -54,15 +54,15 @@ session_start();
         </div>
             <div class="barra_buscador">
                 <form action="" class="formulario" method="GET">
-                    <input type="text" name="buscar" placeholder="Buscar autorización" class="input_text">
+                    <input type="text" name="buscar" placeholder="Buscar detalle" class="input_text">
                     <input type="submit" class="btn" name="btn_buscar" value="Buscar">
-                    <a href="insert_automedicam.php" class="btn btn_nuevo">Crear detalle</a>
+                    <!-- <a href="insert_automedicam.php" class="btn btn_nuevo">Crear detalle</a> -->
                 </form>
             </div>
             <table>
                 <tr class="head">
                     <td>Detalle</td>
-                    <td>Auto</td>
+                    <td>Autorización</td>
                     <td>Medicamento</td>
                     <td>Cantidad</td>
                     <td>Medida Cantidad</td>
@@ -71,7 +71,7 @@ session_start();
                 <?php 
                 if(isset($_GET['btn_buscar'])) {
                     $buscar = $_GET['buscar'];
-                    $consulta = $con->prepare("SELECT * FROM autorizaciones WHERE id_auto LIKE ?");
+                    $consulta = $con->prepare("SELECT * FROM autorizaciones WHERE id_detalle LIKE ?");
                     $consulta->execute(array("%$buscar%"));
                     while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 ?>
@@ -82,7 +82,7 @@ session_start();
                         <td><?php echo $fila['cantidad']; ?></td>
                         <td><?php echo $fila['medida_cant']; ?></td>
                         <td><a href="update_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__update">Editar</a></td>
-                        <td><a href="delete_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__delete">Eliminar</a></td>
+                        <!-- <td><a href="delete_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__delete">Eliminar</a></td> -->
                         <td><a href="autorizar_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__autorizar">Autorizar</a></td>
                         
                     </tr>
@@ -105,7 +105,7 @@ session_start();
                         <td><?php echo $fila['cantidad']; ?></td>
                         <td><?php echo $fila['medida_cant']; ?></td>                        
                         <td><a href="update_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__update">Editar</a></td>
-                        <td><a href="delete_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__delete">Eliminar</a></td>
+                        <!-- <td><a href="delete_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__delete">Eliminar</a></td> -->
                         <td><a href="autorizar_automedicam.php?id_detalle=<?php echo $fila['id_detalle']; ?>" class="btn__autorizar">Autorizar</a></td>
                     </tr>
                 <?php 

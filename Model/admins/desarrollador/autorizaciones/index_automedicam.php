@@ -61,7 +61,7 @@ session_start();
             </div>
             <table>
                 <tr class="head">
-                    <td>Auto</td>
+                    <td>Autorización</td>
                     <td>Cita</td>
                     <td>Detalle</td>
                     <td>Documento médico</td>
@@ -79,8 +79,8 @@ session_start();
                         <td><?php echo $fila['id_cita']; ?></td>
                         <td><?php echo $fila['id_detalle']; ?></td>
                         <td><?php echo $fila['docu_medico']; ?></td>
-                        <td><a href="update_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__update">Editar</a></td>
-                        <td><a href="delete_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__delete">Eliminar</a></td>
+                        <!-- <td><a href="update_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__update">Editar</a></td> -->
+                        <!-- <td><a href="delete_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__delete">Eliminar</a></td> -->
                         <td><a href="detalle_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__detalle">Detalle</a></td>
                         
                     </tr>
@@ -101,8 +101,8 @@ session_start();
                         <td><?php echo $fila['id_cita']; ?></td>
                         <td><?php echo $fila['id_detalle']; ?></td>
                         <td><?php echo $fila['docu_medico']; ?></td>
-                        <td><a href="update_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__update">Editar</a></td>
-                        <td><a href="delete_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__delete">Eliminar</a></td>
+                        <!-- <td><a href="update_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__update">Editar</a></td> -->
+                        <!-- <td><a href="delete_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__delete">Eliminar</a></td> -->
                         <td><a href="detalle_automedicam.php?id_auto=<?php echo $fila['id_auto']; ?>" class="btn__detalle">Detalle</a></td>
                     </tr>
                 <?php 
