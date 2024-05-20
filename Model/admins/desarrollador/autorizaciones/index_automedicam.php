@@ -45,7 +45,7 @@ session_start();
     </head>
     <body>
         <div class="contenedor">
-            <h2>AUTORIZACIONES</h2>
+            <h2>AUTORIZACIONES DISPONIBLES</h2>
             <div class="row mt-3">
         <div class="col-md-6">
             <form action="../modulomedico.php">
@@ -56,7 +56,7 @@ session_start();
                 <form action="" class="formulario" method="GET">
                     <input type="text" name="buscar" placeholder="Buscar autorización" class="input_text">
                     <input type="submit" class="btn" name="btn_buscar" value="Buscar">
-                    <a href="insert_automedicam.php" class="btn btn_nuevo">Autorizar</a>
+                    <a href="insert_automedicam.php" class="btn btn_nuevo">Crear autorización</a>
                 </form>
             </div>
             <table>
