@@ -13,48 +13,6 @@ validarSesion();
 
 ?>
 
-<?php
-$sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
-$sql->bindParam(':documento', $_SESSION['documento']);
-$sql->execute();
-$fila = $sql->fetch();
-echo"conectado";
-
-$documento=$_SESSION['documento'];
-$nombre = $_SESSION['nombre'];
-$apellido = $_SESSION['apellido'];
-$direccion = $_SESSION['direccion'];
-$telefono =$_SESSION['telefono'];
-$correo= $_SESSION['correo'];
-$rol = $_SESSION['tipo'];
-$empresa = $_SESSION[ 'nit'];
-
-$nombre_comple = $nombre .''.$apellido; 
-
-// Verificar si se encontró al usuario
-if (!$fila) {
-    echo '<script>alert("Usuario no encontrado.");</script>';
-    echo '<script>window.location.href = "login.php";</script>';
-    exit;
-
-
-}
-
-// Variables para el usuario
-
-
-
-    // $_SESSION['documento'] = $fila['documento'];
-    // $_SESSION['nombre'] = $fila['nombre'];
-    // $_SESSION[ 'apellido'] = $fila['apellido'];
-    // $_SESSION[ 'direccion'] = $fila['direccion'];
-    // $_SESSION['telefono'] = $fila['telefono'];
-    // $_SESSION['correo'] = $fila['correo'];
-    // $_SESSION['password'] = $fila['password'];
-    // $_SESSION['tipo'] = $fila['id_rol'];
-    // $_SESSION['nit'] = $fila['nit'];
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,7 +26,7 @@ if (!$fila) {
     <meta name="description"
         content="AdminWrap Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Perfil</title>
+    <title>Citas</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/adminwrap-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
@@ -76,6 +34,8 @@ if (!$fila) {
     <link href="assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/styles.css" rel="stylesheet">
+    <!-- page css -->
+    <link href="css/pages/google-vector-map.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="css/colors/default.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -93,7 +53,7 @@ if (!$fila) {
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">VitalFarma</p>
+            <p class="loader__label">Admin Wrap</p>
         </div>
     </div>
     <!-- ============================================================== -->
@@ -107,6 +67,7 @@ if (!$fila) {
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
+                <!-- ============================================================== -->
                 <div class="navbar-header">
                     <a class="navbar-brand" href="index.html">
                         
@@ -144,8 +105,9 @@ if (!$fila) {
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href=""
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
-                                    class="hidden-md-down"><?php echo $nombre_comple ;?> &nbsp;</span> </a>
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+                                    src="../assets/images/users/1.jpg" alt="user" class="" /> <span
+                                    class="hidden-md-down">Mark Sanders &nbsp;</span> </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
                     </ul>
@@ -163,7 +125,7 @@ if (!$fila) {
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
+                <ul id="sidebarnav">
                         <li> <a class="waves-effect waves-dark" href="index.php" aria-expanded="false"><i
                                     class="fa fa-tachometer"></i><span class="hide-menu">Principal</span></a>
                         </li>
@@ -173,16 +135,16 @@ if (!$fila) {
                         <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
                                     class="fa fa-table"></i><span class="hide-menu">Citas </span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="modulomedico.php" aria-expanded="false"><i
+                        <li> <a class="waves-effect waves-dark" href="autorizaciones.php" aria-expanded="false"><i
                                     class="fa fa-smile-o"></i><span class="hide-menu">Autorizaciones</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="citas.php" aria-expanded="false"><i
+                        <li> <a class="waves-effect waves-dark" href="medicamentos.php" aria-expanded="false"><i
                                     class="fa fa-globe"></i><span class="hide-menu">Medicamentos</span></a>
                         </li>
                        
                         
                     </ul>
-                  
+                
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -204,113 +166,48 @@ if (!$fila) {
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h3 class="text-themecolor">Perfil</h3>
+                        <h3 class="text-themecolor">Medicamentos</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Profile</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Principal</a></li>
+                            <li class="breadcrumb-item active">Modulo Medicamentos</li>
                         </ol>
                     </div>
-                   
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <!-- Row -->
+              
                 <div class="row">
-                    <!-- Column -->
-                    <div class="col-lg-4 col-xlg-3 col-md-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <center class="mt-4"><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 36 36"><path fill="#000000" d="M14.68 14.81a6.76 6.76 0 1 1 6.76-6.75a6.77 6.77 0 0 1-6.76 6.75m0-11.51a4.76 4.76 0 1 0 4.76 4.76a4.76 4.76 0 0 0-4.76-4.76" class="clr-i-outline clr-i-outline-path-1"/><path fill="#000000" d="M16.42 31.68A2.14 2.14 0 0 1 15.8 30H4v-5.78a14.81 14.81 0 0 1 11.09-4.68h.72a2.2 2.2 0 0 1 .62-1.85l.12-.11c-.47 0-1-.06-1.46-.06A16.47 16.47 0 0 0 2.2 23.26a1 1 0 0 0-.2.6V30a2 2 0 0 0 2 2h12.7Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="#000000" d="M26.87 16.29a.37.37 0 0 1 .15 0a.42.42 0 0 0-.15 0" class="clr-i-outline clr-i-outline-path-3"/><path fill="#000000" d="m33.68 23.32l-2-.61a7.21 7.21 0 0 0-.58-1.41l1-1.86A.38.38 0 0 0 32 19l-1.45-1.45a.36.36 0 0 0-.44-.07l-1.84 1a7.15 7.15 0 0 0-1.43-.61l-.61-2a.36.36 0 0 0-.36-.24h-2.05a.36.36 0 0 0-.35.26l-.61 2a7 7 0 0 0-1.44.6l-1.82-1a.35.35 0 0 0-.43.07L17.69 19a.38.38 0 0 0-.06.44l1 1.82a6.77 6.77 0 0 0-.63 1.43l-2 .6a.36.36 0 0 0-.26.35v2.05A.35.35 0 0 0 16 26l2 .61a7 7 0 0 0 .6 1.41l-1 1.91a.36.36 0 0 0 .06.43l1.45 1.45a.38.38 0 0 0 .44.07l1.87-1a7.09 7.09 0 0 0 1.4.57l.6 2a.38.38 0 0 0 .35.26h2.05a.37.37 0 0 0 .35-.26l.61-2.05a6.92 6.92 0 0 0 1.38-.57l1.89 1a.36.36 0 0 0 .43-.07L32 30.4a.35.35 0 0 0 0-.4l-1-1.88a7 7 0 0 0 .58-1.39l2-.61a.36.36 0 0 0 .26-.35v-2.1a.36.36 0 0 0-.16-.35M24.85 28a3.34 3.34 0 1 1 3.33-3.33A3.34 3.34 0 0 1 24.85 28" class="clr-i-outline clr-i-outline-path-4"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-                                    <h4 class="card-title mt-2"> <?php echo $_SESSION['nombre'];?></h4>
+    <!-- Módulo de Citas -->
+    <div class="row">
+    <!-- column -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Módulo de Medicamentos</h4>
+                <h6 class="card-subtitle">Administra los medicamentos aquì</h6>
 
-                                    <?php  
-                                    
-                                    $control = $con->prepare("SELECT * fROM roles where id_rol = '$rol'");
-                                    // $control -> bindParam(':rol', $rol);
-                                    $control -> execute();
-                                    $consulta = $control->fetch();
-                                    
-                                    ?>
-
-                                    <h6 class="card-subtitle"><?php echo $consulta['rol'] ;   ?> </h6>
-                                    <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"></div>
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i
-                                                    class="fa fa-camera"></i>
-                                                <font class="font-medium">54</font>
-                                            </a></div>
-                                    </div>
-                                </center>
+                    <!-- Carta para el módulo de citas agendadas -->
+                    <div class="card">
+                        <a href="#">
+                            <div class="card_box">
+                                <h3 >Medicamentos </h3>
+                                <p class="card_box__content">Visualiza medicamentos en este módulo.</p>
+                                <div class="card__date">Haz clic para acceder y ver tus medicamentos.</div>
+                                <div class="card_box__arrow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="15" width="15">
+                                        <path fill="#fff" d="M13.4697 17.9697C13.1768 18.2626 13.1768 18.7374 13.4697 19.0303C13.7626 19.3232 14.2374 19.3232 14.5303 19.0303L20.3232 13.2374C21.0066 12.554 21.0066 11.446 20.3232 10.7626L14.5303 4.96967C14.2374 4.67678 13.7626 4.67678 13.4697 4.96967C13.1768 5.26256 13.1768 5.73744 13.4697 6.03033L18.6893 11.25H4C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75H18.6893L13.4697 17.9697Z"></path>
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-8 col-xlg-9 col-md-7">
-                        <div class="card">
-                            <!-- Tab panes -->
-                            <div class="card-body">
-                                <form class="form-horizontal form-material mx-2">
-                                    <div class="form-group">
-                                        <label class="col-md-12">Nombre Completo</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $nombre_comple ;?> "
-                                                class="form-control form-control-line" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="example-email" class="col-md-12">Email</label>
-                                        <div class="col-md-12">
-                                            <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
-                                                class="form-control form-control-line" name="example-email"
-                                                id="example-email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">Documento</label>
-                                        <div class="col-md-12">
-                                            <input type="text" value=" <?php echo $_SESSION['documento'];?>"
-                                                class="form-control form-control-line" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
-                                                class="form-control form-control-line">
-                                        </div>
-                                    </div>
-                                  
-                                    <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="<?php echo $direccion ?>"
-                                                class="form-control form-control-line">
-                                        </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success">Update Profile</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
                 </div>
-                <!-- Row -->
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
+        </div>
+    </div>
+</div>
+
+               
+      
+
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer"> © 2021 Adminwrap by <a href="https://www.wrappixel.com/">wrappixel.com</a> </footer>
@@ -339,6 +236,10 @@ if (!$fila) {
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
+    <!-- google maps api -->
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyCUBL-6KdclGJ2a_UpmB2LXvq7VOcPT7K4&sensor=true"></script>
+    <script src="assets/node_modules/gmaps/gmaps.min.js"></script>
+    <script src="assets/node_modules/gmaps/jquery.gmaps.js"></script>
 </body>
 
 </html>
