@@ -120,7 +120,7 @@
                 <option value ="">Seleccione el Tipo de Sangre</option>
                 
                 <?php
-                    $control = $con -> prepare ("SELECT * from rh");
+                    $control = $con -> prepare ("SELECT * from rh ORDER BY estado ASC");
                     $control -> execute();
                 while ($fila = $control->fetch(PDO::FETCH_ASSOC)) 
                 {
