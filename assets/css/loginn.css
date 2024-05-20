@@ -237,6 +237,9 @@ p{
 	border-radius: 10px;
 	font-weight: 600;
 	box-shadow: 0 0 45px  rgb(79, 240, 245);
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    
   }
   
   .return:hover {
@@ -244,6 +247,10 @@ p{
     background: rgb(255, 255, 255);
     color: rgb(8, 9, 9);
     box-shadow: 0 0 45px  rgb(48, 174, 179);
+  }
+
+  .return:active{
+    transform: translate(0.07em, 0.07em);
   }
   
   return::before {
