@@ -112,8 +112,8 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     </div>
 
     <div class="login-box">
-        <h2></h2>
-        <h3>Agendar Cita</h3>
+        
+        <h2>Agendar Cita</h2>
         <form action="" method="post">
             <div class="row">
                 <label for="documento">Documento:</label><br>
@@ -166,6 +166,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
             ?>
 
         </select>
+       
             </div>
             <!-- Los otros campos del formulario -->
             <input  class="btn btn-primary" type="submit" name="validar" value="Consultar">

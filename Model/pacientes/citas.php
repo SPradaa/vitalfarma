@@ -141,8 +141,7 @@ validarSesion();
                         <li> <a class="waves-effect waves-dark" href="medicamentos.php" aria-expanded="false"><i
                                     class="fa fa-globe"></i><span class="hide-menu">Medicamentos</span></a>
                         </li>
-                       
-                        
+                             
                     </ul>
                 
                 </nav>
