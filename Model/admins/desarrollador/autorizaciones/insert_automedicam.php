@@ -37,7 +37,7 @@ session_start();
 </head>
 <body>
     <div class="contenedor">
-        <h2>Crear Autorización</h2>
+        <h2>Crear </h2>
         <form action="" method="post">
             <div class="form-group">
                 <input type="text" name="autorizacion" placeholder="Autorización" class="
