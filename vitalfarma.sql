@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2024 a las 15:16:12
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 21-05-2024 a las 14:39:50
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `farmacia`
+-- Base de datos: `vitalfarma`
 --
+CREATE DATABASE IF NOT EXISTS `vitalfarma` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `vitalfarma`;
 
 -- --------------------------------------------------------
 
@@ -31,7 +33,7 @@ CREATE TABLE `autorizaciones` (
   `id_auto` int(11) NOT NULL,
   `id_cita` int(11) NOT NULL,
   `id_detalle` int(11) NOT NULL,
-  `docu_medico` int(11) NOT NULL
+  `id_medico` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -43,7 +45,6 @@ CREATE TABLE `autorizaciones` (
 CREATE TABLE `citas` (
   `id_cita` int(11) NOT NULL,
   `documento` int(11) NOT NULL,
-  `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `docu_medico` int(11) NOT NULL,
   `id_esp` int(3) NOT NULL,
@@ -54,40 +55,63 @@ CREATE TABLE `citas` (
 -- Volcado de datos para la tabla `citas`
 --
 
-INSERT INTO `citas` (`id_cita`, `documento`, `fecha`, `hora`, `docu_medico`, `id_esp`, `id_estado`) VALUES
-(2, 0, '0000-00-00', '00:00:00', 1104786412, 1, 3),
-(3, 1003239087, '2024-03-30', '00:00:00', 1122736351, 5, 3),
-(4, 1118723902, '2024-03-30', '00:00:00', 1104786412, 5, 3),
-(6, 1106226573, '2024-04-06', '00:00:00', 1122736351, 5, 3),
-(7, 2147483647, '2024-03-26', '00:00:00', 1122736351, 15, 3),
-(10, 2147483647, '2024-03-12', '00:00:00', 1122736351, 15, 3);
+INSERT INTO `citas` (`id_cita`, `documento`, `hora`, `docu_medico`, `id_esp`, `id_estado`) VALUES
+(2, 0, '00:00:00', 1104786412, 1, 3),
+(3, 1003239087, '00:00:00', 1122736351, 5, 3),
+(4, 1118723902, '00:00:00', 1104786412, 5, 3),
+(6, 1106226573, '00:00:00', 1122736351, 5, 3),
+(7, 2147483647, '00:00:00', 1122736351, 15, 3),
+(10, 2147483647, '00:00:00', 1122736351, 15, 3);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ciudad`
+-- Estructura de tabla para la tabla `departamentos`
 --
 
-CREATE TABLE `ciudad` (
-  `id_ciudad` int(3) NOT NULL,
-  `ciudad` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE `departamentos` (
+  `id_depart` int(11) NOT NULL,
+  `depart` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `ciudad`
+-- Volcado de datos para la tabla `departamentos`
 --
 
-INSERT INTO `ciudad` (`id_ciudad`, `ciudad`) VALUES
-(1, 'Bogota'),
-(2, 'Ibagué'),
-(3, 'Cali'),
-(4, 'Medellin'),
-(5, 'Cartagena'),
-(6, 'Manizales'),
-(7, 'Bucaramanga'),
-(8, 'Pereira'),
-(9, 'Armenia'),
-(10, 'Caqueta');
+INSERT INTO `departamentos` (`id_depart`, `depart`) VALUES
+(1, 'Antioquia'),
+(2, 'Atlantico'),
+(3, 'Bogotá, D.C'),
+(4, 'Bolivar'),
+(5, 'Boyacá'),
+(6, 'Caldas'),
+(7, 'Caquetá'),
+(8, 'Cauca'),
+(9, 'Cesar'),
+(10, 'Córdoba'),
+(11, 'Cundinamarca'),
+(12, 'Chocó'),
+(13, 'Huila'),
+(14, 'La Guajira'),
+(15, 'Magdalena'),
+(16, 'Nariño'),
+(17, 'Norte de Santander'),
+(18, 'Quindio'),
+(19, 'Risaralda'),
+(20, 'Santander'),
+(21, 'Sucre'),
+(22, 'Tolima'),
+(23, 'Valle del Cauca'),
+(24, 'Arauca'),
+(25, 'Casanare'),
+(26, 'Putumayo'),
+(27, 'Archipiélago de San Andrés y Providencia'),
+(28, 'Amazonas'),
+(29, 'Guainía'),
+(30, 'Guaviare'),
+(31, 'Vaupés'),
+(32, 'Vichada'),
+(33, 'Meta');
 
 -- --------------------------------------------------------
 
@@ -100,7 +124,8 @@ CREATE TABLE `det_autorizacion` (
   `id_auto` int(11) NOT NULL,
   `id_medicamento` int(11) NOT NULL,
   `cantidad` varchar(20) NOT NULL,
-  `medida_cant` varchar(20) NOT NULL
+  `medida_cant` varchar(20) NOT NULL,
+  `concentracion` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -274,6 +299,262 @@ INSERT INTO `medicos` (`docu_medico`, `id_doc`, `nombre_comple`, `correo`, `tele
 (1104786412, 3, 'yareth ohany garcia rangel', 'yogarcia@gmail.com', '3123122213', 'undefined ', 3, 3, 4),
 (1108982783, 3, 'Isabella Rios ', 'isa10256@gmail.com', '3125468787', 'undefined.', 3, 3, 5),
 (1122736351, 3, 'Jeferson Cardenal', 'jefer23@gmail.com', '3002349008', 'jefer123', 3, 3, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `municipios`
+--
+
+CREATE TABLE `municipios` (
+  `id_municipio` int(11) NOT NULL,
+  `municipio` varchar(100) NOT NULL,
+  `id_depart` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `municipios`
+--
+
+INSERT INTO `municipios` (`id_municipio`, `municipio`, `id_depart`) VALUES
+(1, 'Andes', 1),
+(3, 'Armenia', 1),
+(4, 'Barbosa', 1),
+(5, 'Bello', 1),
+(7, 'Caceres', 1),
+(8, 'Caldas', 1),
+(9, 'Caracoli', 1),
+(10, 'Ciudad Bolivar', 1),
+(11, 'Copacabana', 1),
+(12, 'Envigado', 1),
+(13, 'Granada', 1),
+(14, 'Guatape', 1),
+(15, 'Itagui', 1),
+(16, 'Ituango', 1),
+(17, 'Jerico', 1),
+(18, 'Medellin', 1),
+(19, 'Montebello', 1),
+(20, 'Nariño', 1),
+(21, 'Rionegro', 1),
+(22, 'Sabanalarga', 1),
+(23, 'Sabaneta', 1),
+(24, 'San Andrés', 1),
+(25, 'San Vicente', 1),
+(27, 'Urrao', 1),
+(28, 'Zaragoza', 1),
+(29, 'Barranquilla', 2),
+(30, 'Candelaria', 2),
+(31, 'Malambo', 2),
+(32, 'Sabanagrande', 2),
+(33, 'Sabanalarga', 2),
+(34, 'Santa Lucia', 2),
+(35, 'Santo Tomas', 2),
+(36, 'Bogotá D.C.', 3),
+(37, 'Cartagena', 4),
+(38, 'Córdoba', 4),
+(39, 'Magangué', 4),
+(40, 'Margarita', 4),
+(41, 'Santa Catalina', 4),
+(42, 'Turbaco', 4),
+(43, 'Villanueva', 4),
+(44, 'Chiquinquirá', 5),
+(45, 'Duitama', 5),
+(46, 'Tunja', 5),
+(47, 'Sogamoso', 5),
+(48, 'Villa de Leyva', 5),
+(49, 'La Dorada', 6),
+(50, 'Manizales', 6),
+(51, 'Marquetalia', 6),
+(52, 'Risaralda', 6),
+(53, 'San Jose de Caldas', 6),
+(54, 'Curillo', 7),
+(55, 'Florencia', 7),
+(56, 'San José del Fragua', 7),
+(57, 'San Vicente del Caguan', 7),
+(58, 'Bolivar', 8),
+(59, 'Guachené', 8),
+(60, 'La Sierra', 8),
+(61, 'Popayan', 8),
+(62, 'Puerto Tejada', 8),
+(63, 'Sucre', 8),
+(64, 'Villarica', 8),
+(65, 'Aguachica', 9),
+(66, 'Bosconia', 9),
+(67, 'Chimichagua', 9),
+(68, 'Curumani', 9),
+(69, 'a Gloria', 9),
+(70, 'Puebo Bello', 9),
+(71, 'San Martin', 9),
+(72, 'Valledupar', 9),
+(73, 'Buenavista', 10),
+(74, 'Cienaga de Oro', 10),
+(75, 'Montelibano', 10),
+(76, 'Monteria', 10),
+(77, 'Pueblo Nuevo', 10),
+(78, 'Puerto Escondido', 10),
+(79, 'Anapoima', 11),
+(80, 'Anolaima', 11),
+(81, 'Apulo', 11),
+(82, 'Cachipay', 11),
+(83, 'Cajica', 11),
+(84, 'Chia', 11),
+(85, 'Choconta', 11),
+(86, 'Cota', 11),
+(87, 'Facatativa', 11),
+(88, 'Funza', 11),
+(89, 'Fusagasuga', 11),
+(90, 'Girardot', 11),
+(91, 'Guatavita', 11),
+(92, 'La calera', 11),
+(93, 'La mesa', 11),
+(94, 'Madrid', 11),
+(95, 'Mosquera', 11),
+(96, 'Nocaima', 11),
+(97, 'Sibate', 11),
+(98, 'Silvania', 11),
+(99, 'Soacha', 11),
+(100, 'Subachoque', 11),
+(101, 'Villeta', 11),
+(102, 'Yacopi', 11),
+(103, 'Zipaquira', 11),
+(104, 'Atrato', 12),
+(105, 'Bojaya', 12),
+(106, 'Quibdo', 12),
+(107, 'Rio Quito', 12),
+(108, 'San Jose del Palmar', 12),
+(109, 'Acevedo', 13),
+(110, 'Algeciras', 13),
+(111, 'Altamira', 13),
+(112, 'Campoalegre', 13),
+(113, 'Neiva', 13),
+(114, 'Palermo', 13),
+(115, 'Pitalito', 13),
+(116, 'Yaguara', 13),
+(117, 'Albania', 14),
+(118, 'Barrancas', 14),
+(119, 'Maicao', 14),
+(120, 'Riohacha', 14),
+(121, 'Cienaga', 15),
+(122, 'Nueva Granada', 15),
+(123, 'Santa Marta', 15),
+(124, 'Zapayan', 15),
+(125, 'Cordoba', 16),
+(126, 'Ipiales', 16),
+(127, 'La Florida', 16),
+(128, 'Leiva', 16),
+(129, 'Mosquera', 16),
+(130, 'Pasto', 16),
+(131, 'Tumaco', 16),
+(132, 'Barrancabermeja', 17),
+(133, 'Chinacota', 17),
+(134, 'Cucuta', 17),
+(135, 'Puerto Santander', 17),
+(136, 'Villa del Rosario', 17),
+(137, 'Armenia', 18),
+(138, 'Buenavista', 18),
+(139, 'Calarca', 18),
+(140, 'Cordoba', 18),
+(141, 'Montenegro', 18),
+(142, 'Dos Quebrada', 19),
+(143, 'Guatica', 19),
+(144, 'Pereira', 19),
+(145, 'Pueblorico', 19),
+(146, 'Quinchia', 19),
+(147, 'Aracota', 20),
+(148, 'Barichara', 20),
+(149, 'Bolivar', 20),
+(150, 'Bucaramanga', 20),
+(151, 'Curiti', 20),
+(152, 'FloridaBlanca', 20),
+(153, 'Buenavista', 21),
+(154, 'Majagual', 21),
+(155, 'Sincelejo', 21),
+(156, 'Sucre', 21),
+(157, 'Alpujarra', 22),
+(158, 'Alvarado', 22),
+(159, 'Armero', 22),
+(160, 'Ataco', 22),
+(161, 'Cajamarca', 22),
+(162, 'Carmen de Apicala', 22),
+(163, 'Chaparral', 22),
+(164, 'Coello', 22),
+(165, 'Coyaima', 22),
+(166, 'Cunday', 22),
+(167, 'Dolores', 22),
+(168, 'Espinal', 22),
+(169, 'Flandes', 22),
+(170, 'Fresno', 22),
+(171, 'Guamo', 22),
+(172, 'Honda', 22),
+(173, 'Ibagué', 22),
+(174, 'Icononzo', 22),
+(175, 'Libano', 22),
+(176, 'Mariquita', 22),
+(177, 'Melgar', 22),
+(178, 'Murillo', 22),
+(179, 'Natagaima', 22),
+(180, 'Ortega', 22),
+(181, 'Planadas', 22),
+(182, 'Prado', 22),
+(183, 'Purificación', 22),
+(184, 'RioBlanco', 22),
+(185, 'Roncesvalles', 22),
+(186, 'Rovira', 22),
+(187, 'Saldaña', 22),
+(188, 'San Antonio', 22),
+(189, 'San Luis', 22),
+(190, 'Valle de San Juan', 22),
+(191, 'Venadillo', 22),
+(192, 'VillaHermosa', 22),
+(193, 'VillaRica', 22),
+(194, 'Alcala', 23),
+(195, 'Buenaventura', 23),
+(196, 'Buga', 23),
+(197, 'Cali', 23),
+(198, 'Florida', 23),
+(199, 'Palmira', 23),
+(200, 'Restrepo', 23),
+(201, 'Tulua', 23),
+(202, 'Arauca', 24),
+(203, 'Arauquita', 24),
+(204, 'Saravena', 24),
+(205, 'Tame', 24),
+(206, 'Aguazul', 25),
+(207, 'Monterrey', 25),
+(208, 'Sabanalarga', 25),
+(209, 'Tauramena', 25),
+(210, 'Villanueva', 25),
+(211, 'Yopal', 25),
+(212, 'Mocoa', 26),
+(213, 'Puerto Asis', 26),
+(214, 'Villa Amazonica', 26),
+(215, 'VillaGarzon', 26),
+(216, 'Providencia', 27),
+(217, 'San Andrés', 27),
+(218, 'Leticia', 28),
+(219, 'Puerto Arica', 28),
+(220, 'Puerto Nariño', 28),
+(221, 'Puerto Santander', 28),
+(222, 'Cacahual', 29),
+(223, 'Guaviare', 29),
+(224, 'PTO Inrida', 29),
+(225, 'Calamar', 30),
+(226, 'El Retorno', 30),
+(227, 'MiraFlores', 30),
+(228, 'San Jose del Guaviare', 30),
+(229, 'Mitú', 31),
+(230, 'Morichal', 31),
+(231, 'Taraira', 31),
+(232, 'La Primavera', 32),
+(233, 'Puerto Carreño', 32),
+(234, 'Puerto Murillo', 32),
+(235, 'Puerto Nariño', 32),
+(236, 'El Carmen', 33),
+(237, 'Granada', 33),
+(238, 'La Macarena', 33),
+(239, 'Mesetas', 33),
+(240, 'Puerto Gaitan', 33),
+(241, 'Villavicencio', 33);
 
 -- --------------------------------------------------------
 
@@ -505,7 +786,21 @@ INSERT INTO `trigg` (`n_password`, `v_password`, `tipo`, `fecha_creacion`) VALUE
 ('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:14'),
 ('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:47'),
 ('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:22:53'),
-('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:23:14');
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-16 11:23:14'),
+('$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 'update', '2024-05-19 17:48:17'),
+('$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', '$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', 'update', '2024-05-19 17:48:24'),
+('$2y$10$VlIZBg/m7H0IfFO23/1rFeKWEUXlPNHZ99LkVjubfcUx.VhbW3RNq', '$2y$10$VlIZBg/m7H0IfFO23/1rFeKWEUXlPNHZ99LkVjubfcUx.VhbW3RNq', 'update', '2024-05-19 17:48:28'),
+('$2y$10$AwCcAd8yWYJ1uisFewaU4es7KAQLewZ.8It/h6T9cfLrAkQPiCj1O', '$2y$10$AwCcAd8yWYJ1uisFewaU4es7KAQLewZ.8It/h6T9cfLrAkQPiCj1O', 'update', '2024-05-19 17:48:33'),
+('$2y$10$jDjtO9kgW3jNviS9GzVSOe1/gQvjc/jN0eFk.rPtK1kz4OeX7xeg6', '$2y$10$jDjtO9kgW3jNviS9GzVSOe1/gQvjc/jN0eFk.rPtK1kz4OeX7xeg6', 'update', '2024-05-19 17:48:38'),
+('$2y$10$gp9XECGkkFrLZElrjSRV6eyiMTon4rUStoas0dCU3GpuGj/XthsvK', '$2y$10$gp9XECGkkFrLZElrjSRV6eyiMTon4rUStoas0dCU3GpuGj/XthsvK', 'update', '2024-05-19 17:48:42'),
+('$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', '$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', 'update', '2024-05-19 17:48:46'),
+('$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', '$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', 'update', '2024-05-19 17:48:50'),
+('$2y$10$/xRvSSibu75J9odWRuTlg.ie0cOSWmkp25RWb5rfuOp1dCwFikTFC', '$2y$10$/xRvSSibu75J9odWRuTlg.ie0cOSWmkp25RWb5rfuOp1dCwFikTFC', 'update', '2024-05-19 17:49:02'),
+('$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', '$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', 'update', '2024-05-19 17:49:08'),
+('$2y$10$ax4eNUxaiVO/lSDrYm40r.uc47OzHvnVb2rkY5gynKd2sN5GKrjsa', '$2y$10$ax4eNUxaiVO/lSDrYm40r.uc47OzHvnVb2rkY5gynKd2sN5GKrjsa', 'update', '2024-05-19 17:49:16'),
+('$2y$10$VIjtTBWyH6PhnD7Hybi5HOc9RX7zODhzcYhh76HJWpMv6MwlhtKYK', '$2y$10$VIjtTBWyH6PhnD7Hybi5HOc9RX7zODhzcYhh76HJWpMv6MwlhtKYK', 'update', '2024-05-19 17:49:21'),
+('$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', '$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', 'update', '2024-05-19 17:49:25'),
+('$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', '$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', 'update', '2024-05-19 17:49:29');
 
 -- --------------------------------------------------------
 
@@ -542,7 +837,7 @@ CREATE TABLE `usuarios` (
   `id_rh` int(2) NOT NULL,
   `telefono` varchar(12) NOT NULL,
   `correo` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `id_ciudad` int(3) NOT NULL,
+  `id_municipio` int(11) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   `password` varchar(500) NOT NULL,
   `id_rol` int(3) NOT NULL,
@@ -555,21 +850,23 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`documento`, `id_doc`, `nombre`, `apellido`, `id_rh`, `telefono`, `correo`, `id_ciudad`, `direccion`, `password`, `id_rol`, `id_estado`, `nit`, `token`) VALUES
-(38211887, 3, 'Briceida', 'Prada Guzman', 1, '3124237144', 'brisapradaguzman34@gmail.com', 2, 'Cra 2 #75-b31 conjunto villa cristales', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 2, 3, '9572841630', ''),
-(1005717713, 3, 'Aura', 'Olaya', 7, '3173532543', 'olayacristina01@gmail.com', 2, 'calle 60 n 6-16 Prados', '$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', 1, 3, '12378945', ''),
-(1006123134, 3, 'yesica', 'gomez', 1, '3136651555', 'yesica@gmail.com', 2, 'arboleda', '$2y$10$VlIZBg/m7H0IfFO23/1rFeKWEUXlPNHZ99LkVjubfcUx.VhbW3RNq', 5, 4, '7461593280', ''),
-(1023870638, 3, 'juan david', 'aroca', 7, '3154221202', 'jdaroca83gmail.com', 2, 'mz b casa 8', '$2y$10$AwCcAd8yWYJ1uisFewaU4es7KAQLewZ.8It/h6T9cfLrAkQPiCj1O', 5, 4, '45685297', ''),
-(1031540636, 3, 'jeferson', 'cardenal', 7, '3213879832', 'yiyecardenal@gmail.com', 2, 'calle 39 bis', '$2y$10$jDjtO9kgW3jNviS9GzVSOe1/gQvjc/jN0eFk.rPtK1kz4OeX7xeg6', 5, 4, '45685297', ''),
-(1104254269, 3, 'daniel', 'montoya', 1, '3193914473', 'danielcamilom96@gmail.com', 2, 'calle 21 con 5', '$2y$10$gp9XECGkkFrLZElrjSRV6eyiMTon4rUStoas0dCU3GpuGj/XthsvK', 5, 4, '45685297', ''),
-(1104544454, 4, 'brayan fernando', 'sanchez izquierdo', 1, '3202174961', 'bfsanchez45gmail.com', 2, 'manza c casa 14 barrio la gait', '$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', 5, 4, '12378945', ''),
-(1106226573, 3, 'Santiago ', 'pinilla prada', 2, '3144342215', 'Santiagomagnos63@gmail.com', 2, 'Cra2 #75-b31 ', '$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', 1, 3, '9572841630', ''),
-(1107975322, 3, 'cristian julian', 'figueroa armero', 7, '3124758405', 'cristianfigueroa040@gmail.com', 2, 'cra 6 # 6-36', '$2y$10$/xRvSSibu75J9odWRuTlg.ie0cOSWmkp25RWb5rfuOp1dCwFikTFC', 5, 4, '45685297', ''),
-(1110172890, 3, 'Valentina', 'Mendoza', 7, '3158571494', 'valen.mza.28@gmail.com', 2, 'Barrio Ricaute', '$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', 1, 4, '45685297', ''),
-(1110567986, 3, 'julian', 'cladeo', 8, '3154688169', 'mlksklsk@gamil.com', 2, 'lslsklkslklsklkslksl', '$2y$10$ax4eNUxaiVO/lSDrYm40r.uc47OzHvnVb2rkY5gynKd2sN5GKrjsa', 5, 4, '8241763950', ''),
-(1111333014, 3, 'Yurica', 'Ducuara', 7, '3212441999', 'yuriducu04@gmail.com', 2, 'mz a casa 13 rosales de tailan', '$2y$10$VIjtTBWyH6PhnD7Hybi5HOc9RX7zODhzcYhh76HJWpMv6MwlhtKYK', 5, 4, '45685297', ''),
-(1127208301, 3, 'Ohany', 'Garcia', 8, '3102552339', 'yarethohany.6704@gmail.com', 2, 'Caracoli Bloq 15 - 304', '$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', 4, 3, '9572841630', ''),
-(2147483647, 3, 'jennifer tatiana', 'ortiz goyeneche', 7, '3114409273', 'ortiztatiana1416@gmail.com', 2, 'barrio americas', '$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', 5, 4, '123852789', '');
+INSERT INTO `usuarios` (`documento`, `id_doc`, `nombre`, `apellido`, `id_rh`, `telefono`, `correo`, `id_municipio`, `direccion`, `password`, `id_rol`, `id_estado`, `nit`, `token`) VALUES
+(38211887, 3, 'Briceida', 'Prada Guzman', 1, '3124237144', 'brisapradaguzman34@gmail.com', 173, 'Cra 2 #75-b31 conjunto villa cristales', '$2y$10$Nc12rdh8A/TrslGo5RRL.en/rkUtSb1ghx/VKsCXzLqyp5IuQdSjy', 2, 3, '9572841630', ''),
+(1005717713, 3, 'Aura', 'Olaya', 7, '3173532543', 'olayacristina01@gmail.com', 173, 'calle 60 n 6-16 Prados', '$2y$10$Ty6V5Rsq3sa3o9xdg3wvzurk.4GDfWDD2jnAQBWw0o.X9/abuU5yK', 1, 3, '12378945', ''),
+(1006123134, 3, 'yesica', 'gomez', 1, '3136651555', 'yesica@gmail.com', 173, 'arboleda', '$2y$10$VlIZBg/m7H0IfFO23/1rFeKWEUXlPNHZ99LkVjubfcUx.VhbW3RNq', 5, 4, '7461593280', ''),
+(1023870638, 3, 'juan david', 'aroca', 7, '3154221202', 'jdaroca83gmail.com', 173, 'mz b casa 8', '$2y$10$AwCcAd8yWYJ1uisFewaU4es7KAQLewZ.8It/h6T9cfLrAkQPiCj1O', 5, 4, '45685297', ''),
+(1031540636, 3, 'jeferson', 'cardenal', 7, '3213879832', 'yiyecardenal@gmail.com', 173, 'calle 39 bis', '$2y$10$jDjtO9kgW3jNviS9GzVSOe1/gQvjc/jN0eFk.rPtK1kz4OeX7xeg6', 5, 4, '45685297', ''),
+(1104254269, 3, 'daniel', 'montoya', 1, '3193914473', 'danielcamilom96@gmail.com', 173, 'calle 21 con 5', '$2y$10$gp9XECGkkFrLZElrjSRV6eyiMTon4rUStoas0dCU3GpuGj/XthsvK', 5, 4, '45685297', ''),
+(1104544454, 4, 'brayan fernando', 'sanchez izquierdo', 1, '3202174961', 'bfsanchez45gmail.com', 173, 'manza c casa 14 barrio la gait', '$2y$10$W9gCCOEzUIO4.y.PsvvMLOrlaXGt8XuHjodmXZMfulaxTuBhKfh4O', 5, 4, '12378945', ''),
+(1106226573, 3, 'Santiago ', 'pinilla prada', 2, '3144342215', 'Santiagomagnos63@gmail.com', 173, 'Cra2 #75-b31 ', '$2y$10$qGALdxLPgvOV.hgDeuTbNeVdF9mf86zNrNKGKhGO3t/JC7ejHv9Yu', 1, 3, '9572841630', ''),
+(1107975322, 3, 'cristian julian', 'figueroa armero', 7, '3124758405', 'cristianfigueroa040@gmail.com', 173, 'cra 6 # 6-36', '$2y$10$/xRvSSibu75J9odWRuTlg.ie0cOSWmkp25RWb5rfuOp1dCwFikTFC', 5, 4, '45685297', ''),
+(1110172890, 3, 'Valentina', 'Mendoza', 7, '3158571494', 'valen.mza.28@gmail.com', 173, 'Barrio Ricaute', '$2y$10$38Y5VeED/nkAfSwUwAUrruFRb.WFCYI9x9Io4Pqg.ZhfP8uyXOcTO', 1, 4, '45685297', ''),
+(1110567986, 3, 'julian', 'cladeo', 8, '3154688169', 'mlksklsk@gamil.com', 173, 'lslsklkslklsklkslksl', '$2y$10$ax4eNUxaiVO/lSDrYm40r.uc47OzHvnVb2rkY5gynKd2sN5GKrjsa', 5, 4, '8241763950', ''),
+(1111333014, 3, 'Yurica', 'Ducuara', 7, '3212441999', 'yuriducu04@gmail.com', 173, 'mz a casa 13 rosales de tailan', '$2y$10$VIjtTBWyH6PhnD7Hybi5HOc9RX7zODhzcYhh76HJWpMv6MwlhtKYK', 5, 4, '45685297', ''),
+(1112823773, 2, 'Esmeralda', 'Gomez', 1, '3215642337', 'esme@gmail.com', 18, 'BarrioPicalena', '$2y$10$VQplaI9PAryaNWyoqSU40.kp0HTlG0K8.QK89xwxlHBFcROE2bC1K', 5, 4, '2836147590', ''),
+(1127208301, 3, 'Ohany', 'Garcia', 8, '3102552339', 'yarethohany.6704@gmail.com', 173, 'Caracoli Bloq 15 - 304', '$2y$10$R2fBqslLXvEL2gbulrSNa.ZAm5VzLD.VAAEMPHQ0o5FAwc7HTGr8W', 4, 3, '9572841630', ''),
+(1234567892, 2, 'Mateo', 'Ramirez', 7, '3214563423', 'mateo@gmail.com', 36, 'Barrio Suba', '$2y$10$d4hmaFSEcqMOuZ/KncFdcema0.utP5r72c04z5F6VWCfG.ny0Sq1.', 5, 4, '9572841630', ''),
+(2147483647, 3, 'jennifer tatiana', 'ortiz goyeneche', 7, '3114409273', 'ortiztatiana1416@gmail.com', 173, 'barrio americas', '$2y$10$rQE0y0KfiOItTsrxj/.oDe2G/J78ySu.JD5gp4iogRdj8hPoDkCTS', 5, 4, '123852789', '');
 
 --
 -- Disparadores `usuarios`
@@ -590,7 +887,7 @@ ALTER TABLE `autorizaciones`
   ADD PRIMARY KEY (`id_auto`),
   ADD KEY `id_cita` (`id_cita`),
   ADD KEY `id_detalle` (`id_detalle`),
-  ADD KEY `id_medico` (`docu_medico`);
+  ADD KEY `id_medico` (`id_medico`);
 
 --
 -- Indices de la tabla `citas`
@@ -601,10 +898,10 @@ ALTER TABLE `citas`
   ADD KEY `id_medico` (`docu_medico`);
 
 --
--- Indices de la tabla `ciudad`
+-- Indices de la tabla `departamentos`
 --
-ALTER TABLE `ciudad`
-  ADD PRIMARY KEY (`id_ciudad`);
+ALTER TABLE `departamentos`
+  ADD PRIMARY KEY (`id_depart`);
 
 --
 -- Indices de la tabla `det_autorizacion`
@@ -652,6 +949,12 @@ ALTER TABLE `medicos`
   ADD KEY `id_doc` (`id_doc`);
 
 --
+-- Indices de la tabla `municipios`
+--
+ALTER TABLE `municipios`
+  ADD PRIMARY KEY (`id_municipio`);
+
+--
 -- Indices de la tabla `rh`
 --
 ALTER TABLE `rh`
@@ -684,7 +987,7 @@ ALTER TABLE `usuarios`
   ADD KEY `id_rh` (`id_rh`),
   ADD KEY `id_rol` (`id_rol`),
   ADD KEY `id_estado` (`id_estado`),
-  ADD KEY `id_ciudad` (`id_ciudad`);
+  ADD KEY `id_ciudad` (`id_municipio`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -703,10 +1006,10 @@ ALTER TABLE `citas`
   MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `ciudad`
+-- AUTO_INCREMENT de la tabla `departamentos`
 --
-ALTER TABLE `ciudad`
-  MODIFY `id_ciudad` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `departamentos`
+  MODIFY `id_depart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `det_autorizacion`
@@ -739,6 +1042,12 @@ ALTER TABLE `medicamentos`
   MODIFY `id_medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `municipios`
+--
+ALTER TABLE `municipios`
+  MODIFY `id_municipio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=693237;
+
+--
 -- AUTO_INCREMENT de la tabla `rh`
 --
 ALTER TABLE `rh`
@@ -765,6 +1074,21 @@ ALTER TABLE `t_documento`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `autorizaciones`
+--
+ALTER TABLE `autorizaciones`
+  ADD CONSTRAINT `autorizaciones_ibfk_1` FOREIGN KEY (`id_cita`) REFERENCES `citas` (`id_cita`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `autorizaciones_ibfk_2` FOREIGN KEY (`id_detalle`) REFERENCES `det_autorizacion` (`id_detalle`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `autorizaciones_ibfk_3` FOREIGN KEY (`id_medico`) REFERENCES `medicos` (`docu_medico`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `det_autorizacion`
+--
+ALTER TABLE `det_autorizacion`
+  ADD CONSTRAINT `det_autorizacion_ibfk_1` FOREIGN KEY (`id_auto`) REFERENCES `autorizaciones` (`id_auto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `det_autorizacion_ibfk_2` FOREIGN KEY (`id_medicamento`) REFERENCES `laboratorio` (`id_lab`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `medicamentos`
