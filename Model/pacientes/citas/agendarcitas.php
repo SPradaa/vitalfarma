@@ -1,12 +1,12 @@
 <?php
 // session_start();
-    require_once("../../db/connection.php"); 
+    require_once("../../../db/connection.php"); 
     $db = new Database();
     $con = $db->conectar();
 	
 
 	
-require_once("../../controller/seg.php");
+require_once("../../../controller/seg.php");
 validarSesion();
 
 
@@ -18,7 +18,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
    $id_esp= $_POST['id_esp'];
    $docu_medico= $_POST['docu_medico'];
 
-   $citaExistente = $con->prepare("SELECT * FROM citas WHERE fecha='$fecha' AND hora='$hora'");
+   $citaExistente = $con->prepare("SELECT * FROM citas WHERE fecha='$fecha' AND hora='$hora' AND docu_medico='$docu_medico'");
    $citaExistente->execute();
    $citaExistenteResultado = $citaExistente->fetchAll(PDO::FETCH_ASSOC);
 
@@ -29,7 +29,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
       echo '<script>window.location="agendarcitas.php"</script>';
 
    } elseif ($citaExistenteResultado) {
-    echo '<script>alert("Ya hay una cita programada para la misma fecha y hora.");</script>';
+    echo '<script>alert("Ya hay una cita programada para la misma fecha y hora con el medico seleccionado.");</script>';
     echo '<script>window.location="agendarcitas.php"</script>';
    
     } else {
@@ -51,7 +51,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendar Cita</title>
-    <link rel="stylesheet" href="css/agendarcita.css">
+    <link rel="stylesheet" href="../css/agendarcita.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -80,27 +80,6 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
         });
     </script>
     <!-- Agrega este script en el head -->
-
-
-<script>
-    function verificarMedico() {
-        var medicoSeleccionado = document.getElementById("docu_medico").value;
-        // Realizar solicitud AJAX para verificar el médico
-        $.ajax({
-            url: 'verificar_medico.php',
-            method: 'POST',
-            data: {medico: medicoSeleccionado},
-            success: function(response) {
-                if (response == 'ocupado') {
-                    alert("Este médico ya está ocupado. Por favor, elija otro.");
-                 
-                }
-            }
-        });
-    }
-</script>
-
-
 </head>
 <body>
 
