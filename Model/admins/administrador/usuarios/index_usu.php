@@ -53,6 +53,17 @@
             text-align: center;
             padding: 5px;
         }
+        .espacios{
+            margin-top: 20px;
+            width: 100%;
+            height: auto;
+            /* background: red; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+        }
     </style>
 </head>
 <body>
@@ -66,12 +77,24 @@
                 <form action="../index.php">
                     <input type="submit" value="Regresar" class="btn btn-secondary"/>
                 </form>
+              
             </div>
             <div class="col-md-6">
                 <a href="create_usu.php" class="btn btn-success"><i class="fas fa-user-plus"></i>Crear Usuario</a>
             </div>
+            
         </div>
+       
     </div>
+    <div class="espacios">
+    <div class="col-md-6">
+            <form action="generar_pdf.php" method="post">
+                <label for="">Generar Reportes  </label>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf-fill"></i> PDF</button>
+            </form>
+            </div>
+    </div>
+    
     <table class="table table-bordered">
         <thead class="table-primary">
             <tr>
@@ -93,8 +116,8 @@
         <tbody>
 
             <?php
-            $consulta = "SELECT * FROM usuarios, roles, t_documento, ciudad, empresas, rh, estados
-            WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad AND
+            $consulta = "SELECT * FROM usuarios, roles, t_documento, municipios, empresas, rh, estados
+            WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_municipio = municipios.id_municipio AND
             usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.nit = empresas.nit";
             $resultado = $con->query($consulta);
 
@@ -107,7 +130,7 @@
                     <td>' . $fila["apellido"] . '</td>
                     <td>' . $fila["telefono"] . '</td>
                     <td>' . $fila["correo"] . '</td>
-                    <td>' . $fila["ciudad"] . '</td>
+                    <td>' . $fila["municipio"] . '</td>
                     <td>' . $fila["direccion"] . '</td>
                     <td>' . $fila["empresa"] . '</td>
                     <td>' . $fila["rh"] . '</td>
