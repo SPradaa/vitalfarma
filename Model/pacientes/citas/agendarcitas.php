@@ -91,8 +91,10 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     </div>
 
     <div class="login-box">
-        
-        <h2>Agendar Cita</h2>
+        <img src="../../../assets/img/log.farma.png">
+        <h2>¡BIENVENIDO A VITALFARMA!</h2>
+        <P>Agenda tu cita</P>
+        <br>
         <form action="" method="post">
             <div class="row">
                 <label for="documento">Documento:</label><br>
