@@ -321,7 +321,7 @@ if(isset($_POST['btncerrar']))
             // Asegúrate de tener una conexión de base de datos válida en $con
             $consulta = "SELECT *
                          FROM usuarios
-                         JOIN ciudad ON usuarios.id_ciudad = ciudad.id_ciudad
+                        --  JOIN municipios ON usuarios.id_municipio = municipio.id_municipio
                          JOIN empresas ON usuarios.nit = empresas.nit
                          JOIN estados ON usuarios.id_estado = estados.id_estado
                          JOIN roles ON usuarios.id_rol = roles.id_rol

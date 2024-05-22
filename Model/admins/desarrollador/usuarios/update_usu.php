@@ -4,8 +4,8 @@
     $conexion = new Database();
     $con = $conexion->conectar();
 
-    $sql = $con -> prepare ("SELECT * FROM usuarios, roles, t_documento, ciudad, empresas, rh, estados
-    WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad AND
+    $sql = $con -> prepare ("SELECT * FROM usuarios, roles, t_documento, municipios, empresas, rh, estados
+    WHERE usuarios.id_rol = roles.id_rol AND usuarios.id_doc = t_documento.id_doc AND usuarios.id_municipio = municipios.id_municipio AND
     usuarios.nit = empresas.nit AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND usuarios.documento = '".$_GET['documento']."'");
     $sql -> execute();
     $usua =$sql -> fetch();
@@ -23,7 +23,7 @@ if(isset($_POST["update"]))
     $id_rh= $_POST['id_rh'];
     $telefono= $_POST['telefono'];
     $correo= $_POST['correo'];
-    $id_ciudad= $_POST['id_ciudad'];
+    $ciudad= $_POST['id_municipio'];
     $direccion=$_POST['direccion'];
     $id_rol= $_POST['id_rol'];
     $id_estado= $_POST['id_estado'];
@@ -37,7 +37,7 @@ if(isset($_POST["update"]))
     {
       $insertSQL = $con->prepare("UPDATE usuarios SET documento = '$documento', id_doc = '$id_doc', 
       nombre = '$nombre', apellido = '$apellido', nit = '$nit', id_rh = '$id_rh', telefono = '$telefono',
-      correo = '$correo', id_ciudad = '$id_ciudad', direccion = '$direccion', 
+      correo = '$correo', id_municipio = '$ciudad', direccion = '$direccion', 
       id_rol = '$id_rol', id_estado = '$id_estado' WHERE documento = '".$_GET['documento']."'");
       $insertSQL -> execute();
       echo '<script> alert("ACTUALIZACIÓN EXITOSA");</script>';
@@ -85,15 +85,22 @@ if(isset($_POST["update"]))
                 <input type="text" name="correo" pattern="[a-zA-Z0-9.-@]{7,30}" title="El correo debe tener mínimo 7 caracteres" value="<?php echo $usua['correo']?>">
             </div>
             <div class="campos">
-                <select name="id_ciudad">
-                    <option value="<?php echo $usua['id_ciudad']?>"><?php echo $usua['ciudad']?></option>
-                    <?php
-                        $control = $con->prepare("SELECT * FROM ciudad");
-                        $control->execute();
-                        while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value=" . $fila['id_ciudad'] . ">" . $fila['ciudad'] . "</option>";
-                        }
-                    ?>
+            <div class="row">
+            <select name="id_departamento" id="id_depart">
+                <option value="">Seleccione el Departamento</option>
+                <?php
+                    $control = $con->prepare("SELECT * FROM departamentos ORDER BY depart ASC");
+                    $control->execute();
+                    while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value='" . $fila['id_depart'] . "'>" . $fila['depart'] . "</option>";
+                    }
+                ?>
+            </select>
+            <select name="id_municipio" id="id_municipio">
+                <option value="">Seleccione el Municipio</option>
+            </select>
+        </div>
+        
                 </select>
                 <input type="text" name="direccion" pattern="[a-zA-Z0-9,.-# ]{5,30}" title="La dirección debe tener mínimo 5 caracteres" value="<?php echo $usua['direccion']?>">
             </div>
@@ -145,5 +152,19 @@ if(isset($_POST["update"]))
             <input type="submit" name="update" value="Actualizar">
         </form>
     </div>
+
+    <script> $(document).ready(function(){
+        $('#id_depart').change(function(){
+            var id_depart = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "municipio.php",
+                data: {id_depart: id_depart},
+                success: function(response){
+                    $('#id_municipio').html(response);
+                }
+            });
+        });
+    });</script>
 </body>
 </html>

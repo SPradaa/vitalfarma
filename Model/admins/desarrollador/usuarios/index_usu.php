@@ -83,8 +83,8 @@ session_start();
                 <?php 
                 if(isset($_GET['btn_buscar'])) {
                     $buscar = $_GET['buscar'];
-                    $consulta = $con->prepare("SELECT * FROM usuarios, t_documento, ciudad, rh, roles, estados
-                    WHERE usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad 
+                    $consulta = $con->prepare("SELECT * FROM usuarios, t_documento, municipios, rh, roles, estados
+                    WHERE usuarios.id_doc = t_documento.id_doc AND usuarios.id_municipio = municipios.id_municipio 
                     AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND
                     usuarios.id_rol = roles.id_rol AND nombre LIKE ? ORDER BY nombre ASC");
                     $consulta->execute(array("%$buscar%"));
@@ -97,7 +97,7 @@ session_start();
                         <td><?php echo $fila['apellido']; ?></td>
                         <td><?php echo $fila['correo']; ?></td>
                         <td><?php echo $fila['telefono']; ?></td>
-                        <td><?php echo $fila['ciudad']; ?></td>
+                        <td><?php echo $fila['municipio']; ?></td>
                         <td><?php echo $fila['direccion']; ?></td>
                         <td><?php echo $fila['rh']; ?></td>
                         <td><?php echo $fila['rol']; ?></td>
@@ -109,8 +109,8 @@ session_start();
                     }
                 } else {
                     // Mostrar todos los registros si no se ha realizado una búsqueda
-                    $consulta = $con->prepare("SELECT * FROM usuarios, t_documento, ciudad, rh, roles, estados
-                    WHERE usuarios.id_doc = t_documento.id_doc AND usuarios.id_ciudad = ciudad.id_ciudad 
+                    $consulta = $con->prepare("SELECT * FROM usuarios, t_documento, municipios, rh, roles, estados
+                    WHERE usuarios.id_doc = t_documento.id_doc AND usuarios.id_municipio = municipios.id_municipio 
                     AND usuarios.id_rh = rh.id_rh AND usuarios.id_estado = estados.id_estado AND
                     usuarios.id_rol = roles.id_rol ORDER BY nombre ASC");
                     $consulta->execute();
@@ -123,7 +123,7 @@ session_start();
                         <td><?php echo $fila['apellido']; ?></td>
                         <td><?php echo $fila['correo']; ?></td>
                         <td><?php echo $fila['telefono']; ?></td>
-                        <td><?php echo $fila['ciudad']; ?></td>
+                        <td><?php echo $fila['municipio']; ?></td>
                         <td><?php echo $fila['direccion']; ?></td>
                         <td><?php echo $fila['rh']; ?></td>
                         <td><?php echo $fila['rol']; ?></td>
