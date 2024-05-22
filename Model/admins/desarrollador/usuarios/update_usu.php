@@ -86,18 +86,24 @@ if(isset($_POST["update"]))
             </div>
             <div class="campos">
             <div class="row">
-            <select name="id_departamento" id="id_depart">
-                <option value="">Seleccione el Departamento</option>
-                <?php
-                    $control = $con->prepare("SELECT * FROM departamentos ORDER BY depart ASC");
-                    $control->execute();
-                    while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<option value='" . $fila['id_depart'] . "'>" . $fila['depart'] . "</option>";
-                    }
+                <?php 
+                $depart = $con->prepare("SELECT * FROM municipios, departamentos WHERE municipios.id_depart = departamentos.id_depart");
+                $depart->execute();
+                
                 ?>
-            </select>
+            <select name="id_depart">
+                    <option value="<?php echo $usua['id_depart']?>"><?php echo $usua['depart']?></option>
+                    <?php
+                        $control = $con->prepare("SELECT * FROM municipios, departamentos WHERE municipios.id_depart = departamentos.id_depart");
+                        $control->execute();
+                        while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<option value=" . $fila['id_depart'] . ">" . $fila['depart'] . "</option>";
+                        }
+                    ?>
+                </select>
+            </div>
             <select name="id_municipio" id="id_municipio">
-                <option value="">Seleccione el Municipio</option>
+            <option value="<?php echo $usua['id_municipio']?>"><?php echo $usua['municipio']?></option>
             </select>
         </div>
         
