@@ -147,7 +147,6 @@ table tr td{
     padding: 7px;
     font-size: 14px;
     color: black;
-    text-align: center;
 }
 
 
@@ -170,7 +169,7 @@ table tr td{
     padding: 5px 10px;
 }
 
-.btn__detalle{
+.btn__autorizar{
     display: inline-block;
     font-size: 14px;
     background: #058a12;
