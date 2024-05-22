@@ -48,7 +48,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restablecer Contraseña</title>
-  <link rel="stylesheet" href="assets/css/recuperar.css">
+  <link rel="stylesheet" href="assets/css/recuperarr.css">
 </head>
 <body>
 <div class="regresar">

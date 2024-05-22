@@ -184,6 +184,13 @@ input[type="submit"]:hover {
     }
   }
 
+  @media (max-width: 486px) {
+    .login-box{
+        width: 460px;
+        margin-top: -85px;
+    }
+  }
+
   @media (max-width: 768px) {
     h1{
         font-size: 20px;

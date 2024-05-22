@@ -15,6 +15,7 @@ $sql = $con->prepare("SELECT * FROM usuarios WHERE documento = :documento");
 $sql->bindParam(':documento', $_SESSION['documento']);
 $sql->execute();
 $fila = $sql->fetch();
+echo"conectado";
 
 $documento=$_SESSION['documento'];
 $nombre = $_SESSION['nombre'];
@@ -64,15 +65,15 @@ if (!$fila) {
     <meta name="description"
         content="AdminWrap Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Farmaceuta</title>
+    <title>Perfil</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/adminwrap-lite/" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/log.png">
     <!-- Bootstrap Core CSS -->
     <link href="assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/perfil.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="css/colors/default.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -109,9 +110,6 @@ if (!$fila) {
                             <img src="../../../assets/img/log.farma.png">
                             </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
                 <div class="navbar-collapse">
                 
                     <!-- ============================================================== -->
@@ -148,7 +146,7 @@ if (!$fila) {
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="index.php" aria-expanded="false">
+                    <li> <a class="waves-effect waves-dark" href="index.php" aria-expanded="false">
                         <i class="fas fa-heart"></i><span class="hide-menu">Principal</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="perfil.php" aria-expanded="false">
@@ -194,35 +192,118 @@ if (!$fila) {
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <!-- ============================================================== -->
-<!-- Container fluid  -->
-<!-- ============================================================== -->
-<div class="container-fluid">
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h3 class="text-themecolor">Perfil</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Profile</li>
+                        </ol>
+                    </div>
+                   
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-4 col-xlg-3 col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <center class="mt-4"> <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 48 48"><rect width="37" height="37" x="5.5" y="5.5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" rx="2" ry="2"/><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="m19.896 10.128l-8.24 27.744m10.953-5.768l13.735-7.417l-13.735-7.417"/></svg>
+                                    <h4 class="card-title mt-2"> <?php echo $_SESSION['nombre'];?></h4>
+                                   
+                                    <?php  
+                                    
+                                    $control = $con->prepare("SELECT * fROM roles where id_rol = '$rol'");
+                                    // $control -> bindParam(':rol', $rol);
+                                    $control -> execute();
+                                    $consulta = $control->fetch();
+                                    
+                                    ?>
 
-
-    <!-- Agrega este código HTML al final de tu archivo PHP -->
-<div class="container">
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="assets/images/imagen1.jpg" class="w-100 " alt="...">
+                                    <h6 class="card-subtitle"><?php echo $consulta['rol'] ;   ?> </h6>
+                                    <div class="row text-center justify-content-md-center">
+                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i
+                                                    class="fa fa-user"></i>
+                                                <font class="font-medium">254</font>
+                                            </a></div>
+                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i
+                                                    class="fa fa-camera"></i>
+                                                <font class="font-medium">54</font>
+                                            </a></div>
+                                    </div>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-8 col-xlg-9 col-md-7">
+                        <div class="card">
+                            <!-- Tab panes -->
+                            <div class="card-body">
+                                <form class="form-horizontal form-material mx-2">
+                                    <div class="form-group">
+                                        <label class="col-md-12">Nombre Completo</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="<?php echo $nombre_comple ;?> "
+                                                class="form-control form-control-line" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">Email</label>
+                                        <div class="col-md-12">
+                                            <input type="email" placeholder="<?php echo $_SESSION['correo'] ; ?>"
+                                                class="form-control form-control-line" name="example-email"
+                                                id="example-email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Documento</label>
+                                        <div class="col-md-12">
+                                            <input type="text" value=" <?php echo $_SESSION['documento'];?>"
+                                                class="form-control form-control-line" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Phone No</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="<?php echo $_SESSION['telefono'] ; ?>"
+                                                class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="form-group">
+                                        <label class="col-md-12">Phone No</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="<?php echo $direccion ?>"
+                                                class="form-control form-control-line">
+                                        </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success">Update Profile</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
             </div>
-            <div class="carousel-item">
-                <img src="assets/images/imagen2.jpg" class=" w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/images/imagen4.jpg" class="w-100" alt="...">
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-    </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -255,8 +336,6 @@ if (!$fila) {
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

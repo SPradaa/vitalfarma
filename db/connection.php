@@ -4,7 +4,7 @@ class Database
 
 {
     private $hostname = "localhost";
-    private $database = "farmacia";
+    private $database = "vitalfarma";
     private $username = "root";
     private $password = "";
     private $chasrset = "utf8";
