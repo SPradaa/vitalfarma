@@ -1,78 +1,76 @@
 body {
     font-family: Arial, sans-serif;
-    background: rgb(255,255,255);
-background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(89,213,201,1) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background: -webkit-linear-gradient(90deg, #00ced1,#ffffff,#ffffff);/* Chrome 10-25, Safari 5.1-6 */       
+    background: linear-gradient(90deg, #00ced1,#ffffff,#ffffff);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */                                             
     margin: 0;
-  }
+    padding: 0;
 
+  }
   
   .container {
+    max-width: 430px;
+    margin: 200px auto;
     background-color: #fff;
     padding: 20px;
-    height: 250px;
-    width: 400px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    box-shadow: -6px 10px 5px 0px rgba(0,0,0,0.35);
--webkit-box-shadow: -6px 10px 5px 0px rgba(0,0,0,0.35);
--moz-box-shadow: -6px 10px 5px 0px rgba(0,0,0,0.35);
-margin-left: 110px;
-
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.55);
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.55);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.55);
+    margin-top: 137px;
+    margin-bottom: 5px;
   }
-  
+
+  @media (max-width: 768px) {
+    .container{
+        margin-top: 135px;
+        margin-bottom: 5px;
+    }
+  }
   
   h2 {
-    margin-bottom: 20px;
-    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 30px;
   }
   
-  .input-group {
-    margin-bottom: 20px;
-  }
-  
-  .input-group label {
+  label {
     display: block;
-    margin-bottom: 5px;
-    margin-top: 30px;
+    margin-bottom: 10px;
+    margin-left: 8px;
     font-weight: 600;
   }
   
-  .input-group input {
+  input[type="text"] {
     width: 90%;
     padding: 10px;
     margin-left: -10px;
+    margin-bottom: 20px;
     border: 2px solid #ccc;
     border-radius: 4px;
-    margin-left: 1px;
+    margin-left: 5px;
     font-weight: 600;
   }
   
-  button {
-    padding: 10px 20px;
+  input[type="submit"] {
     background-color: #3fbbc0;
     color: black;
     border: none;
+    padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 20px;
-    font-weight: 600;
     width: 50%;
+    margin-left: 108px;
+    font-weight: 600;
+    margin-bottom: 20px;
   }
   
   button:hover {
     background-color: #3fbbc0;
   }
 
-  .regresar{
+.regresar{
     display: flex;
-    margin-left: -31%;
-    margin-top: -43%;
-    width: 23%;
+    margin-left: 30px;
+    margin-top: 20px;
 }
 .return {
     text-transform: uppercase;
@@ -82,13 +80,16 @@ margin-left: 110px;
     position: relative;
     font-size: 17px;
     background:  rgb(34, 246, 254);
-    border: none;
+    border-radius: 10px;
     height: 40px;
+    border: none;
     color: #070708;
     border: 1px solid black;
-    border-radius: 10px;
     font-weight: 600;
     box-shadow: 0 0 45px  rgb(79, 240, 245);
+    cursor: pointer;
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
   }
   
   .return:hover {
@@ -151,13 +152,4 @@ margin-left: 110px;
     width: 20px;
     left: 80%;
   }
-
   
-
-  @media (max-width: 868px) {
-    .container{
-        margin-left: 40px;
-    }
-  }
-
-

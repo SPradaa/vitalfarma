@@ -30,7 +30,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verificación de código</title>
-<link rel="stylesheet" href="assets/css/codigo.css">
+<link rel="stylesheet" href="assets/css/code.css">
 </head>
 <body>
 <div class="regresar">
