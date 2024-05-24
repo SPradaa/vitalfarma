@@ -186,7 +186,7 @@ validarSesion();
                 <div class="card-container">
                     <!-- Carta para el módulo de citas -->
                     <div class="card">
-                        <a href="agendarcitas.php">
+                        <a href="citas/agendarcitas.php">
                             <div class="card_box">
                                 <h3 >Citas</h3>
                                 <p class="card_box__content">Administra tus citas en este módulo.</p>
@@ -202,7 +202,7 @@ validarSesion();
 
                     <!-- Carta para el módulo de citas agendadas -->
                     <div class="card">
-                        <a href="#">
+                        <a href="citas/citasagendadas.php">
                             <div class="card_box">
                                 <h3 >Citas Agendadas</h3>
                                 <p class="card_box__content">Visualiza tus citas agendadas en este módulo.</p>

@@ -1,18 +1,17 @@
 <?php
 // session_start();
     require_once("../../../db/connection.php"); 
-    $db = new Database();
-    $con = $db->conectar();
-	
+    require_once("../../../controller/seg.php");
 
-	
-require_once("../../../controller/seg.php");
+
 validarSesion();
+$db = new Database();
+$con = $db->conectar();
 
+$documento = $_SESSION['documento'];
 
 if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
 {
-   $documento= $_POST['documento'];
    $fecha= $_POST['fecha'];
    $hora= $_POST['hora'];
    $id_esp= $_POST['id_esp'];
@@ -23,7 +22,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
    $citaExistenteResultado = $citaExistente->fetchAll(PDO::FETCH_ASSOC);
 
 
-  if ($documento=="" || $fecha=="" || $hora=="" || $id_esp=="" || $docu_medico=="")
+  if ($fecha=="" || $hora=="" || $id_esp=="" || $docu_medico=="")
    {
       echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
       echo '<script>window.location="agendarcitas.php"</script>';
@@ -35,7 +34,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     } else {
 
      $insertSQL = $con->prepare("INSERT INTO citas(documento, fecha, hora, id_esp, docu_medico) VALUES('$documento', '$fecha', '$hora', '$id_esp',  '$docu_medico')");
-     $insertSQL -> execute();
+     $insertSQL->execute();
      echo '<script> alert("REGISTRO EXITOSO");</script>';
      echo '<script>window.location="agendarcitas.php"</script>';
      
@@ -91,15 +90,9 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     </div>
 
     <div class="login-box">
-        <img src="../../../assets/img/log.farma.png">
-        <h2>¡BIENVENIDO A VITALFARMA!</h2>
-        <P>Agenda tu cita</P>
-        <br>
+        
+        <h2>Agendar Cita</h2>
         <form action="" method="post">
-            <div class="row">
-                <label for="documento">Documento:</label><br>
-                <input type="text" class="form-control" id="documento" name="documento" required>
-            </div>
             <div class="row">
                 <label for="fecha">Fecha:</label><br>
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
@@ -162,5 +155,3 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     </script>
 </body>
 </html>
-
-
