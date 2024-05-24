@@ -14,10 +14,13 @@ a{
     text-decoration: none;
 }
 
-.contenedor{
-    width: 80%;
+.contenedor {
+    width: 95%;
     margin: 30px auto;
-    overflow: hidden;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
 h2{
@@ -28,7 +31,7 @@ h2{
     font-size: 20px;
     font-family: 'Arial', sans-serif;
     font-weight: bold;
-    color: #555;
+    color: #555555;
 }
 
 .barra__bucador{
@@ -125,10 +128,7 @@ form .btn{
 
 
 /* table */
-table{
-    width: 100%;
-    border-collapse: collapse;
-}
+
 
 table .head{
     background: #05a0b8;
@@ -168,3 +168,4 @@ table tr td{
     border: 5px;
     padding: 5px 10px;
 }
+
