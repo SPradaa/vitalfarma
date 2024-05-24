@@ -3,7 +3,6 @@
     require_once("../../../db/connection.php"); 
     require_once("../../../controller/seg.php");
 
-
 validarSesion();
 $db = new Database();
 $con = $db->conectar();
@@ -12,6 +11,7 @@ $documento = $_SESSION['documento'];
 
 if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
 {
+
    $fecha= $_POST['fecha'];
    $hora= $_POST['hora'];
    $id_esp= $_POST['id_esp'];
@@ -34,7 +34,7 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     } else {
 
      $insertSQL = $con->prepare("INSERT INTO citas(documento, fecha, hora, id_esp, docu_medico) VALUES('$documento', '$fecha', '$hora', '$id_esp',  '$docu_medico')");
-     $insertSQL->execute();
+     $insertSQL -> execute();
      echo '<script> alert("REGISTRO EXITOSO");</script>';
      echo '<script>window.location="agendarcitas.php"</script>';
      
@@ -90,8 +90,10 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     </div>
 
     <div class="login-box">
-        
-        <h2>Agendar Cita</h2>
+        <img src="../../../assets/img/log.farma.png">
+        <h2>¡BIENVENIDO A VITALFARMA!</h2>
+        <P>Agenda tu cita</P>
+        <br>
         <form action="" method="post">
             <div class="row">
                 <label for="fecha">Fecha:</label><br>
@@ -155,3 +157,4 @@ if ((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="formreg"))
     </script>
 </body>
 </html>
+
